@@ -5,8 +5,19 @@
     <div class="list-header-extras">
       <a class="list-header-extras-menu" href="#">···</a>
    </div>
-   <div class="list-cards">
-    <app-item *ngFor="let item of list.items" [item]="item"></app-item>
+   <div class="list-cards js-sortable ui-sortable">
+    <ng-template #itemTemplate let-item="item">
+      <app-item [item] = "item.value"></app-item>
+    </ng-template>
+    <bs-sortable
+      [(ngModel)]="list.items"
+      [itemTemplate]="itemTemplate"
+      itemClass="sortable-item"
+      itemActiveClass="sortable-item-active"
+      placeholderItem="Drag here"
+      placeholderClass="placeholderStyle"
+      wrapperClass="sortable-wrapper"
+    ></bs-sortable>
    </div>
    <a class="open-card-composer" href="#">
      <span class="icon-sm icon-add"></span>
