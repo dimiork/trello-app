@@ -1,0 +1,17 @@
+<div class="list-wrapper">
+ <div class="list">
+   <div class="list-header">
+     <textarea class="list-header-name mod-list-name" aria-label="Basics" spellcheck="false" dir="auto" maxlength="512" style="overflow: hidden; overflow-wrap: break-word; height: 30px;">{{ list.title }}</textarea>
+    <div class="list-header-extras">
+      <a class="list-header-extras-menu" href="#">···</a>
+   </div>
+   <div class="list-cards">
+    <app-item *ngFor="let item of list.items" [item]="item"></app-item>
+   </div>
+   <a class="open-card-composer" href="#">
+     <span class="icon-sm icon-add"></span>
+     <span class="js-add-a-card hide">Добавить карточку</span>
+     <span class="js-add-another-card">Добавить еще одну карточку</span>
+   </a>
+ </div>
+</div>
