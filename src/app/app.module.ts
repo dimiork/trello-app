@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+import { SortableModule } from 'ngx-bootstrap/sortable';
 
 import { AppComponent } from './app.component';
 import { BoardComponent } from './components/board/board.component';
@@ -14,7 +17,9 @@ import { ItemComponent } from './components/item/item.component';
     ItemComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    SortableModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
