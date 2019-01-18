@@ -1,16 +1,43 @@
-import { Component, /*OnInit*/ } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs';
+
+import { Store, select } from '@ngrx/store';
+import * as ListActions from '../../store/list/actions';
+
+import { LocalstorageService } from '../../services/localstorage.service';
+import { List } from '../../models/list';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent /*implements OnInit*/ {
+export class BoardComponent implements OnInit {
 
-  public lists: any = [{id: 1, title: 'Title #1', items: [1, 2, 3]}, {id: 2, title: 'Title #2', items: [1, 2]}];
+  public lists$: Observable<List[]>;
 
-/*  constructor() { }
+  constructor(
+    private localstorage: LocalstorageService,
+    private store: Store<List[]>
+  ) {
+    this.lists$ = store.pipe(select('lists'));
+  }
 
-  ngOnInit() {
-  }*/
+  ngOnInit(): void {
+    this.loadLists();
+    this.updateLists();
+  }
+
+  public loadLists(): void {
+    const lists: List[] = this.localstorage.load();
+    this.store.dispatch(new ListActions.Load(lists));
+  }
+
+  public updateLists(): void {
+    this.store.select('lists')
+      .subscribe((lists: List[]) => {
+        this.localstorage.save(lists);
+      });
+  }
 }

@@ -1,5 +1,7 @@
 import { Component, /*OnInit,*/ Input } from '@angular/core';
 
+import { List } from '../../models/list';
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -7,7 +9,7 @@ import { Component, /*OnInit,*/ Input } from '@angular/core';
 })
 export class ListComponent /*implements OnInit*/ {
 
-  @Input() list: any[];
+  @Input() list: List[];
 
 /*  constructor() { }
 
