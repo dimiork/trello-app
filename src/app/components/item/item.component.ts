@@ -5,7 +5,7 @@ import { Component, /*OnInit,*/ Input } from '@angular/core';
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.css']
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent /*implements OnInit*/ {
 
   @Input() item: string;
 
