@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { BoardComponent } from './board.component';
+import { ListComponent } from '../list/list.component';
+import { ItemComponent } from '../item/item.component';
+
+import { SortableModule } from 'ngx-bootstrap/sortable';
 
 describe('BoardComponent', () => {
   let component: BoardComponent;
@@ -8,7 +13,15 @@ describe('BoardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BoardComponent ]
+      imports: [
+        FormsModule,
+        SortableModule.forRoot()
+      ],
+      declarations: [
+        BoardComponent,
+        ListComponent,
+        ItemComponent
+      ]
     })
     .compileComponents();
   }));

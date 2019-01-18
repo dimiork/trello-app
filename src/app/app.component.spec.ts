@@ -1,11 +1,25 @@
 import { TestBed, async } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+
 import { AppComponent } from './app.component';
+import { BoardComponent } from './components/board/board.component';
+import { ListComponent } from './components/list/list.component';
+import { ItemComponent } from './components/item/item.component';
+
+import { SortableModule } from 'ngx-bootstrap/sortable';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        SortableModule.forRoot()
+      ],
       declarations: [
-        AppComponent
+        AppComponent,
+        BoardComponent,
+        ListComponent,
+        ItemComponent
       ],
     }).compileComponents();
   }));
@@ -22,10 +36,4 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('trello-app');
   });
 
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to trello-app!');
-  });
 });
