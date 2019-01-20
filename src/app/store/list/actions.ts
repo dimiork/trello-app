@@ -12,31 +12,38 @@ export enum ActionTypes {
 }
 
 export class Load implements Action {
+  // tslint:disable
   readonly type = ActionTypes.LOAD;
+  // tslint:enable
 
   constructor(public lists: List[]) {}
 }
 
 export class Add implements Action {
+  // tslint:disable
   readonly type = ActionTypes.ADD;
-
-  public id: number;
+  // tslint:enable
   public items: Item[];
 
-  constructor(public title: string = 'New List') {
-    this.id = Math.random();
+  constructor(
+    public id: number = Math.random(),
+    public title: string = 'New List'
+  ) {
     this.items = [];
   }
 }
 
 export class Remove implements Action {
+  // tslint:disable
   readonly type = ActionTypes.REMOVE;
-
+  // tslint:enable
   constructor(public id: number) {}
 }
 
 export class Clear implements Action {
+  // tslint:disable
   readonly type = ActionTypes.CLEAR;
+  // tslint:enable
 }
 
 export type ListActionType = Load | Add | Remove | Clear;
