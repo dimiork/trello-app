@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 import * as ListActions from '../../store/list/actions';
@@ -16,6 +17,7 @@ import { List } from '../../models/list';
 export class BoardComponent implements OnInit {
 
   public lists$: Observable<List[]>;
+  public addListDialog: boolean = false;
 
   constructor(
     private localstorage: LocalstorageService,
@@ -39,5 +41,19 @@ export class BoardComponent implements OnInit {
       .subscribe((lists: List[]) => {
         this.localstorage.save(lists);
       });
+  }
+
+  toggleAddListDialog(): void {
+    this.addListDialog = !this.addListDialog;
+  }
+
+  addList(title: string): void {
+    // TODO: refactor this without subscription. Move id generation logic in ngrx/effects
+    this.lists$.pipe(
+      take(1),
+      map((lists: List[]) => lists.length + 1)
+    ).subscribe((id: number) => {
+      this.store.dispatch(new ListActions.Add(id, title));
+    });
   }
 }

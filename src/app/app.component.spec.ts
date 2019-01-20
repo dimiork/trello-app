@@ -1,6 +1,8 @@
 import { TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
+import { StoreModule } from '@ngrx/store';
+
 import { AppComponent } from './app.component';
 import { BoardComponent } from './components/board/board.component';
 import { ListComponent } from './components/list/list.component';
@@ -13,7 +15,8 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
-        SortableModule.forRoot()
+        SortableModule.forRoot(),
+        StoreModule.forRoot({}),
       ],
       declarations: [
         AppComponent,
