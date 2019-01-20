@@ -6,7 +6,7 @@ export const initialState: List[] = [];
 export function ListsReducer(
   state: List[] = initialState,
   action: ListActions.ListActionType
-) {
+): List[] {
   switch (action.type) {
     case ListActions.ActionTypes.LOAD:
       return action.lists;
