@@ -12,7 +12,7 @@ export class LocalstorageService {
   // constructor() { }
 
   load(): List[] {
-    return JSON.parse(window.localStorage.getItem(this.name));
+    return JSON.parse(window.localStorage.getItem(this.name)) || [];
   }
 
   save(data: List[]): void {
