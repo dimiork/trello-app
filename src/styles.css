@@ -18,6 +18,7 @@ body, button, html, input, select, textarea {
   display: block;
   height: 100%;
 }
+
 .button, button, input[type=submit], input[type=button] {
   background-color: #dfe3e6;
   box-shadow: 0 1px 0 0 #c2ccd1;
