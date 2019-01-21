@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { rootReducer } from './store/app.reducer';
 
 import { SortableModule } from 'ngx-bootstrap/sortable';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { AppComponent } from './app.component';
 import { BoardComponent } from './components/board/board.component';
@@ -24,6 +25,7 @@ import { ItemComponent } from './components/item/item.component';
     FormsModule,
     StoreModule.forRoot(rootReducer),
     SortableModule.forRoot(),
+    BsDropdownModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

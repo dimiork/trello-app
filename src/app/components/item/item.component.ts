@@ -9,7 +9,7 @@ import { Item } from '../../models/item';
 })
 export class ItemComponent /*implements OnInit*/ {
 
-  @Input() item: Item;
+  @Input() private item: Item;
 
 /*  constructor() { }
 

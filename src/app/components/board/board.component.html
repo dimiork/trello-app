@@ -8,12 +8,12 @@
     <form>
       <a class="open-add-list" href="#" *ngIf="!addListDialog" (click)="toggleAddListDialog()">
         <span class="placeholder">
-          <span class="icon-sm icon-add">+</span>
+          <span>+</span>
             Добавьте еще одну колонку
         </span>
       </a>
       <div *ngIf="addListDialog">
-        <input #listName class="list-name-input"
+        <input #listName autofocus class="list-name-input"
           placeholder="Ввести заголовок списка"
           maxlength="512"
         >
@@ -21,9 +21,9 @@
           <input class="btn-primary mod-list-add-button"
             type="submit"
             value="Добавить список"
-            (click)="addList(listName.value);toggleAddListDialog()"
+            (click)="addList(listName.value);"
           >
-          <button class="close" (click)="toggleAddListDialog()">
+          <button class="close">
             <span>&times;</span>
           </button>
         </div>
