@@ -9,6 +9,7 @@ export enum ActionTypes {
   UPDATE = '[LIST] UPDATE',
   REMOVE = '[LIST] REMOVE',
   CLEAR = '[LIST] CLEAR',
+  ADD_ITEM = '[LIST] ADD_ITEM'
 }
 
 export class Load implements Action {
@@ -23,21 +24,32 @@ export class Add implements Action {
   // tslint:disable
   readonly type = ActionTypes.ADD;
   // tslint:enable
+  public id: string = Math.random().toString(26).slice(2);
   public items: Item[];
 
   constructor(
-    public id: number = Math.random(),
     public title: string = 'New List'
   ) {
     this.items = [];
   }
 }
 
+export class Update implements Action {
+  // tslint:disable
+  readonly type = ActionTypes.UPDATE;
+  // tslint:enable
+  constructor(
+    // public id: string,
+    // public title: string,
+    public list: List
+  ) {}
+}
+
 export class Remove implements Action {
   // tslint:disable
   readonly type = ActionTypes.REMOVE;
   // tslint:enable
-  constructor(public id: number) {}
+  constructor(public id: string) {}
 }
 
 export class Clear implements Action {
@@ -46,4 +58,14 @@ export class Clear implements Action {
   // tslint:enable
 }
 
-export type ListActionType = Load | Add | Remove | Clear;
+export class AddItem implements Action {
+  // tslint:disable
+  readonly type = ActionTypes.ADD_ITEM;
+  // tslint:enable
+  constructor(
+    public id: string,
+    public item: Item
+  ) {}
+}
+
+export type ListActionType = Load | Add | Update | Remove | Clear | AddItem;

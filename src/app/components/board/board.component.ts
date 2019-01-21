@@ -21,12 +21,12 @@ export class BoardComponent implements OnInit {
 
   constructor(
     private localstorage: LocalstorageService,
-    private store: Store<List[]>
+    private store: Store<List[]>,
   ) {
     this.lists$ = store.pipe(select('lists'));
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadLists();
     this.updateLists();
   }
@@ -43,17 +43,14 @@ export class BoardComponent implements OnInit {
       });
   }
 
-  toggleAddListDialog(): void {
+  public toggleAddListDialog(): void {
     this.addListDialog = !this.addListDialog;
   }
 
-  addList(title: string): void {
-    // TODO: refactor this without subscription. Move id generation logic in ngrx/effects
-    this.lists$.pipe(
-      take(1),
-      map((lists: List[]) => lists.length + 1)
-    ).subscribe((id: number) => {
-      this.store.dispatch(new ListActions.Add(id, title));
-    });
+  public addList(title: string): void {
+    if (title) {
+      this.store.dispatch(new ListActions.Add(title));
+      this.toggleAddListDialog();
+    }
   }
 }

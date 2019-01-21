@@ -42,11 +42,17 @@
   max-height: 256px;
 }
 
+.list-header-name:focus {
+    background: #fff;
+    border: none;
+    box-shadow: inset 0 0 0 2px #0079bf;
+}
+
 .list-header-extras {
   position: absolute;
   right: 4px;
   top: 4px;
-  z-index: 1;
+  z-index: 10;
 }
 
 .list-header-extras-menu {
@@ -76,6 +82,115 @@
   z-index: 1;
   min-height: 0;
 }
+
+.list-card {
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(9,45,66,.25);
+  cursor: pointer;
+  display: block;
+  margin-bottom: 8px;
+  max-width: 300px;
+  min-height: 20px;
+  position: relative;
+  text-decoration: none;
+  z-index: 0;
+  color: #17394d;
+}
+
+.list-card-cover {
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.list-card-operation {
+  background-color: #f5f6f7;
+  background-clip: padding-box;
+  background-origin: padding-box;
+  border-radius: 3px;
+  opacity: .8;
+  padding: 4px;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  visibility: hidden;
+  z-index: 40;
+  color: #798d99;
+  height: 20px;
+  font-size: 12px;
+  line-height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.list-card-details {
+  overflow: hidden;
+  padding: 6px 8px 2px;
+  position: relative;
+  z-index: 10;
+}
+
+.list-card-composer-textarea {
+  background: none;
+  border: none;
+  box-shadow: none;
+  height: auto;
+  margin-bottom: 4px;
+  max-height: 162px;
+  min-height: 54px;
+  overflow-y: auto;
+  padding: 0;
+  width: 100%;
+  resize: vertical;
+  outline: 0;
+}
+
+.list-card-title {
+  clear: both;
+  display: block;
+  margin: 0 0 4px;
+  overflow: hidden;
+  text-decoration: none;
+  word-wrap: break-word;
+  color: #17394d;
+}
+
+.card-composer {
+  padding-bottom: 8px;
+}
+
+.cc-controls-section {
+  float: left;
+}
+
+input[type=submit].btn-primary {
+  background-color: #5aac44;
+  box-shadow: 0 1px 0 0 #3f6f21;
+  border: none;
+  color: #fff;
+}
+
+.mod-list-add-button {
+  float: left;
+  min-height: 30px;
+  height: 30px;
+  margin-top: 0;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.mod-list-add-button:active {
+  background-color: #3f6f21 !important;
+  box-shadow: 0 1px 0 0 #3f6f21 !important;
+  border: none !important;
+  color: #fff !important;
+}
+
 .open-card-composer {
   border-radius: 0 0 3px 3px;
   color: #6b808c;
@@ -89,3 +204,4 @@
   -ms-user-select: none;
   user-select: none;
 }
+
