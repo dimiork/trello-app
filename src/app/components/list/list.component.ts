@@ -6,7 +6,7 @@ import * as ListActions from '../../store/list/actions';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { ItemComponent } from '../item/item.component';
-import { List } from '../../models';
+import { Item, EditItemModal, List } from '../../models';
 
 @Component({
   selector: 'app-list',
@@ -25,8 +25,8 @@ export class ListComponent {
     private modalService: BsModalService
   ) {}
 
-  openModalWithComponent(item: any) {
-    const initialState = {
+  openModalWithComponent(item: Item): void {
+    const initialState: EditItemModal = {
       listId: this.list.id,
       item: item
     };
@@ -48,7 +48,7 @@ export class ListComponent {
 
   public addItem(title: string, description?: string): void {
     if (title) {
-      const newItem = { title, description };
+      const newItem: Item = { title, description };
       this.store.dispatch(new ListActions.AddItem(this.list.id, newItem));
       this.toggleAddItemDialog();
     }

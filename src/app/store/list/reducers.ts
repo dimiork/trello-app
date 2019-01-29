@@ -22,16 +22,22 @@ export function ListsReducer(
         }
       ];
     case ListActions.ActionTypes.UPDATE:
-      console.log(state)
-      return state.map((list: List) => list.id === action.list.id ?
-        {
-          ...list,
-          title: action.list.title.trim(),
-          items: [...action.list.items]
-        } : list
-      );
+
+      return state.map((list: List) => {
+        if (list.id === action.list.id) {
+
+          return {
+            ...list,
+            title: action.list.title.trim(),
+            items: [...action.list.items]
+          };
+        }
+
+        return list;
+      });
 
     case ListActions.ActionTypes.REMOVE:
+
       return state.filter((list: List) => list.id !== action.id);
 
     case ListActions.ActionTypes.CLEAR:
@@ -55,15 +61,15 @@ export function ListsReducer(
       return state.map((list: List) => list.id === action.listId ?
         {
           ...list,
-          items: list.items.map((item: Item) => item.id === action.item.id ?
-            action.item : item)
+          items: list.items.map((currItem: Item) => currItem.id === action.item.id ?
+            action.item : currItem)
         } : list);
 
     case ListActions.ActionTypes.REMOVE_ITEM:
       return state.map((list: List) => list.id === action.listId ?
         {
           ...list,
-          items: list.items.filter((item: Item) => item.id !== action.id)
+          items: list.items.filter((currItem: Item) => currItem.id !== action.id)
         } : list);
 
     default:
