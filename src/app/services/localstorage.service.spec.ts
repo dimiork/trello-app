@@ -4,7 +4,7 @@ import { LocalstorageService } from './localstorage.service';
 
 describe('LocalstorageService', () => {
   let service: LocalstorageService;
-  const data = [{ id: 1, title: 'Title 1', items: [{ title: 'item name', description: 'item description'}]}];
+  const data = [{ id: '1', title: 'Title 1', items: [{ title: 'item name', description: 'item description'}]}];
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ LocalstorageService ]

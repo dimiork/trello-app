@@ -6,6 +6,8 @@ import { ItemComponent } from '../item/item.component';
 
 import { SortableModule } from 'ngx-bootstrap/sortable';
 
+import { AppModule } from '../../app.module';
+
 describe('ListComponent', () => {
   let component: ListComponent;
   let fixture: ComponentFixture<ListComponent>;
@@ -14,11 +16,8 @@ describe('ListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
-        SortableModule.forRoot()
-      ],
-      declarations: [
-        ListComponent,
-        ItemComponent,
+        SortableModule.forRoot(),
+        AppModule
       ]
     })
     .compileComponents();
@@ -27,12 +26,13 @@ describe('ListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ListComponent);
     component = fixture.componentInstance;
-    const list: any = { id: 42, title: 'title #42', items: ['Test'] };
+    const list: any = { id: '42', title: 'title #42', items: ['Test'] };
     component.list = list;
     fixture.detectChanges();
   });
 
   it('should create', () => {
+
     // const component = new ListComponent();
     // const list: any = { id: 42, title: 'title #42', items: ['Test'] };
     // component.list = list;
