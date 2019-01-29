@@ -1,35 +1,61 @@
 <div class="list">
   <div class="list-header">
-    <textarea class="list-header-name mod-list-name"
-              #listTitle
-              [(ngModel)]="list.title"
-              (blur)="updateList()"
-              spellcheck="false"
-              maxlength="512"
-              style="overflow: hidden; overflow-wrap: break-word; height: 30px;">{{ list.title }}</textarea>
+    <textarea
+      class="list-header-name mod-list-name"
+      #listTitle
+      [(ngModel)]="list.title"
+      (blur)="updateList()"
+      spellcheck="false"
+      maxlength="512"
+      style="overflow: hidden; overflow-wrap: break-word; height: 30px;"
+    >{{ list.title }}</textarea>
     <div class="list-header-extras">
-      <div class="btn-group" dropdown>
-        <a class="list-header-extras-menu" href="#" id="basic-link" dropdownToggle (click)="false"
-           aria-controls="basic-link-dropdown">···</a>
-        <ul id="dropdown-menu-dividers" *dropdownMenu class="dropdown-menu"
-            role="menu" aria-labelledby="button-menu-dividers">
-          <li class="disabled" role="menuitem"><a class="dropdown-item disabled" href="#">List actions</a></li>
+      <div dropdown class="btn-group">
+        <a
+          dropdownToggle
+          id="basic-link"
+          class="list-header-extras-menu"
+          href="#"
+          (click)="false"
+        >···</a>
+        <ul
+          *dropdownMenu
+          id="dropdown-menu-dividers"
+          class="dropdown-menu"
+        >
+          <li class="disabled">
+            <a
+              class="dropdown-item disabled"
+              href="#"
+            >List actions</a></li>
           <li class="divider dropdown-divider"></li>
-          <li role="menuitem"><a class="dropdown-item" href="#" (click)="toggleAddItemDialog()">Add card...</a>
+          <li role="menuitem">
+            <a
+              class="dropdown-item"
+              href="#"
+              (click)="toggleAddItemDialog()"
+            >Add card...</a>
           </li>
           <li class="divider dropdown-divider"></li>
-          <li role="menuitem"><a class="dropdown-item" href="#" (click)="removeList(list.id)">Remove list...</a></li>
+          <li role="menuitem">
+            <a
+              class="dropdown-item"
+              href="#"
+              (click)="removeList(list.id)"
+            >Remove list...</a>
+          </li>
         </ul>
       </div>
     </div>
   </div>
   <div class="list-cards">
     <ng-template #itemTemplate let-item="item">
-      <a class="list-card"
-         href="/c/9XSuouxd/2-this-is-a-card"
-         draggable="true"
-         (drop)="updateList()"
-         >
+      <a
+        class="list-card"
+        draggable="true"
+        (drop)="updateList()"
+        (click)="openModalWithComponent(item.value)"
+      >
         <div class="list-card-details">
           <div class="list-card-labels"></div>
           <span class="list-card-title">
@@ -43,7 +69,7 @@
       [itemTemplate]="itemTemplate"
       itemClass="sortable-item"
       itemActiveClass="sortable-item-active"
-      placeholderItem="Drag here"
+      placeholderItem="drag here"
       placeholderClass="placeholderStyle"
       wrapperClass="sortable-wrapper"
     ></bs-sortable>
@@ -51,21 +77,26 @@
       <div class="list-card">
         <div class="list-card-details">
           <div class="list-card-labels"></div>
-          <textarea class="list-card-composer-textarea"
-                    placeholder="Ввести заголовок для этой карточки"
-                    style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"
-                    #newItemTitle
-                    autofocus
+          <textarea
+            #newItemTitle
+            class="list-card-composer-textarea"
+            placeholder="Ввести заголовок для этой карточки"
+            style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"
+            autofocus
           ></textarea>
         </div>
       </div>
       <div class="cc-controls">
         <div class="cc-controls-section">
-          <input class="btn-primary mod-list-add-button"
-                 type="submit"
-                 value="Добавить карточку"
-                 (click)="addItem(newItemTitle.value);">
-          <button class="close" (click)="toggleAddItemDialog()">
+          <input
+            class="btn-primary mod-list-add-button"
+            type="submit"
+            value="Добавить карточку"
+            (click)="addItem(newItemTitle.value);">
+          <button
+            class="close"
+            (click)="toggleAddItemDialog()"
+          >
             <span>&times;</span>
           </button>
         </div>
@@ -79,3 +110,8 @@
    <span (click)="toggleAddItemDialog()"
          *ngIf="(list.items)?.length">Добавить еще одну карточку</span>
   </a>
+</div>
+
+
+
+

@@ -23,7 +23,7 @@
             value="Добавить список"
             (click)="addList(listName.value);"
           >
-          <button class="close">
+          <button class="close" (click)="toggleAddListDialog()">
             <span>&times;</span>
           </button>
         </div>

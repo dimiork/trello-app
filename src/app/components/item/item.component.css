@@ -1,0 +1,143 @@
+.window {
+  background-color: #ebeef0;
+  border-radius: 2px;
+  padding: 10px 10px;
+  overflow: hidden;
+  position: relative;
+  z-index: 25;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 4fr;
+  grid-template-areas: "item-header" "item-content";
+}
+
+.item-header { grid-area: item-header; }
+
+.item-content {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "item-module item-menu";
+  grid-area: item-content;
+}
+
+.item-module { grid-area: item-module; }
+
+.item-menu { grid-area: item-menu; }
+
+.button-link {
+  background-color: #dfe3e6;
+  box-shadow: 0 1px 0 0 #c2ccd1;
+  border: none;
+  border-radius: 3px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  font-weight: 700;
+  height: 32px;
+  margin-top: 8px;
+  max-width: 300px;
+  overflow: hidden;
+  padding: 6px 12px;
+  position: relative;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  transition-property: background-color,border-color,box-shadow;
+  transition-duration: 85ms;
+  transition-timing-function: ease;
+}
+
+.window-module-title-icon {
+  left: -40px;
+  position: absolute;
+  top: 2px;
+}
+
+.window-module-title h3 {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+  min-height: 18px;
+  min-width: 40px;
+}
+
+.card-detail-item-header-edit {
+  color: #6b808c;
+  text-decoration: underline;
+  margin-left: 5px;
+}
+
+.u-gutter {
+    margin-left: 40px;
+}
+
+.editable .current {
+    cursor: pointer;
+}
+
+.editing .edit {
+    display: block;
+    float: left;
+    padding-bottom: 9px;
+    z-index: 50;
+    width: 100%;
+}
+.markeddown {
+    word-break: break-word;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.card-back-description {
+    min-height: 108px;
+    background: #fff;
+    box-shadow: none;
+}
+
+.edit-controls {
+    clear: both;
+    margin-top: 8px;
+}
+
+input.mod-submit-edit {
+    float: left;
+    margin: 0 4px 0 0;
+}
+.window-module-title {
+  border-radius: 2px;
+  min-height: 50px;
+  border-bottom: 1px solid rgba(9,45,66,.13);
+  padding: 8px 0;
+  position: relative;
+  margin: 0 0 4px 40px;
+}
+.card-detail-fake-text-area {
+  background-color: rgba(9,45,66,.08);
+  border-radius: 3px;
+  color: #6b808c;
+  display: block;
+  min-height: 40px;
+  padding: 7px 9px;
+  text-decoration: none;
+}
+.card-detail-fake-text-area:active {
+    background-color: rgba(9,45,66,.25);
+}
+.card-detail-fake-text-area:hover {
+    color: #000;
+    background-color: rgba(9,45,66,.13);
+}
+
+.description-content {
+  /*position: relative;*/
+  /*background-color: grey;*/
+
+}

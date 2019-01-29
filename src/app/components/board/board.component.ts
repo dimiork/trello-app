@@ -7,7 +7,7 @@ import { Store, select } from '@ngrx/store';
 import * as ListActions from '../../store/list/actions';
 
 import { LocalstorageService } from '../../services/localstorage.service';
-import { List } from '../../models/list';
+import { List } from '../../models';
 
 @Component({
   selector: 'app-board',

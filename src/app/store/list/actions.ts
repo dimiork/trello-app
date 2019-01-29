@@ -9,7 +9,9 @@ export enum ActionTypes {
   UPDATE = '[LIST] UPDATE',
   REMOVE = '[LIST] REMOVE',
   CLEAR = '[LIST] CLEAR',
-  ADD_ITEM = '[LIST] ADD_ITEM'
+  ADD_ITEM = '[LIST] ADD_ITEM',
+  UPDATE_ITEM = '[LIST] UPDATE_ITEM',
+  REMOVE_ITEM = '[LIST] REMOVE_ITEM',
 }
 
 export class Load implements Action {
@@ -39,8 +41,6 @@ export class Update implements Action {
   readonly type = ActionTypes.UPDATE;
   // tslint:enable
   constructor(
-    // public id: string,
-    // public title: string,
     public list: List
   ) {}
 }
@@ -62,10 +62,31 @@ export class AddItem implements Action {
   // tslint:disable
   readonly type = ActionTypes.ADD_ITEM;
   // tslint:enable
+  public id: string = Math.random().toString(26).slice(2);
   constructor(
-    public id: string,
+    public listId: string,
     public item: Item
   ) {}
 }
 
-export type ListActionType = Load | Add | Update | Remove | Clear | AddItem;
+export class UpdateItem implements Action {
+  // tslint:disable
+  readonly type = ActionTypes.UPDATE_ITEM;
+  // tslint:enable
+  constructor(
+    public listId: string,
+    public item: Item
+  ) {}
+}
+
+export class RemoveItem implements Action {
+  // tslint:disable
+  readonly type = ActionTypes.REMOVE_ITEM;
+  // tslint:enable
+  constructor(
+    public listId: string,
+    public id: string
+  ) {}
+}
+
+export type ListActionType = Load | Add | Update | Remove | Clear | AddItem | UpdateItem | RemoveItem;
