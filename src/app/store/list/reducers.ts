@@ -1,4 +1,5 @@
 import { List } from '../../models/list';
+import { Item } from '../../models/item';
 import * as ListActions from './actions';
 
 export const initialState: List[] = [];
@@ -21,26 +22,54 @@ export function ListsReducer(
         }
       ];
     case ListActions.ActionTypes.UPDATE:
-      return state.map((list: List) => action.list.id === list.id ?
-        {
-          ...list,
-          title: action.list.title.trim(),
-          items: [...action.list.items]
-        } : list
-      );
+
+      return state.map((list: List) => {
+        if (list.id === action.list.id) {
+
+          return {
+            ...list,
+            title: action.list.title.trim(),
+            items: [...action.list.items]
+          };
+        }
+
+        return list;
+      });
 
     case ListActions.ActionTypes.REMOVE:
-      return state.filter((list: List) => action.id !== list.id);
+
+      return state.filter((list: List) => list.id !== action.id);
 
     case ListActions.ActionTypes.CLEAR:
 
       return initialState;
 
     case ListActions.ActionTypes.ADD_ITEM:
-      return state.map((list: List) => action.id === list.id ?
+      const item: Item = {
+        id: action.id,
+        title: action.item.title,
+        description: action.item.description
+      };
+
+      return state.map((list: List) => list.id === action.listId ?
         {
           ...list,
-          items: [...list.items, action.item]
+          items: [...list.items, item]
+        } : list);
+
+    case ListActions.ActionTypes.UPDATE_ITEM:
+      return state.map((list: List) => list.id === action.listId ?
+        {
+          ...list,
+          items: list.items.map((currItem: Item) => currItem.id === action.item.id ?
+            action.item : currItem)
+        } : list);
+
+    case ListActions.ActionTypes.REMOVE_ITEM:
+      return state.map((list: List) => list.id === action.listId ?
+        {
+          ...list,
+          items: list.items.filter((currItem: Item) => currItem.id !== action.id)
         } : list);
 
     default:

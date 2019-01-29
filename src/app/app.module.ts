@@ -7,6 +7,7 @@ import { rootReducer } from './store/app.reducer';
 
 import { SortableModule } from 'ngx-bootstrap/sortable';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AppComponent } from './app.component';
 import { BoardComponent } from './components/board/board.component';
@@ -26,6 +27,10 @@ import { ItemComponent } from './components/item/item.component';
     StoreModule.forRoot(rootReducer),
     SortableModule.forRoot(),
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
+  ],
+  entryComponents: [
+    ItemComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
