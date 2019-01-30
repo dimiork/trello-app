@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
-import * as ListActions from '../../store/list/actions';
+import { ListService } from '../../services/list.service';
 
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -21,7 +20,7 @@ export class ItemComponent {
   public updateTitleDialog: boolean = false;
 
   constructor(
-    private store: Store<List[]>,
+    private listService: ListService,
     public bsModalRef: BsModalRef
   ) {}
 
@@ -51,11 +50,11 @@ export class ItemComponent {
 
   public updateItem(item: Item): void {
     this.item = item;
-    this.store.dispatch(new ListActions.UpdateItem(this.listId, item));
+    this.listService.updateItem(this.listId, item);
   }
 
   public removeItem(id: string): void {
-    this.store.dispatch(new ListActions.RemoveItem(this.listId, id));
+    this.listService.removeItem(this.listId, id);
     this.bsModalRef.hide();
   }
 }

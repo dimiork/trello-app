@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
-import * as ListActions from '../../store/list/actions';
+import { ListService } from '../../services/list.service';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -21,7 +20,7 @@ export class ListComponent {
 
   bsModalRef: BsModalRef;
   constructor(
-    private store: Store<List[]>,
+    private listService: ListService,
     private modalService: BsModalService
   ) {}
 
@@ -35,11 +34,11 @@ export class ListComponent {
   }
 
   public updateList(): void {
-    this.store.dispatch(new ListActions.Update(this.list));
+    this.listService.updateList(this.list);
   }
 
   public removeList(id: string): void {
-    this.store.dispatch(new ListActions.Remove(id));
+    this.listService.removeList(id);
   }
 
   public toggleAddItemDialog(): void {
@@ -49,7 +48,7 @@ export class ListComponent {
   public addItem(title: string, description?: string): void {
     if (title) {
       const newItem: Item = { title, description };
-      this.store.dispatch(new ListActions.AddItem(this.list.id, newItem));
+      this.listService.addItem(this.list.id, newItem);
       this.toggleAddItemDialog();
     }
   }
