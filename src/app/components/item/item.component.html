@@ -20,7 +20,7 @@
         <div class="window-module">
           <div class="window-module-title window-module-title-no-divider">
             <span class="icon-description icon-lg window-module-title-icon"></span>
-            <h4 class="u-inline-block">Описание</h4>
+            <h4 class="u-inline-block">Description</h4>
           </div>
           <div class="u-gutter js-hide-on-minimize-desc">
             <div class="editable" attr="desc">
@@ -29,20 +29,20 @@
                   <a class="card-detail-fake-text-area"
                      href="#"
                      (click)="toggleUpdateDescriptionDialog()"
-                  >{{ item.description || "Добавить более подробное описание…" }}</a>
+                  >{{ item.description || "Add description…" }}</a>
                 </p>
                 <div class="card-detail-edit edit"
                      *ngIf="updateDescriptionDialog"
                 >
                   <textarea #itemDescr
                             class="field field-autosave card-back-description"
-                            placeholder="Добавить более подробное описание…"
+                            placeholder="Add description…"
                             style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 108px;"
                   >{{ item.description }}</textarea>
                   <div class="edit-controls">
                     <input class="primary confirm mod-submit-edit"
                            type="submit"
-                           value="Сохранить"
+                           value="Save"
                            (click)="updateDescription(itemDescr.value)"
                     >
                     <a class="icon-lg icon-close dark-hover cancel"

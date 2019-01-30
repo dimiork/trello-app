@@ -80,7 +80,7 @@
           <textarea
             #newItemTitle
             class="list-card-composer-textarea"
-            placeholder="Ввести заголовок для этой карточки"
+            placeholder="Enter item title"
             style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"
             autofocus
           ></textarea>
@@ -91,7 +91,7 @@
           <input
             class="btn-primary mod-list-add-button"
             type="submit"
-            value="Добавить карточку"
+            value="Add item"
             (click)="addItem(newItemTitle.value);">
           <button
             class="close"
@@ -106,9 +106,9 @@
   <a class="open-card-composer" href="#" *ngIf="!addItemDialog">
    <span (click)="toggleAddItemDialog()"
          *ngIf="!(list.items)?.length"
-        >Добавить карточку</span>
+        >Add item</span>
    <span (click)="toggleAddItemDialog()"
-         *ngIf="(list.items)?.length">Добавить еще одну карточку</span>
+         *ngIf="(list.items)?.length">Add new item</span>
   </a>
 </div>
 
