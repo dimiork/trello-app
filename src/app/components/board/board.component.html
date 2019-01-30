@@ -4,23 +4,23 @@
       [list] = "list"
     ></app-list>
   </div>
-  <div class="list-wrapper mod-add" [class.is-idle]="!addListDialog">
+  <div class="list-wrapper" [class.is-idle]="!addListDialog">
     <form>
       <a class="open-add-list" href="#" *ngIf="!addListDialog" (click)="toggleAddListDialog()">
         <span class="placeholder">
           <span>+</span>
-            Добавьте еще одну колонку
+            Add list
         </span>
       </a>
       <div *ngIf="addListDialog">
         <input #listName autofocus class="list-name-input"
-          placeholder="Ввести заголовок списка"
+          placeholder="Enter list title"
           maxlength="512"
         >
         <div class="list-add-controls">
           <input class="btn-primary mod-list-add-button"
             type="submit"
-            value="Добавить список"
+            value="Add list"
             (click)="addList(listName.value);"
           >
           <button class="close" (click)="toggleAddListDialog()">
