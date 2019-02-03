@@ -1,17 +1,18 @@
 <div class="grid-container window">
   <div class="item-header">
     <div style="margin: 10px 40px;">
-      <h2 (click)="toggleUpdateTitleDialog()"
-          *ngIf="!updateTitleDialog"
+      <h2
+        style="height:45px;padding:5px 12px"
+        (click)="toggleUpdateTitleDialog()"
+        *ngIf="!updateTitleDialog"
       >
         {{ item.title }}
       </h2>
-      <textarea #itemTitle
-                class="mod-card-back-title"
-                style="overflow: hidden; overflow-wrap: break-word; height: 34px;"
-                (blur)="updateTitle(itemTitle.value)"
-                *ngIf="updateTitleDialog"
-      >{{ item.title }}</textarea>
+      <input #itemTitle
+        style="overflow: hidden; overflow-wrap: break-word; height: 45px;font-size:2rem;width:100%"
+        (keyup.enter)="updateTitle(itemTitle.value)"
+        *ngIf="updateTitleDialog"
+        value="{{ item.title }}">
     </div>
   </div>
   <div class="item-content">
@@ -27,27 +28,27 @@
               <div class="description-content">
                 <p *ngIf="!updateDescriptionDialog">
                   <a class="card-detail-fake-text-area"
-                     href="#"
-                     (click)="toggleUpdateDescriptionDialog()"
+                    href="#"
+                    (click)="toggleUpdateDescriptionDialog()"
                   >{{ item.description || "Add description…" }}</a>
                 </p>
                 <div class="card-detail-edit edit"
-                     *ngIf="updateDescriptionDialog"
+                    *ngIf="updateDescriptionDialog"
                 >
                   <textarea #itemDescr
-                            class="field field-autosave card-back-description"
-                            placeholder="Add description…"
-                            style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 108px;"
+                    class="field field-autosave card-back-description"
+                    placeholder="Add description…"
+                    style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 108px;"
                   >{{ item.description }}</textarea>
                   <div class="edit-controls">
                     <input class="primary confirm mod-submit-edit"
-                           type="submit"
-                           value="Save"
-                           (click)="updateDescription(itemDescr.value)"
+                      type="submit"
+                      value="Save"
+                      (click)="updateDescription(itemDescr.value)"
                     >
                     <a class="icon-lg icon-close dark-hover cancel"
-                       href="#"
-                       (click)="toggleUpdateDescriptionDialog()"
+                      href="#"
+                      (click)="toggleUpdateDescriptionDialog()"
                     >X</a>
                   </div>
                 </div>

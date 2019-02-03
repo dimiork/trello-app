@@ -13,7 +13,7 @@ import { Item, List } from '../../models';
 })
 export class ItemComponent {
 
-  public closeBtnName: string;
+  // public closeBtnName: string;
   public listId: string;
   public item: Item;
   public updateDescriptionDialog: boolean = false;
