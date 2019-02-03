@@ -81,6 +81,7 @@
   padding: 0 4px;
   z-index: 1;
   min-height: 0;
+  max-height: 60vh;
 }
 
 .list-card {

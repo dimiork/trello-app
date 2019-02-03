@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef } from '@angular/core';
 
 import { ListService } from '../../services/list.service';
 
@@ -15,10 +15,9 @@ import { Item, EditItemModal, List } from '../../models';
 export class ListComponent {
 
   @Input() public list: List;
-
   public addItemDialog: boolean = false;
+  public modal: BsModalRef;
 
-  bsModalRef: BsModalRef;
   constructor(
     private listService: ListService,
     private modalService: BsModalService
@@ -29,16 +28,15 @@ export class ListComponent {
       listId: this.list.id,
       item: item
     };
-    this.bsModalRef = this.modalService.show(ItemComponent, { initialState });
-    this.bsModalRef.content.closeBtnName = 'Close'; // TODO: ?
+    this.modal = this.modalService.show(ItemComponent, { initialState });
   }
 
   public updateList(): void {
     this.listService.updateList(this.list);
   }
 
-  public removeList(id: string): void {
-    this.listService.removeList(id);
+  public removeList(): void {
+    this.listService.removeList(this.list.id);
   }
 
   public toggleAddItemDialog(): void {
