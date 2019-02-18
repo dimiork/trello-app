@@ -2,8 +2,6 @@ import { Component, Input } from '@angular/core';
 
 import { ListService } from '../../services/list.service';
 
-import { BsModalRef } from 'ngx-bootstrap/modal';
-
 import { Item, List } from '../../models';
 
 @Component({
@@ -13,16 +11,16 @@ import { Item, List } from '../../models';
 })
 export class ItemComponent {
 
-  // public closeBtnName: string;
+  @Input() public item: Item;
   public listId: string;
-  public item: Item;
   public updateDescriptionDialog: boolean = false;
   public updateTitleDialog: boolean = false;
 
   constructor(
     private listService: ListService,
-    public bsModalRef: BsModalRef
   ) {}
+
+  public isEdit: boolean = false;
 
   public toggleUpdateDescriptionDialog(): void {
     this.updateDescriptionDialog = !this.updateDescriptionDialog;
@@ -50,11 +48,11 @@ export class ItemComponent {
 
   public updateItem(item: Item): void {
     this.item = item;
-    this.listService.updateItem(this.listId, item);
+    // this.listService.updateItem(this.listId, item);
   }
 
   public removeItem(id: string): void {
-    this.listService.removeItem(this.listId, id);
-    this.bsModalRef.hide();
+    // this.listService.removeItem(this.listId, id);
+    // this.bsModalRef.hide();
   }
 }

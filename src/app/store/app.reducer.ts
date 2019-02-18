@@ -1,12 +1,13 @@
 import { ActionReducerMap } from '@ngrx/store';
 
-import { ListsReducer } from './list/reducers';
 import { List } from '../models/list';
 
+import * as fromList from './list/reducers';
+
 export interface AppState {
-  lists: List[];
+  lists: List[]
 }
 
-export const rootReducer: ActionReducerMap<AppState> = {
-  lists: ListsReducer
+export const rootReducers: ActionReducerMap<AppState> = {
+  lists: fromList.reducer
 };

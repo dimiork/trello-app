@@ -1,8 +1,10 @@
-import { Component, Input, ElementRef } from '@angular/core';
+import { Component, Input, ElementRef, EventEmitter } from '@angular/core';
 
+import { Store, select } from '@ngrx/store';
+import * as ListActions from '../../store/list/actions';
 import { ListService } from '../../services/list.service';
 
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+// import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { ItemComponent } from '../item/item.component';
 import { Item, EditItemModal, List } from '../../models';
@@ -14,39 +16,54 @@ import { Item, EditItemModal, List } from '../../models';
 })
 export class ListComponent {
 
-  @Input() public list: List;
-  public addItemDialog: boolean = false;
-  public modal: BsModalRef;
+  @Input() list: List;
+  addItemDialog: boolean = false;
+  // modal: BsModalRef;
 
   constructor(
-    private listService: ListService,
-    private modalService: BsModalService
+    // private listService: ListService,
+    private store: Store<List[]>,
+    // private modalService: BsModalService
   ) {}
 
-  openModalWithComponent(item: Item): void {
-    const initialState: EditItemModal = {
-      listId: this.list.id,
-      item: item
-    };
-    this.modal = this.modalService.show(ItemComponent, { initialState });
+  get id(): string {
+    return this.list.id;
   }
 
-  public updateList(): void {
-    this.listService.updateList(this.list);
+  get title(): string {
+    return this.list.title;
   }
 
-  public removeList(): void {
-    this.listService.removeList(this.list.id);
+  get items(): Item[] {
+    return this.list.items;
   }
 
-  public toggleAddItemDialog(): void {
+  // openModalWithComponent(item: Item): void {
+  //   const initialState: EditItemModal = {
+  //     listId: this.list.id,
+  //     item: item
+  //   };
+  //   this.modal = this.modalService.show(ItemComponent, { initialState });
+  // }
+
+  updateList(): void {
+    this.store.dispatch(new ListActions.Update(this.list));
+    // this.listService.updateList(this.list);
+  }
+
+  removeList(): void {
+    this.store.dispatch(new ListActions.Remove(this.list.id));
+    // this.listService.removeList(this.list);
+  }
+
+  toggleAddItemDialog(): void {
     this.addItemDialog = !this.addItemDialog;
   }
 
-  public addItem(title: string, description?: string): void {
+  addItem(title: string, description?: string): void {
     if (title) {
       const newItem: Item = { title, description };
-      this.listService.addItem(this.list.id, newItem);
+      // this.listService.addItem(this.list.id, newItem);
       this.toggleAddItemDialog();
     }
   }

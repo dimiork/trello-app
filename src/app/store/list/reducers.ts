@@ -1,76 +1,82 @@
+import { ActionTypes, ActionsUnion } from './actions';
+
 import { List } from '../../models/list';
 import { Item } from '../../models/item';
-import * as ListActions from './actions';
 
 export const initialState: List[] = [];
 
-export function ListsReducer(
-  state: List[] = initialState,
-  action: ListActions.ListActionType
-): List[] {
+export function reducer(state = initialState, action: ActionsUnion): List[] {
+  console.log(action);
   switch (action.type) {
-    case ListActions.ActionTypes.LOAD:
-      return action.lists;
+    case ActionTypes.Load:
+      console.log('Action LOAD');
+      return state;
 
-    case ListActions.ActionTypes.ADD:
-      return [
-        ...state,
-        {
-          id: action.id,
-          title: action.title,
-          items: action.items
-        }
-      ];
-    case ListActions.ActionTypes.UPDATE:
+    case ActionTypes.LoadSuccess:
+      console.log('Action LOAD SUCCESS');
+      const lists = action.payload;
+      return lists;
+
+    case ActionTypes.Add:
+      return state;
+
+    case ActionTypes.AddSuccess:
+      const newList = action.payload;
+      return [ ...state, newList ];
+
+    case ActionTypes.Update:
+      return state;
+
+    case ActionTypes.UpdateSuccess:
 
       return state.map((list: List) => {
-        if (list.id === action.list.id) {
+        if (list.id === action.payload.id) {
 
           return {
             ...list,
-            title: action.list.title.trim(),
-            items: [...action.list.items]
+            title: action.payload.title.trim(),
+            items: [...action.payload.items]
           };
         }
 
         return list;
       });
 
-    case ListActions.ActionTypes.REMOVE:
+    case ActionTypes.Remove:
 
-      return state.filter((list: List) => list.id !== action.id);
+      return state.filter((list: List) => list.id !== action.payload);
 
-    case ListActions.ActionTypes.CLEAR:
+    // case ActionTypes.CLEAR:
 
-      return initialState;
+    //   return initialState;
 
-    case ListActions.ActionTypes.ADD_ITEM:
-      const item: Item = {
-        id: action.id,
-        title: action.item.title,
-        description: action.item.description
-      };
+    // case ActionTypes.ADD_ITEM:
+    //   const item: Item = {
+    //     id: action.id,
+    //     title: action.item.title,
+    //     description: action.item.description
+    //   };
 
-      return state.map((list: List) => list.id === action.listId ?
-        {
-          ...list,
-          items: [...list.items, item]
-        } : list);
+    //   return state.map((list: List) => list.id === action.listId ?
+    //     {
+    //       ...list,
+    //       items: [...list.items, item]
+    //     } : list);
 
-    case ListActions.ActionTypes.UPDATE_ITEM:
-      return state.map((list: List) => list.id === action.listId ?
-        {
-          ...list,
-          items: list.items.map((currItem: Item) => currItem.id === action.item.id ?
-            action.item : currItem)
-        } : list);
+    // case ActionTypes.UPDATE_ITEM:
+    //   return state.map((list: List) => list.id === action.listId ?
+    //     {
+    //       ...list,
+    //       items: list.items.map((currItem: Item) => currItem.id === action.item.id ?
+    //         action.item : currItem)
+    //     } : list);
 
-    case ListActions.ActionTypes.REMOVE_ITEM:
-      return state.map((list: List) => list.id === action.listId ?
-        {
-          ...list,
-          items: list.items.filter((currItem: Item) => currItem.id !== action.id)
-        } : list);
+    // case ActionTypes.REMOVE_ITEM:
+    //   return state.map((list: List) => list.id === action.listId ?
+    //     {
+    //       ...list,
+    //       items: list.items.filter((currItem: Item) => currItem.id !== action.id)
+    //     } : list);
 
     default:
       return state;

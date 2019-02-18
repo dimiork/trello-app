@@ -4,89 +4,129 @@ import { List } from '../../models/list';
 import { Item } from '../../models/item';
 
 export enum ActionTypes {
-  LOAD = '[LISTS] LOAD',
-  ADD = '[LIST] ADD',
-  UPDATE = '[LIST] UPDATE',
-  REMOVE = '[LIST] REMOVE',
-  CLEAR = '[LIST] CLEAR',
-  ADD_ITEM = '[LIST] ADD_ITEM',
-  UPDATE_ITEM = '[LIST] UPDATE_ITEM',
-  REMOVE_ITEM = '[LIST] REMOVE_ITEM',
+  Load = '[LISTS] LOAD',
+  LoadSuccess = '[LISTS] LOADED SUCCESS',
+  LoadFail = '[LISTS] LOADED FAIL',
+  Add = '[LIST] ADD',
+  AddSuccess = '[LIST] ADD SUCCESS',
+  AddFail = '[LIST] ADD FAIL',
+  Update = '[LIST] UPDATE',
+  UpdateSuccess = '[LIST] UPDATE SUCCESS',
+  Remove = '[LIST] REMOVE',
+  RemoveSuccess = '[LIST] REMOVE SUCCESS',
+  // Clear = '[LIST] CLEAR',
+  // AddItem = '[LIST] ADD_ITEM',
+  // UpdateItem = '[LIST] UPDATE_ITEM',
+  // RemoveItem = '[LIST] REMOVE_ITEM'
 }
 
 export class Load implements Action {
-  // tslint:disable
-  readonly type = ActionTypes.LOAD;
-  // tslint:enable
+  readonly type = ActionTypes.Load;
+}
 
-  constructor(public lists: List[]) {}
+export class LoadSuccess implements Action {
+  readonly type = ActionTypes.LoadSuccess;
+
+  constructor(public payload: List[]) {}
+}
+
+export class LoadFail implements Action {
+  readonly type = ActionTypes.LoadFail;
+
+  constructor(public payload: {}) { }
 }
 
 export class Add implements Action {
-  // tslint:disable
-  readonly type = ActionTypes.ADD;
-  // tslint:enable
-  public id: string = Math.random().toString(26).slice(2);
-  public items: Item[];
+  readonly type = ActionTypes.Add;
 
-  constructor(
-    public title: string = 'New List'
-  ) {
-    this.items = [];
-  }
+  constructor(public payload: string) {}
+}
+
+export class AddSuccess implements Action {
+  readonly type = ActionTypes.AddSuccess;
+
+  constructor(public payload: List) {}
+}
+
+export class AddFail implements Action {
+  readonly type = ActionTypes.AddFail;
+
+  constructor(public payload: {}) {}
 }
 
 export class Update implements Action {
-  // tslint:disable
-  readonly type = ActionTypes.UPDATE;
-  // tslint:enable
-  constructor(
-    public list: List
-  ) {}
+  readonly type = ActionTypes.Update;
+
+  constructor(public payload: List) {}
+}
+
+export class UpdateSuccess implements Action {
+  readonly type = ActionTypes.UpdateSuccess;
+
+  constructor(public payload: List) {}
 }
 
 export class Remove implements Action {
-  // tslint:disable
-  readonly type = ActionTypes.REMOVE;
-  // tslint:enable
-  constructor(public id: string) {}
+  readonly type = ActionTypes.Remove;
+
+  constructor(public payload: string) {}
 }
 
-export class Clear implements Action {
-  // tslint:disable
-  readonly type = ActionTypes.CLEAR;
-  // tslint:enable
+export class RemoveSuccess implements Action {
+  readonly type = ActionTypes.RemoveSuccess;
+
+  constructor(public payload: string) {}
 }
 
-export class AddItem implements Action {
-  // tslint:disable
-  readonly type = ActionTypes.ADD_ITEM;
-  // tslint:enable
-  public id: string = Math.random().toString(26).slice(2);
-  constructor(
-    public listId: string,
-    public item: Item
-  ) {}
-}
+// export class Clear implements Action {
+//   readonly type: string = ActionTypes.Clear;
+// }
 
-export class UpdateItem implements Action {
-  // tslint:disable
-  readonly type = ActionTypes.UPDATE_ITEM;
-  // tslint:enable
-  constructor(
-    public listId: string,
-    public item: Item
-  ) {}
-}
+// export class AddItem implements Action {
+//   readonly type: string = ActionTypes.AddItem;
+//   public id: string = Math.random().toString(26).slice(2);
 
-export class RemoveItem implements Action {
-  // tslint:disable
-  readonly type = ActionTypes.REMOVE_ITEM;
-  // tslint:enable
-  constructor(
-    public listId: string,
-    public id: string
-  ) {}
-}
+//   constructor(
+//     public listId: string,
+//     public item: Item
+//   ) {}
+// }
 
-export type ListActionType = Load | Add | Update | Remove | Clear | AddItem | UpdateItem | RemoveItem;
+// export class UpdateItem implements Action {
+//   readonly type: string = ActionTypes.UpdateItem;
+
+//   constructor(
+//     public listId: string,
+//     public item: Item
+//   ) {}
+// }
+
+// export class RemoveItem implements Action {
+//   readonly type: string = ActionTypes.RemoveItem;
+
+//   constructor(
+//     public listId: string,
+//     public id: string
+//   ) {}
+// }
+
+export type ActionsUnion
+  = Load
+  | LoadSuccess
+  | LoadFail
+  | Add
+  | AddSuccess
+  | Update
+  | UpdateSuccess
+  | Remove
+  | RemoveSuccess;
+  // | LoadFail
+  // | Add
+  // | AddSuccess
+  // | AddFail
+  // | Update
+  // | Remove
+  // | Clear
+  // | AddItem
+  // | UpdateItem
+  // | RemoveItem;
