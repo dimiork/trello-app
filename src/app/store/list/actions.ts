@@ -2,22 +2,24 @@ import { Action } from '@ngrx/store';
 
 import { List } from '../../models/list';
 import { Item } from '../../models/item';
+import { EditItemModal } from '../../models/edit-item-modal';
 
 export enum ActionTypes {
   Load = '[LISTS] LOAD',
-  LoadSuccess = '[LISTS] LOADED SUCCESS',
-  LoadFail = '[LISTS] LOADED FAIL',
+  LoadSuccess = '[LISTS] LOADED_SUCCESS',
+  LoadFail = '[LISTS] LOADED_FAIL',
   Add = '[LIST] ADD',
-  AddSuccess = '[LIST] ADD SUCCESS',
-  AddFail = '[LIST] ADD FAIL',
+  AddSuccess = '[LIST] ADD_SUCCESS',
+  AddFail = '[LIST] ADD_FAIL',
   Update = '[LIST] UPDATE',
-  UpdateSuccess = '[LIST] UPDATE SUCCESS',
+  UpdateSuccess = '[LIST] UPDATE_SUCCESS',
   Remove = '[LIST] REMOVE',
-  RemoveSuccess = '[LIST] REMOVE SUCCESS',
+  RemoveSuccess = '[LIST] REMOVE_SUCCESS',
   // Clear = '[LIST] CLEAR',
-  // AddItem = '[LIST] ADD_ITEM',
+  AddItem = '[LIST] ADD_ITEM',
+  AddItemSuccess = '[LIST] ADD_ITEM_SUCCESS',
   // UpdateItem = '[LIST] UPDATE_ITEM',
-  // RemoveItem = '[LIST] REMOVE_ITEM'
+  RemoveItem = '[LIST] REMOVE_ITEM'
 }
 
 export class Load implements Action {
@@ -82,14 +84,30 @@ export class RemoveSuccess implements Action {
 //   readonly type: string = ActionTypes.Clear;
 // }
 
-// export class AddItem implements Action {
-//   readonly type: string = ActionTypes.AddItem;
-//   public id: string = Math.random().toString(26).slice(2);
+export class AddItem implements Action {
+  readonly type = ActionTypes.AddItem;
+  // public id: string = Math.random().toString(26).slice(2);
 
-//   constructor(
-//     public listId: string,
-//     public item: Item
-//   ) {}
+  constructor(public payload: EditItemModal) {}
+}
+
+export class AddItemSuccess implements Action {
+  readonly type = ActionTypes.AddItemSuccess;
+  // public id: string = Math.random().toString(26).slice(2);
+
+  constructor(public payload: EditItemModal) {}
+}
+
+// export class DragItem implements Action {
+//   readonly type = ActionTypes.DragItem;
+
+//   constructor(public payload: EditItemModal) {}
+// }
+
+// export class DropItem implements Action {
+//   readonly type = ActionTypes.DropItem;
+
+//   constructor(public payload: EditItemModal) {}
 // }
 
 // export class UpdateItem implements Action {
@@ -101,14 +119,11 @@ export class RemoveSuccess implements Action {
 //   ) {}
 // }
 
-// export class RemoveItem implements Action {
-//   readonly type: string = ActionTypes.RemoveItem;
+export class RemoveItem implements Action {
+  readonly type = ActionTypes.RemoveItem;
 
-//   constructor(
-//     public listId: string,
-//     public id: string
-//   ) {}
-// }
+  constructor(public payload: EditItemModal) {}
+}
 
 export type ActionsUnion
   = Load
@@ -119,7 +134,10 @@ export type ActionsUnion
   | Update
   | UpdateSuccess
   | Remove
-  | RemoveSuccess;
+  | RemoveSuccess
+  | AddItem
+  | AddItemSuccess
+  | RemoveItem;
   // | LoadFail
   // | Add
   // | AddSuccess

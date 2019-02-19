@@ -48,22 +48,14 @@
       </div>
     </div>
   </div>
-  <div #scrollMe class="list-cards">
+
+<!--   <div #scrollMe class="list-cards">
     <ng-template #itemTemplate let-item="item.value">
-      <app-item [item]="item"></app-item>
-      <!-- <a
-        class="list-card"
-        draggable="true"
-        (drop)="updateList()"
-        (click)="openModalWithComponent(item.value)"
-      >
-        <div class="list-card-details">
-          <div class="list-card-labels"></div>
-          <span class="list-card-title">
-           {{ item.value.title }}
-          </span>
-        </div>
-      </a> -->
+      <app-item [item]="item" [listId]="list.id"
+      (_drop)='onDrop($event)'
+      (_dragStart)='onDragStart($event)'
+      (_dragLeave)='onDragLeave($event)'
+      ></app-item>
     </ng-template>
     <bs-sortable
       [(ngModel)]="list.items"
@@ -75,6 +67,16 @@
       wrapperClass="sortable-wrapper"
     ></bs-sortable>
 
+  </div> -->
+  <!-- <div *ngFor="let item of list.items"> -->
+  <div>
+    <app-item *ngFor="let item of list.items"
+      [item]="item"
+      draggable="true"
+      (_drop)='onDrop($event)'
+      (_dragStart)='onDragStart($event)'
+      (_dragLeave)='onDragLeave($event)'
+    ></app-item>
   </div>
   <div class="footer">
     <div class="card-composer list-cards" *ngIf="addItemDialog">
@@ -108,10 +110,10 @@
       </div>
     </div>
     <a class="open-card-composer" href="#" *ngIf="!addItemDialog">
-     <span (click)="toggleAddItemDialog()"
+      <span (click)="toggleAddItemDialog()"
            *ngIf="!(list.items)?.length"
           >Add item</span>
-     <span (click)="toggleAddItemDialog()"
+      <span (click)="toggleAddItemDialog()"
            *ngIf="(list.items)?.length">Add new item</span>
     </a>
   </div>

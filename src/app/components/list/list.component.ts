@@ -4,8 +4,6 @@ import { Store, select } from '@ngrx/store';
 import * as ListActions from '../../store/list/actions';
 import { ListService } from '../../services/list.service';
 
-// import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-
 import { ItemComponent } from '../item/item.component';
 import { Item, EditItemModal, List } from '../../models';
 
@@ -18,13 +16,8 @@ export class ListComponent {
 
   @Input() list: List;
   addItemDialog: boolean = false;
-  // modal: BsModalRef;
 
-  constructor(
-    // private listService: ListService,
-    private store: Store<List[]>,
-    // private modalService: BsModalService
-  ) {}
+  constructor(private store: Store<List[]>) {}
 
   get id(): string {
     return this.list.id;
@@ -38,22 +31,12 @@ export class ListComponent {
     return this.list.items;
   }
 
-  // openModalWithComponent(item: Item): void {
-  //   const initialState: EditItemModal = {
-  //     listId: this.list.id,
-  //     item: item
-  //   };
-  //   this.modal = this.modalService.show(ItemComponent, { initialState });
-  // }
-
   updateList(): void {
     this.store.dispatch(new ListActions.Update(this.list));
-    // this.listService.updateList(this.list);
   }
 
   removeList(): void {
     this.store.dispatch(new ListActions.Remove(this.list.id));
-    // this.listService.removeList(this.list);
   }
 
   toggleAddItemDialog(): void {
@@ -61,10 +44,31 @@ export class ListComponent {
   }
 
   addItem(title: string, description?: string): void {
-    if (title) {
-      const newItem: Item = { title, description };
-      // this.listService.addItem(this.list.id, newItem);
-      this.toggleAddItemDialog();
-    }
+    this.items.push({ title, description });
+    this.updateList();
   }
+
+  onDragStart(evt, data): void {
+    // evt.preventDefault();
+    // this.updateList();
+    console.log("onDragStart", evt);
+    // evt.dataTransfer.effectAllowed = 'move';
+    // evt.dataDtransfer.setData('text', JSON.stringify(data));
+    // this.store.dispatch(new DndActions.DragStart(evt));
+  }
+
+  onDragLeave(evt): void {
+    // evt.preventDefault();
+    // this.updateList();
+    console.log("onDragLeave", evt);
+    
+  }
+
+  onDrop(evt): void {
+    console.log("onDrop", evt);
+    const { listId, item } = evt;
+    this.store.dispatch(new ListActions.RemoveItem({ listId: listId, item: item }));
+    // this.store.dispatch(new ListActions.AddItemSuccess({ listId: this.listId, item: item }));
+  }
+
 }

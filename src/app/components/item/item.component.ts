@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ListService } from '../../services/list.service';
 
-import { Item, List } from '../../models';
+import { Item, List, EditItemModal } from '../../models';
 
 @Component({
   selector: 'app-item',
@@ -11,16 +11,16 @@ import { Item, List } from '../../models';
 })
 export class ItemComponent {
 
-  @Input() public item: Item;
-  public listId: string;
+  @Input() item: Item;
+  @Input() listId: string;
+  @Output() _dragStart = new EventEmitter();
+  @Output() _dragLeave = new EventEmitter();
+  @Output() _drop = new EventEmitter();
+
   public updateDescriptionDialog: boolean = false;
   public updateTitleDialog: boolean = false;
 
-  constructor(
-    private listService: ListService,
-  ) {}
-
-  public isEdit: boolean = false;
+  constructor() {}
 
   public toggleUpdateDescriptionDialog(): void {
     this.updateDescriptionDialog = !this.updateDescriptionDialog;
@@ -30,29 +30,55 @@ export class ItemComponent {
     this.updateTitleDialog = !this.updateTitleDialog;
   }
 
-  public updateTitle(title: string): void {
-    if (title) {
-      const newItem: Item = { ...this.item, title };
-      this.updateItem(newItem);
-      this.toggleUpdateTitleDialog();
-    }
+  // public updateTitle(title?: string): void {
+  //   if (title) {
+  //     const newItem: Item = { ...this.item, title };
+  //     this.updateItem(newItem);
+  //     this.toggleUpdateTitleDialog();
+  //   }
+  // }
+
+  // public updateDescription(description?: string): void {
+  //   if (description) {
+  //     const newItem: Item = { ...this.item, description };
+  //     this.updateItem(newItem);
+  //     this.toggleUpdateDescriptionDialog();
+  //   }
+  // }
+
+  // public updateItem(item: Item): void {
+  //   this.item = item;
+  //   // this.listService.updateItem(this.listId, item);
+  // }
+
+  // public removeItem(id: string): void {
+  //   // this.listService.removeItem(this.listId, id);
+  // }
+
+  dragstart(evt): void {
+    console.log("[DRAG START]" + this.item, this.listId);
+    evt.dataTransfer.effectAllowed = 'move';
+    evt.dataTransfer.setData('data', JSON.stringify({ listId: this.listId, item: this.item }));
+    this._dragStart.emit(evt);
   }
 
-  public updateDescription(description: string): void {
-    if (description) {
-      const newItem: Item = { ...this.item, description };
-      this.updateItem(newItem);
-      this.toggleUpdateDescriptionDialog();
-    }
+  dragleave(evt): void {
+    console.log("[DRAG LEAVE]" + this.item, this.listId);
+    this._dragLeave.emit({ listId: this.listId, item: this.item });
   }
 
-  public updateItem(item: Item): void {
-    this.item = item;
-    // this.listService.updateItem(this.listId, item);
-  }
+  // dragover(evt): void {
+  //   console.log("[DRAG OVER]" + evt);
+  // }
 
-  public removeItem(id: string): void {
-    // this.listService.removeItem(this.listId, id);
-    // this.bsModalRef.hide();
+  // dragexit(evt): void {
+  //   console.log("[DRAG EXIT]" + evt);
+  // }
+
+  drop(evt): void {
+    const data = JSON.parse(evt.dataTransfer.getData('data'));
+    console.log("[DROP]" + evt.dataTransfer.getData('data'));
+
+    this._drop.emit({ listId: this.listId, item: this.item });
   }
 }

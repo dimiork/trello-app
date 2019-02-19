@@ -20,16 +20,7 @@ export class ListService {
   constructor(
     private store: Store<List[]>,
     private localstorage: LocalstorageService,
-  ) {
-
-    // this.lists$ = this.store.pipe(
-    //   select('lists'),
-    //   tap((listCollection: List[]) => {
-    //     console.log(listCollection);
-    //     this.localstorage.save(this.storageId, listCollection);
-    //   })
-    // );
-  }
+  ) {}
 
   public loadLists(): Observable<List[]> {
     return of(this.localstorage.load(this.storageId));
@@ -57,29 +48,13 @@ export class ListService {
         return {
           ...el,
           title: list.title,
-          items: [ ...el.items ]
+          items: [ ...list.items ]
         }
       }
       return el;
     }));
-    // this.localstorage.save(this.storageId, [
-    //   ...storage.filter((el) => el.id !== list.id),
-    //   list
-    // ]);
     return of(list);
   }
-
-// return state.map((list: List) => {
-//   if (list.id === action.list.id) {
-
-//           return {
-//             ...list,
-//             title: action.list.title.trim(),
-//             items: [...action.list.items]
-//           };
-//         }
-
-//         return list;
 
   public remove(id: string): Observable<string> {
     let storage = this.localstorage.load(this.storageId);
@@ -88,6 +63,20 @@ export class ListService {
       return of(id);
     }
     throw Error(` ${ id } was not found. Nothing to be removed.`);
+  }
+
+  public removeItem(listId: string, itemId: string): Observable<boolean> {
+    let storage = this.localstorage.load(this.storageId);
+    if (storage.some((el) => el.id === listId)) {
+      let newStorage = storage.map((el) => {
+        if (el.id === listId) {
+          return { ...el, items: el.items.filter((item) => item.id !== itemId) };
+        }
+      });
+      this.localstorage.save(this.storageId, newStorage);
+      return of(true);
+    }
+    return of(false);
   }
 
   /* old scheme */

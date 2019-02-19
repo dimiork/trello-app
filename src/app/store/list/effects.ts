@@ -70,6 +70,12 @@ export class ListEffects {
     // catchError(error => of(new actions.Fail(error)))
   );
 
+  // @Effect()
+  // updateList$ = this.actions$.pipe(
+  //   ofType(actions.ActionTypes.AddItem),
+  //   map((action: actions.AddItem) => action.payload)
+  // );
+
   // @Effect({ dispatch: false })
   // saveLists$ = this.actions$.pipe(
   //   ofType(ActionTypes.Add),

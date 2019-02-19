@@ -35,15 +35,7 @@ export class BoardComponent implements OnInit {
   }
 
   public addList(title: string): void {
-    // const list = {
-    //   title: title,
-    // }
     this.store.dispatch(new ListActions.Add(title));
-    // this.listService.createList(title);
     this.toggleAddListDialog();
-  }
-
-  removeList(list: List): void {
-    // this.store.dispatch(new ListActions.Remove(list));
   }
 }

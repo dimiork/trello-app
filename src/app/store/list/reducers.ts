@@ -1,7 +1,6 @@
 import { ActionTypes, ActionsUnion } from './actions';
 
-import { List } from '../../models/list';
-import { Item } from '../../models/item';
+import { List, Item, EditItemModal } from '../../models';
 
 export const initialState: List[] = [];
 
@@ -31,7 +30,7 @@ export function reducer(state = initialState, action: ActionsUnion): List[] {
 
       return state.map((list: List) => {
         if (list.id === action.payload.id) {
-
+          console.log(action);
           return {
             ...list,
             title: action.payload.title.trim(),
@@ -50,18 +49,18 @@ export function reducer(state = initialState, action: ActionsUnion): List[] {
 
     //   return initialState;
 
-    // case ActionTypes.ADD_ITEM:
-    //   const item: Item = {
-    //     id: action.id,
-    //     title: action.item.title,
-    //     description: action.item.description
-    //   };
+    case ActionTypes.AddItem:
+      return state;
 
-    //   return state.map((list: List) => list.id === action.listId ?
-    //     {
-    //       ...list,
-    //       items: [...list.items, item]
-    //     } : list);
+    case ActionTypes.AddItemSuccess:
+      return state.map((list: List) => list.id === action.payload.listId ?
+        {
+          ...list,
+          items: [...list.items, action.payload.item]
+        } : list);
+
+    case ActionTypes.RemoveItem:
+      return state;
 
     // case ActionTypes.UPDATE_ITEM:
     //   return state.map((list: List) => list.id === action.listId ?
