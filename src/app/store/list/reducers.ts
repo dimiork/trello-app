@@ -1,66 +1,55 @@
 import { ActionTypes, ActionsUnion } from './actions';
 
-import { List, Item, EditItemModal } from '../../models';
+import { List, Item, ServiceItem } from '../../models';
 
 export const initialState: List[] = [];
 
 export function reducer(state = initialState, action: ActionsUnion): List[] {
-  console.log(action);
+
   switch (action.type) {
+
     case ActionTypes.Load:
-      console.log('Action LOAD');
+    case ActionTypes.Add:
+    case ActionTypes.Update:
+    case ActionTypes.Remove:
+    case ActionTypes.AddItem:
+    case ActionTypes.RemoveItem:
+    case ActionTypes.ErrorHandle:
       return state;
 
     case ActionTypes.LoadSuccess:
-      console.log('Action LOAD SUCCESS');
-      const lists = action.payload;
-      return lists;
-
-    case ActionTypes.Add:
-      return state;
+      return action.payload.lists;
 
     case ActionTypes.AddSuccess:
-      const newList = action.payload;
-      return [ ...state, newList ];
-
-    case ActionTypes.Update:
-      return state;
+      return [ ...state, action.payload.list ];
 
     case ActionTypes.UpdateSuccess:
-
       return state.map((list: List) => {
-        if (list.id === action.payload.id) {
-          console.log(action);
+        if (list.id === action.payload.list.id) {
+          
           return {
             ...list,
-            title: action.payload.title.trim(),
-            items: [...action.payload.items]
+            title: action.payload.list.title,
+            items: [...action.payload.list.items]
           };
         }
 
         return list;
       });
 
-    case ActionTypes.Remove:
-
-      return state.filter((list: List) => list.id !== action.payload);
-
-    // case ActionTypes.CLEAR:
-
-    //   return initialState;
-
-    case ActionTypes.AddItem:
-      return state;
+    case ActionTypes.RemoveSuccess:
+      return state.filter((list: List) => list.id !== action.payload.id);
 
     case ActionTypes.AddItemSuccess:
+    const index = action.payload.insertionIndex;
       return state.map((list: List) => list.id === action.payload.listId ?
         {
           ...list,
-          items: [...list.items, action.payload.item]
+          items: [ ...list.items.slice(0, index),
+                      action.payload.item,
+                   ...list.items.slice(index)
+                 ]
         } : list);
-
-    case ActionTypes.RemoveItem:
-      return state;
 
     case ActionTypes.RemoveItemSuccess:
       return state.map((list: List) => list.id === action.payload.listId ?
@@ -68,21 +57,6 @@ export function reducer(state = initialState, action: ActionsUnion): List[] {
           ...list,
           items: list.items.filter((item: Item) => item.id !== action.payload.item.id)
         } : list);
-
-    // case ActionTypes.UPDATE_ITEM:
-    //   return state.map((list: List) => list.id === action.listId ?
-    //     {
-    //       ...list,
-    //       items: list.items.map((currItem: Item) => currItem.id === action.item.id ?
-    //         action.item : currItem)
-    //     } : list);
-
-    // case ActionTypes.REMOVE_ITEM:
-    //   return state.map((list: List) => list.id === action.listId ?
-    //     {
-    //       ...list,
-    //       items: list.items.filter((currItem: Item) => currItem.id !== action.id)
-    //     } : list);
 
     default:
       return state;

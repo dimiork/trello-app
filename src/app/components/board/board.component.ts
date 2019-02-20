@@ -7,7 +7,7 @@ import { Store, select } from '@ngrx/store';
 
 import { ListService } from '../../services/list.service';
 
-import { List } from '../../models';
+import { Item, List } from '../../models';
 
 import * as ListActions from '../../store/list/actions';
 
@@ -18,7 +18,7 @@ import * as ListActions from '../../store/list/actions';
 })
 export class BoardComponent implements OnInit {
 
-  public lists$ = this.store.pipe(select('lists'));
+  public lists$: Observable<List[]> = this.store.pipe(select('lists'));
   public addListDialog: boolean = false;
 
   constructor(
@@ -35,7 +35,11 @@ export class BoardComponent implements OnInit {
   }
 
   public addList(title: string): void {
-    this.store.dispatch(new ListActions.Add(title));
+    this.store.dispatch(new ListActions.Add({ title }));
     this.toggleAddListDialog();
+  }
+
+  _trackByFn(index: number, item: Item): string | number {
+    return item.id;
   }
 }

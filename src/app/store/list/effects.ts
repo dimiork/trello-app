@@ -5,7 +5,6 @@ import { Observable, EMPTY, of } from 'rxjs';
 import { tap, map, mergeMap, switchMap, catchError } from 'rxjs/operators';
 
 import { ListService } from '../../services/list.service';
-// import { ActionTypes, ActionsUnion } from './actions';
 import * as actions from './actions';
 
 import { List } from '../../models/list';
@@ -19,85 +18,80 @@ export class ListEffects {
     switchMap(() =>
       this.listService.loadLists()
         .pipe(
-          tap(lists => console.log(lists)),
-          map((lists: List[]) => new actions.LoadSuccess(lists)),
-          // catchError((error) => of(new actions.LoadFail(error)))
-
-        )),
-    catchError(error => of(new actions.LoadFail(error)))
+          map((lists: List[]) => new actions.LoadSuccess({ lists })),
+          catchError(error => of(new actions.ErrorHandle({ error })))
+        ))
     );
 
   @Effect()
   addList$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.Add),
     map((action: actions.Add) => action.payload),
-    switchMap((title) =>
+    switchMap(({ title }) =>
       this.listService.insert({
         id: null,
         title: title,
         items: []
       }).pipe(
-        tap(list => console.log(list)),
-        map(list => new actions.AddSuccess(list))
+        map(list => new actions.AddSuccess({ list })),
+        catchError(error => of(new actions.ErrorHandle({ error })))
       )
-    ),
-    catchError(error => of(new actions.AddFail(error)))
+    )
   );
 
   @Effect()
   updateList$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.Update),
     map((action: actions.Update) => action.payload),
-    switchMap((list) =>
+    switchMap(({ list }) =>
       this.listService.update(list).pipe(
-        tap(list => console.log(list)),
-        map(list => new actions.UpdateSuccess(list))
+        map(list => new actions.UpdateSuccess({ list })),
+        catchError(error => of(new actions.ErrorHandle({ error })))
       )
-    ),
-    // catchError(error => of(new actions.Fail(error)))
+    )
   );
 
   @Effect()
   removeList$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.Remove),
     map((action: actions.Remove) => action.payload),
-    switchMap((id) =>
+    switchMap(({ id }) =>
       this.listService.remove(id).pipe(
-        tap(id => console.log(id)),
-        map(id => new actions.RemoveSuccess(id))
+        map(({ id }) => new actions.RemoveSuccess({ id })),
+        catchError(error => of(new actions.ErrorHandle({ error }))) 
       )
-    ),
-    // catchError(error => of(new actions.Fail(error)))
+    )
   );
 
   @Effect()
   addItem$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.AddItem),
     map((action: actions.AddItem) => action.payload),
-    switchMap(({ listId, item}) =>
-      this.listService.insertItem(listId, item).pipe(
-        tap(item => console.log(item)),
-        map(item => new actions.AddItemSuccess(item))
+    switchMap(({ listId, item, insertionIndex }) =>
+      this.listService.insertItem(listId, item, insertionIndex).pipe(
+        map(data => new actions.AddItemSuccess({ listId, item, insertionIndex })),
+        catchError(error => of(new actions.ErrorHandle({ error })))
       )
-    ),
-    catchError(error => of(new actions.AddFail(error)))
+    )
   );
 
-  // @Effect()
-  // updateList$ = this.actions$.pipe(
-  //   ofType(actions.ActionTypes.AddItem),
-  //   map((action: actions.AddItem) => action.payload)
-  // );
+  @Effect()
+  removeItem$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ActionTypes.RemoveItem),
+    map((action: actions.RemoveItem) => action.payload),
+    switchMap(({ listId, item }) =>
+      this.listService.removeItem(listId, item).pipe(
+        map(data => new actions.RemoveItemSuccess({ listId: data.listId, item: data.item })),
+        catchError(error => of(new actions.ErrorHandle({ error })))
+      )
+    )
+  );
 
-  // @Effect({ dispatch: false })
-  // saveLists$ = this.actions$.pipe(
-  //   ofType(ActionTypes.Add),
-  //   tap((data) => {
-  //     console.log(data);
-  //     this.listService.saveLists([{"id": "1", "title": "test", "items": []},{"id": "2", "title": "1Ginzburg", "items": []}])
-  //   })
-  // );
-
+  @Effect({ dispatch: false })
+  logError$: Observable<Action> = this.actions$.pipe(
+      ofType(actions.ActionTypes.ErrorHandle),
+      tap(error => console.log(error))
+  )
 
   constructor(
     private actions$: Actions,

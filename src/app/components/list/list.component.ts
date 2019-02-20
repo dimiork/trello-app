@@ -1,26 +1,27 @@
-import { Component, Input, ElementRef, EventEmitter } from '@angular/core';
+import { Component, Input, ElementRef, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import * as ListActions from '../../store/list/actions';
 import { ListService } from '../../services/list.service';
 
 import { ItemComponent } from '../item/item.component';
-import { Item, EditItemModal, List } from '../../models';
+import { Item, List, ServiceItem } from '../../models';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  styleUrls: ['./list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent {
 
   @Input() list: List;
   addItemDialog: boolean = false;
-  isDropItemAreaActive: boolean = false;
+  _insertionIndex: number = -1;
 
   constructor(private store: Store<List[]>) {}
 
-  get id(): string {
+  get id(): string | number {
     return this.list.id;
   }
 
@@ -32,12 +33,16 @@ export class ListComponent {
     return this.list.items;
   }
 
+  get insertionIndex(): number {
+    return this._insertionIndex >= 0 ? this._insertionIndex : this.items.length;
+  }
+
   updateList(): void {
-    this.store.dispatch(new ListActions.Update(this.list));
+    this.store.dispatch(new ListActions.Update({ list: this.list }));
   }
 
   removeList(): void {
-    this.store.dispatch(new ListActions.Remove(this.list.id));
+    this.store.dispatch(new ListActions.Remove({ id: this.id }));
   }
 
   toggleAddItemDialog(): void {
@@ -45,30 +50,38 @@ export class ListComponent {
   }
 
   addItem(title: string, description?: string): void {
-    this.store.dispatch(new ListActions.AddItem({ listId: this.id, item: { title, description } }));
+    this.store.dispatch(new ListActions.AddItem({
+      listId: this.id,
+      item: { title, description },
+      insertionIndex: this.insertionIndex
+    }));
   }
 
-  onDragStart(evt): void {
-    // evt.preventDefault();
-    console.log("onDragStart", evt);
-    const data = JSON.parse(evt.dataTransfer.getData('data'));
-    console.log(data);
-    // evt.dataTransfer.effectAllowed = 'move';
+  onUpdateItem(item: Item): void {
+    const list: List = {
+      ...this.list,
+      items: this.items.map((currentItem: Item) => currentItem.id === item.id ? item : currentItem )
+    };
+    this.store.dispatch(new ListActions.Update({ list }));
   }
 
-  onDragover(evt): void {
+  canDrop(evt): void {
     evt.preventDefault();
-    console.log('[ DRAG OVER]', evt);
+  }
+
+  getDropIndex(evt, i: number): void {
+    evt.preventDefault();
+    this._insertionIndex = i;
   }
 
   onDrop(evt): void {
     evt.preventDefault();
-    const data = JSON.parse(evt.dataTransfer.getData("data"));
-    console.log("onDrop", evt);
-    console.log(data);
-    // const { listId, item } = evt;
-    this.store.dispatch(new ListActions.RemoveItemSuccess({ listId: data.listId, item: data.item }));
+    const data: ServiceItem = JSON.parse(evt.dataTransfer.getData('data'));
+    this.store.dispatch(new ListActions.RemoveItem({ listId: data.listId, item: data.item }));
     this.addItem(data.item.title, data.item.description);
-    // this.store.dispatch(new ListActions.AddItemSuccess({ listId: this.id, item: data.item }));
   }
+
+  trackByFn(index: number, item: Item): string | number {
+    return item.id;
+  } 
 }

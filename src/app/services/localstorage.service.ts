@@ -12,7 +12,7 @@ export class LocalstorageService {
   }
 
   save(id: string, data: List[]): void {
-    if (!!data) {
+    if (data) {
       window.localStorage.setItem(id, JSON.stringify(data));
     }
   }

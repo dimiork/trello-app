@@ -1,6 +1,6 @@
 <div class="list-card"
     (click)="editItemModal.show()"
-    (dragstart)="dragstart($event)"
+    (dragstart)="onDragStart($event)"
     draggable="true"
 >
   <div class="list-card-details">
@@ -78,7 +78,7 @@
                 class="button-link"
                 href="#"
                 title="Remove"
-                (click)="removeItem(item.id)"
+                (click)="removeItem()"
               >
                 <span class="icon-sm icon-member"></span>
                 <span>Remove</span>

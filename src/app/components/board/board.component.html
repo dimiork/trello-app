@@ -1,5 +1,5 @@
 <div class="board">
-  <div class="list-wrapper" *ngFor="let list of lists$ | async">
+  <div class="list-wrapper" *ngFor="let list of lists$ | async; trackBy: _trackByFn;">
     <app-list
       [list] = "list"
     ></app-list>

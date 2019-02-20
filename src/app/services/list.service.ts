@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 import * as ListActions from '../store/list/actions';
 
-import { Item, List, EditItemModal } from '../models';
+import { Item, List, ServiceItem } from '../models';
 import { LocalstorageService } from '../services/localstorage.service';
 
 @Injectable({
@@ -22,7 +21,7 @@ export class ListService {
     private localstorage: LocalstorageService,
   ) {}
 
-  private getUniqueId(): string {
+  private generateUniqueId(): string | number {
     return Math.random().toString(26).slice(2);
   }
 
@@ -35,37 +34,35 @@ export class ListService {
   }
 
   public insert(list: List): Observable<List> {
-    let storage = this.localstorage.load(this.storageId);
-    const newList = {
-      ...list,
-      id: this.getUniqueId(),
-    };
-    this.localstorage.save(this.storageId, [ ...storage, newList]);
-    return of(newList);
+    const storage = this.localstorage.load(this.storageId);
+    list.id = list.id || this.generateUniqueId();
+    this.localstorage.save(this.storageId, [ ...storage, list ]);
+
+    return of(list);
   }
 
-  public insertItem(listId: string, item: Item): Observable<EditItemModal> {
-    let storage = this.localstorage.load(this.storageId);
-    if (!item.id) {
-      item = {
-        ...item,
-        id: this.getUniqueId()
-      };
-    }
-    this.localstorage.save(this.storageId, storage.map((list: List) => {
+  public insertItem(listId: string | number, item: Item, index?: number): Observable<ServiceItem> {
+    const storage = this.localstorage.load(this.storageId);
+    item.id = item.id || this.generateUniqueId();
+
+    const newStorage = storage.map((list: List) => {
       return list.id === listId ?
       {
         ...list,
-        items: [ ...list.items, item ]
+        items: [ ...list.items.slice(0, index),
+                 item,
+                 ...list.items.slice(index)
+               ]
       } : list;
-    }));
+    });
+    this.localstorage.save(this.storageId, newStorage);
 
-    return of({ listId, item: item });
+    return of({ listId, item, insertionIndex: index });
 
   }
 
   public update(list: List): Observable<List> {
-    let storage = this.localstorage.load(this.storageId);
+    const storage = this.localstorage.load(this.storageId);
     this.localstorage.save(this.storageId,
       storage.map((el: List) => {
       if (el.id === list.id) {
@@ -80,53 +77,29 @@ export class ListService {
     return of(list);
   }
 
-  public remove(id: string): Observable<string> {
-    let storage = this.localstorage.load(this.storageId);
-    if (storage.some((el) => el.id === id)) {
-      this.localstorage.save(this.storageId, storage.filter((el) => el.id !== id));
-      return of(id);
-    }
-    throw Error(` ${ id } was not found. Nothing to be removed.`);
+  public remove(id: string | number): Observable<{ id: string | number; }> {
+    const storage = this.localstorage.load(this.storageId);
+    this.localstorage.save(this.storageId, storage.filter((list) => {
+      return list.id !== id;
+    }));
+  
+    return of({ id });
   }
 
-  public removeItem(listId: string, itemId: string): Observable<boolean> {
-    let storage = this.localstorage.load(this.storageId);
-    if (storage.some((el) => el.id === listId)) {
-      let newStorage = storage.map((el) => {
-        if (el.id === listId) {
-          return { ...el, items: el.items.filter((item) => item.id !== itemId) };
-        }
-      });
-      this.localstorage.save(this.storageId, newStorage);
-      return of(true);
-    }
-    return of(false);
+  public removeItem(listId: string | number, item: Item): Observable<ServiceItem> {
+    const storage = this.localstorage.load(this.storageId);
+    const newStorage = storage.map((list) => {
+      if (list.id === listId) {
+        return { 
+          ...list,
+          items: list.items.filter((currentItem) => currentItem.id !== item.id)
+        };
+      } else {
+        return list;
+      }
+    });
+    this.localstorage.save(this.storageId, newStorage);
+
+    return of({ listId, item });
   }
-
-  /* old scheme */
-
-  // public createList(title: string): void {
-  //   this.store.dispatch(new ListActions.Add(title));
-  // }
-
-  // public updateList(list: List): void {
-  //   this.store.dispatch(new ListActions.Update(list));
-  // }
-
-  // public removeList(id: string): void {
-  //   this.store.dispatch(new ListActions.Remove(id));
-  // }
-
-  // public addItem(listId: string, item: Item): void {
-  //   this.store.dispatch(new ListActions.AddItem(listId, item));
-  // }
-
-  // public updateItem(listId: string, item: Item): void {
-  //   this.store.dispatch(new ListActions.UpdateItem(listId, item));
-  // }
-
-  // public removeItem(listId: string, id: string): void {
-  //   this.store.dispatch(new ListActions.RemoveItem(listId, id));
-  // }
-
 }

@@ -1,24 +1,28 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+
+import { Store, select } from '@ngrx/store';
+import * as ListActions from '../../store/list/actions';
 
 import { ListService } from '../../services/list.service';
 
-import { Item, List, EditItemModal } from '../../models';
+import { Item, List, ServiceItem } from '../../models';
 
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
-  styleUrls: ['./item.component.css']
+  styleUrls: ['./item.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemComponent {
 
   @Input() item: Item;
   @Input() listId: string;
-  @Output() _dragStart = new EventEmitter();
+  @Output() updateItem: EventEmitter<Item> = new EventEmitter();
 
   public updateDescriptionDialog: boolean = false;
   public updateTitleDialog: boolean = false;
 
-  constructor() {}
+  constructor(private store: Store<List[]>) {}
 
   public toggleUpdateDescriptionDialog(): void {
     this.updateDescriptionDialog = !this.updateDescriptionDialog;
@@ -28,49 +32,28 @@ export class ItemComponent {
     this.updateTitleDialog = !this.updateTitleDialog;
   }
 
-  // public updateTitle(title?: string): void {
-  //   if (title) {
-  //     const newItem: Item = { ...this.item, title };
-  //     this.updateItem(newItem);
-  //     this.toggleUpdateTitleDialog();
-  //   }
-  // }
-
-  // public updateDescription(description?: string): void {
-  //   if (description) {
-  //     const newItem: Item = { ...this.item, description };
-  //     this.updateItem(newItem);
-  //     this.toggleUpdateDescriptionDialog();
-  //   }
-  // }
-
-  // public updateItem(item: Item): void {
-  //   this.item = item;
-  //   // this.listService.updateItem(this.listId, item);
-  // }
-
-  // public removeItem(id: string): void {
-  //   // this.listService.removeItem(this.listId, id);
-  // }
-
-  dragstart(evt): void {
-    console.log("[DRAG START]" + this.item, this.listId);
-    evt.dataTransfer.effectAllowed = 'move';
-    evt.dataTransfer.setData('data', JSON.stringify({ listId: this.listId, item: this.item }));
-    this._dragStart.emit(evt);
+  public updateTitle(title?: string): void {
+    if (title) {
+      const newItem: Item = { ...this.item, title };
+      this.updateItem.emit(newItem);
+      this.toggleUpdateTitleDialog();
+    }
   }
 
-  // dragleave(evt): void {
-  //   console.log("[DRAG LEAVE]" + this.item, this.listId);
-  //   this._dragLeave.emit({ listId: this.listId, item: this.item });
-  // }
+  public updateDescription(description?: string): void {
+    if (description) {
+      const newItem: Item = { ...this.item, description };
+      this.updateItem.emit(newItem);
+      this.toggleUpdateDescriptionDialog();
+    }
+  }
 
-  // dragover(evt): void {
-  //   console.log("[DRAG OVER]" + evt);
-  // }
+  public removeItem(): void {
+    this.store.dispatch(new ListActions.RemoveItem({ listId: this.listId, item: this.item }));
+  }
 
-  // dragexit(evt): void {
-  //   console.log("[DRAG EXIT]" + evt);
-  // }
-
+  onDragStart(evt: DragEvent): void {
+    evt.dataTransfer.effectAllowed = 'move';
+    evt.dataTransfer.setData('data', JSON.stringify({ listId: this.listId, item: this.item }));
+  }
 }

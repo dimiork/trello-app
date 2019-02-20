@@ -49,35 +49,15 @@
     </div>
   </div>
 
-<!--   <div #scrollMe class="list-cards">
-    <ng-template #itemTemplate let-item="item.value">
-      <app-item [item]="item" [listId]="list.id"
-      (_drop)='onDrop($event)'
-      (_dragStart)='onDragStart($event)'
-      (_dragLeave)='onDragLeave($event)'
-      ></app-item>
-    </ng-template>
-    <bs-sortable
-      [(ngModel)]="list.items"
-      [itemTemplate]="itemTemplate"
-      itemClass="sortable-item"
-      itemActiveClass="sortable-item-active"
-      placeholderItem="drag here"
-      placeholderClass="placeholderStyle"
-      wrapperClass="sortable-wrapper"
-    ></bs-sortable>
-
-  </div> -->
-  <!-- <div *ngFor="let item of list.items"> -->
   <div class="list-cards"
        (drop)=onDrop($event)
-       (dragover)=onDragover($event)
+       (dragover)="canDrop($event)"
   >
-    <app-item *ngFor="let item of list.items"
+    <app-item *ngFor="let item of list.items; trackBy: trackByFn; let i = index;"
       [item]="item"
       [listId]="list.id"
-      draggable="true"
-      (_dragStart)='onDragStart($event)'
+      (updateItem)="onUpdateItem($event)"
+      (drop)="getDropIndex($event, i)"
     ></app-item>
   </div>
   <div class="footer">
@@ -87,7 +67,7 @@
           <div class="list-card-labels"></div>
           <textarea
             #newItemTitle
-            (keyup.enter)="addItem(newItemTitle.value)"
+            (keyup.enter)="addItem(newItemTitle.value); toggleAddItemDialog()"
             class="list-card-composer-textarea"
             placeholder="Enter item title"
             style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 54px;"
@@ -101,7 +81,7 @@
             class="btn-primary mod-list-add-button"
             type="submit"
             value="Add item"
-            (click)="addItem(newItemTitle.value)">
+            (click)="addItem(newItemTitle.value); toggleAddItemDialog()">
           <button
             class="close"
             (click)="toggleAddItemDialog()"
