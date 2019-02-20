@@ -1,4 +1,4 @@
-import { ActionTypes, ActionsUnion } from './actions';
+import { ActionTypes, ActionsUnion } from '../actions/list';
 
 import { List, Item, ServiceItem } from '../../models';
 

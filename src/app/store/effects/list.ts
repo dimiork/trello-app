@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, catchError } from 'rxjs/operators';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, EMPTY, of } from 'rxjs';
-import { tap, map, mergeMap, switchMap, catchError } from 'rxjs/operators';
 
-import { ListService } from '../../services/list.service';
-import * as actions from './actions';
-
+import * as actions from '../actions/list';
 import { List, ServiceItem } from '../../models';
+import { ListService } from '../../services/list.service';
 
 @Injectable()
 export class ListEffects {

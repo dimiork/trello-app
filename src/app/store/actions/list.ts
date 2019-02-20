@@ -111,13 +111,3 @@ export type ActionsUnion
   | RemoveItem
   | RemoveItemSuccess
   | ErrorHandle;
-  // | LoadFail
-  // | Add
-  // | AddSuccess
-  // | AddFail
-  // | Update
-  // | Remove
-  // | Clear
-  // | AddItem
-  // | UpdateItem
-  // | RemoveItem;

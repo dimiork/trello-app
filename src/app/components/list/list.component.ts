@@ -83,5 +83,5 @@ export class ListComponent {
 
   trackByFn(index: number, item: Item): string | number {
     return item.id;
-  } 
+  }
 }

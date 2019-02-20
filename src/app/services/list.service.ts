@@ -34,7 +34,7 @@ export class ListService {
   }
 
   public insert(list: List): Observable<List> {
-    const storage = this.localstorage.load(this.storageId);
+    const storage: List[] = this.localstorage.load(this.storageId);
     list.id = list.id || this.generateUniqueId();
     this.localstorage.save(this.storageId, [ ...storage, list ]);
 
@@ -42,10 +42,10 @@ export class ListService {
   }
 
   public insertItem(listId: string | number, item: Item, index?: number): Observable<ServiceItem> {
-    const storage = this.localstorage.load(this.storageId);
+    const storage: List[] = this.localstorage.load(this.storageId);
     item.id = item.id || this.generateUniqueId();
 
-    const newStorage = storage.map((list: List) => {
+    const newStorage: List[] = storage.map((list: List) => {
       return list.id === listId ?
       {
         ...list,
@@ -62,37 +62,40 @@ export class ListService {
   }
 
   public update(list: List): Observable<List> {
-    const storage = this.localstorage.load(this.storageId);
+    const storage: List[] = this.localstorage.load(this.storageId);
     this.localstorage.save(this.storageId,
       storage.map((el: List) => {
       if (el.id === list.id) {
+
         return {
           ...el,
           title: list.title,
           items: [ ...list.items ]
-        }
+        };
       }
+
       return el;
     }));
+
     return of(list);
   }
 
   public remove(id: string | number): Observable<{ id: string | number; }> {
-    const storage = this.localstorage.load(this.storageId);
-    this.localstorage.save(this.storageId, storage.filter((list) => {
+    const storage: List[] = this.localstorage.load(this.storageId);
+    this.localstorage.save(this.storageId, storage.filter((list: List) => {
       return list.id !== id;
     }));
-  
+
     return of({ id });
   }
 
   public removeItem(listId: string | number, item: Item): Observable<ServiceItem> {
-    const storage = this.localstorage.load(this.storageId);
-    const newStorage = storage.map((list) => {
+    const storage: List[] = this.localstorage.load(this.storageId);
+    const newStorage: List[] = storage.map((list: List) => {
       if (list.id === listId) {
-        return { 
+        return {
           ...list,
-          items: list.items.filter((currentItem) => currentItem.id !== item.id)
+          items: list.items.filter((currentItem: Item) => currentItem.id !== item.id)
         };
       } else {
         return list;
