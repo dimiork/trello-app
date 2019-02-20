@@ -19,7 +19,8 @@ export enum ActionTypes {
   AddItem = '[LIST] ADD_ITEM',
   AddItemSuccess = '[LIST] ADD_ITEM_SUCCESS',
   // UpdateItem = '[LIST] UPDATE_ITEM',
-  RemoveItem = '[LIST] REMOVE_ITEM'
+  RemoveItem = '[LIST] REMOVE_ITEM',
+  RemoveItemSuccess = '[LIST] REMOVE_ITEM_SUCCESS'
 }
 
 export class Load implements Action {
@@ -125,6 +126,12 @@ export class RemoveItem implements Action {
   constructor(public payload: EditItemModal) {}
 }
 
+export class RemoveItemSuccess implements Action {
+  readonly type = ActionTypes.RemoveItemSuccess;
+
+  constructor(public payload: EditItemModal) {}
+}
+
 export type ActionsUnion
   = Load
   | LoadSuccess
@@ -137,7 +144,8 @@ export type ActionsUnion
   | RemoveSuccess
   | AddItem
   | AddItemSuccess
-  | RemoveItem;
+  | RemoveItem
+  | RemoveItemSuccess;
   // | LoadFail
   // | Add
   // | AddSuccess

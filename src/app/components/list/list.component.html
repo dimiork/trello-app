@@ -69,13 +69,15 @@
 
   </div> -->
   <!-- <div *ngFor="let item of list.items"> -->
-  <div>
+  <div class="list-cards"
+       (drop)=onDrop($event)
+       (dragover)=onDragover($event)
+  >
     <app-item *ngFor="let item of list.items"
       [item]="item"
+      [listId]="list.id"
       draggable="true"
-      (_drop)='onDrop($event)'
       (_dragStart)='onDragStart($event)'
-      (_dragLeave)='onDragLeave($event)'
     ></app-item>
   </div>
   <div class="footer">

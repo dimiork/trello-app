@@ -14,8 +14,6 @@ export class ItemComponent {
   @Input() item: Item;
   @Input() listId: string;
   @Output() _dragStart = new EventEmitter();
-  @Output() _dragLeave = new EventEmitter();
-  @Output() _drop = new EventEmitter();
 
   public updateDescriptionDialog: boolean = false;
   public updateTitleDialog: boolean = false;
@@ -62,10 +60,10 @@ export class ItemComponent {
     this._dragStart.emit(evt);
   }
 
-  dragleave(evt): void {
-    console.log("[DRAG LEAVE]" + this.item, this.listId);
-    this._dragLeave.emit({ listId: this.listId, item: this.item });
-  }
+  // dragleave(evt): void {
+  //   console.log("[DRAG LEAVE]" + this.item, this.listId);
+  //   this._dragLeave.emit({ listId: this.listId, item: this.item });
+  // }
 
   // dragover(evt): void {
   //   console.log("[DRAG OVER]" + evt);
@@ -75,10 +73,4 @@ export class ItemComponent {
   //   console.log("[DRAG EXIT]" + evt);
   // }
 
-  drop(evt): void {
-    const data = JSON.parse(evt.dataTransfer.getData('data'));
-    console.log("[DROP]" + evt.dataTransfer.getData('data'));
-
-    this._drop.emit({ listId: this.listId, item: this.item });
-  }
 }

@@ -70,6 +70,19 @@ export class ListEffects {
     // catchError(error => of(new actions.Fail(error)))
   );
 
+  @Effect()
+  addItem$: Observable<Action> = this.actions$.pipe(
+    ofType(actions.ActionTypes.AddItem),
+    map((action: actions.AddItem) => action.payload),
+    switchMap(({ listId, item}) =>
+      this.listService.insertItem(listId, item).pipe(
+        tap(item => console.log(item)),
+        map(item => new actions.AddItemSuccess(item))
+      )
+    ),
+    catchError(error => of(new actions.AddFail(error)))
+  );
+
   // @Effect()
   // updateList$ = this.actions$.pipe(
   //   ofType(actions.ActionTypes.AddItem),

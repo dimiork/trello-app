@@ -16,6 +16,7 @@ export class ListComponent {
 
   @Input() list: List;
   addItemDialog: boolean = false;
+  isDropItemAreaActive: boolean = false;
 
   constructor(private store: Store<List[]>) {}
 
@@ -44,31 +45,30 @@ export class ListComponent {
   }
 
   addItem(title: string, description?: string): void {
-    this.items.push({ title, description });
-    this.updateList();
+    this.store.dispatch(new ListActions.AddItem({ listId: this.id, item: { title, description } }));
   }
 
-  onDragStart(evt, data): void {
+  onDragStart(evt): void {
     // evt.preventDefault();
-    // this.updateList();
     console.log("onDragStart", evt);
+    const data = JSON.parse(evt.dataTransfer.getData('data'));
+    console.log(data);
     // evt.dataTransfer.effectAllowed = 'move';
-    // evt.dataDtransfer.setData('text', JSON.stringify(data));
-    // this.store.dispatch(new DndActions.DragStart(evt));
   }
 
-  onDragLeave(evt): void {
-    // evt.preventDefault();
-    // this.updateList();
-    console.log("onDragLeave", evt);
-    
+  onDragover(evt): void {
+    evt.preventDefault();
+    console.log('[ DRAG OVER]', evt);
   }
 
   onDrop(evt): void {
+    evt.preventDefault();
+    const data = JSON.parse(evt.dataTransfer.getData("data"));
     console.log("onDrop", evt);
-    const { listId, item } = evt;
-    this.store.dispatch(new ListActions.RemoveItem({ listId: listId, item: item }));
-    // this.store.dispatch(new ListActions.AddItemSuccess({ listId: this.listId, item: item }));
+    console.log(data);
+    // const { listId, item } = evt;
+    this.store.dispatch(new ListActions.RemoveItemSuccess({ listId: data.listId, item: data.item }));
+    this.addItem(data.item.title, data.item.description);
+    // this.store.dispatch(new ListActions.AddItemSuccess({ listId: this.id, item: data.item }));
   }
-
 }

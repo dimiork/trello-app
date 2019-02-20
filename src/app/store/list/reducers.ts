@@ -62,6 +62,13 @@ export function reducer(state = initialState, action: ActionsUnion): List[] {
     case ActionTypes.RemoveItem:
       return state;
 
+    case ActionTypes.RemoveItemSuccess:
+      return state.map((list: List) => list.id === action.payload.listId ?
+        {
+          ...list,
+          items: list.items.filter((item: Item) => item.id !== action.payload.item.id)
+        } : list);
+
     // case ActionTypes.UPDATE_ITEM:
     //   return state.map((list: List) => list.id === action.listId ?
     //     {

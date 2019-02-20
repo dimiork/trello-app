@@ -6,7 +6,7 @@ import { tap } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import * as ListActions from '../store/list/actions';
 
-import { Item, List } from '../models';
+import { Item, List, EditItemModal } from '../models';
 import { LocalstorageService } from '../services/localstorage.service';
 
 @Injectable({
@@ -22,6 +22,10 @@ export class ListService {
     private localstorage: LocalstorageService,
   ) {}
 
+  private getUniqueId(): string {
+    return Math.random().toString(26).slice(2);
+  }
+
   public loadLists(): Observable<List[]> {
     return of(this.localstorage.load(this.storageId));
   }
@@ -34,10 +38,30 @@ export class ListService {
     let storage = this.localstorage.load(this.storageId);
     const newList = {
       ...list,
-      id: Math.random().toString(26).slice(2),
-    }
+      id: this.getUniqueId(),
+    };
     this.localstorage.save(this.storageId, [ ...storage, newList]);
     return of(newList);
+  }
+
+  public insertItem(listId: string, item: Item): Observable<EditItemModal> {
+    let storage = this.localstorage.load(this.storageId);
+    if (!item.id) {
+      item = {
+        ...item,
+        id: this.getUniqueId()
+      };
+    }
+    this.localstorage.save(this.storageId, storage.map((list: List) => {
+      return list.id === listId ?
+      {
+        ...list,
+        items: [ ...list.items, item ]
+      } : list;
+    }));
+
+    return of({ listId, item: item });
+
   }
 
   public update(list: List): Observable<List> {
