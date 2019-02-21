@@ -91,7 +91,7 @@
       }
     ],
     "unified-signatures": true,
-    "variable-name": [true, "check-format", "ban-keywords", "allow-snake-case"],
+    "variable-name": [true, "check-format", "ban-keywords", "allow-snake-case", "allow-leading-underscore"],
     "whitespace": [
       true,
       "check-branch",

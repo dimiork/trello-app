@@ -1,36 +1,41 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { take, map, tap } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
 
+import * as ListActions from '../../store/actions/list';
+import { Item, List } from '../../models';
 import { ListService } from '../../services/list.service';
-
-import { List } from '../../models';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent {
+export class BoardComponent implements OnInit {
 
-  public lists$: Observable<List[]>;
-  public addListDialog: boolean = false;
+  lists$: Observable<List[]> = this.store.pipe(select('lists'));
+  addListDialog: boolean = false;
 
   constructor(
+    private store: Store<List[]>,
     private listService: ListService,
-  ) {
-    this.lists$ = this.listService.getLists();
+  ) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(new ListActions.Load());
   }
 
-  public toggleAddListDialog(): void {
+  toggleAddListDialog(): void {
     this.addListDialog = !this.addListDialog;
   }
 
-  public addList(title: string): void {
-    if (title) {
-      this.listService.createList(title);
-      this.toggleAddListDialog();
-    }
+  addList(title: string): void {
+    this.store.dispatch(new ListActions.Add({ title }));
+    this.toggleAddListDialog();
+  }
+
+  _trackByFn(index: number, item: Item): string | number {
+    return item.id;
   }
 }

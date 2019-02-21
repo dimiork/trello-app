@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
-import { rootReducer } from './store/app.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { ListEffects } from './store/effects/list';
+import * as fromRoot from './store/index';
 
-import { SortableModule } from 'ngx-bootstrap/sortable';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { AppComponent } from './app.component';
 import { BoardComponent } from './components/board/board.component';
@@ -24,13 +26,13 @@ import { ItemComponent } from './components/item/item.component';
   imports: [
     BrowserModule,
     FormsModule,
-    StoreModule.forRoot(rootReducer),
-    SortableModule.forRoot(),
-    BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
-  ],
-  entryComponents: [
-    ItemComponent,
+    BsDropdownModule.forRoot(),
+    StoreModule.forRoot(fromRoot.reducers),
+    EffectsModule.forRoot([ListEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 10
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

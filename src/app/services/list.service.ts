@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 import { Store, select } from '@ngrx/store';
-import * as ListActions from '../store/list/actions';
+import * as ListActions from '../store/actions/list';
 
-import { Item, List } from '../models';
+import { Item, List, ServiceItem } from '../models';
 import { LocalstorageService } from '../services/localstorage.service';
 
 @Injectable({
@@ -14,51 +13,98 @@ import { LocalstorageService } from '../services/localstorage.service';
 })
 export class ListService {
 
+  private storageId: string = 'trello-lists';
   private lists$: Observable<List[]>;
 
   constructor(
     private store: Store<List[]>,
     private localstorage: LocalstorageService,
-  ) {
+  ) {}
 
-    const lists: List[] = this.localstorage.load();
-    this.store.dispatch(new ListActions.Load(lists));
-
-    this.lists$ = this.store.pipe(
-      select('lists'),
-      tap((listCollection: List[]) => {
-        this.localstorage.save(listCollection);
-      })
-    );
+  private generateUniqueId(): string | number {
+    return Math.random().toString(26).slice(2);
   }
 
-  public getLists(): Observable<List[]> {
-
-    return this.lists$;
+  private load(): List[] {
+    return this.localstorage.load(this.storageId);
   }
 
-  public createList(title: string): void {
-    this.store.dispatch(new ListActions.Add(title));
+  private save(lists: List[]): void {
+    this.localstorage.save(this.storageId, lists);
   }
 
-  public updateList(list: List): void {
-    this.store.dispatch(new ListActions.Update(list));
+  fetch(): Observable<List[]> {
+    return of(this.localstorage.load(this.storageId));
   }
 
-  public removeList(id: string): void {
-    this.store.dispatch(new ListActions.Remove(id));
+  insert(list: List): Observable<List> {
+    const storage: List[] = this.load();
+    list.id = list.id || this.generateUniqueId();
+    this.save([ ...storage, list ]);
+
+    return of(list);
   }
 
-  public addItem(listId: string, item: Item): void {
-    this.store.dispatch(new ListActions.AddItem(listId, item));
+  update(list: List): Observable<List> {
+    const storage: List[] = this.load();
+    this.save(storage.map((el: List) => {
+      if (el.id === list.id) {
+        return {
+          ...el,
+          title: list.title,
+          items: [ ...list.items ]
+        };
+      }
+
+      return el;
+    }));
+
+    return of(list);
   }
 
-  public updateItem(listId: string, item: Item): void {
-    this.store.dispatch(new ListActions.UpdateItem(listId, item));
+  remove(id: string | number): Observable<{ id: string | number; }> {
+    const storage: List[] = this.load();
+    const newStorage: List[] = storage.filter((list: List) =>
+      list.id !== id);
+    this.save(newStorage);
+
+    return of({ id });
   }
 
-  public removeItem(listId: string, id: string): void {
-    this.store.dispatch(new ListActions.RemoveItem(listId, id));
+  insertItem(listId: string | number, item: Item, index?: number): Observable<ServiceItem> {
+    const storage: List[] = this.load();
+    item.id = item.id || this.generateUniqueId();
+
+    const newStorage: List[] = storage.map((list: List) => {
+      return list.id === listId ?
+      {
+        ...list,
+        items: [ ...list.items.slice(0, index),
+                 item,
+                 ...list.items.slice(index)
+               ]
+      } : list;
+    });
+    this.save(newStorage);
+
+    return of({ listId, item, insertionIndex: index });
+
   }
 
+  removeItem(listId: string | number, item: Item): Observable<ServiceItem> {
+    const storage: List[] = this.load();
+    const newStorage: List[] = storage.map((list: List) => {
+      if (list.id === listId) {
+        return {
+          ...list,
+          items: list.items.filter((currentItem: Item) => currentItem.id !== item.id)
+        };
+      } else {
+        return list;
+      }
+    });
+    this.save(newStorage);
+
+    return of({ listId, item });
+  }
 }

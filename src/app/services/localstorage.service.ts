@@ -7,21 +7,17 @@ import { List } from '../models/list';
 })
 export class LocalstorageService {
 
-  public name: string = 'trello-lists';
-
-  // constructor() { }
-
-  load(): List[] {
-    return JSON.parse(window.localStorage.getItem(this.name)) || [];
+  load(id: string): List[] {
+    return JSON.parse(window.localStorage.getItem(id)) || [];
   }
 
-  save(data: List[]): void {
-    if (!!data) {
-      window.localStorage.setItem(this.name, JSON.stringify(data));
+  save(id: string, data: List[]): void {
+    if (data) {
+      window.localStorage.setItem(id, JSON.stringify(data));
     }
   }
 
-  clear(): void {
-    window.localStorage.removeItem(this.name);
+  clear(id: string): void {
+    window.localStorage.removeItem(id);
   }
 }

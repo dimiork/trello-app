@@ -1,60 +1,60 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+
+import { Store, select } from '@ngrx/store';
+import * as ListActions from '../../store/actions/list';
 
 import { ListService } from '../../services/list.service';
 
-import { BsModalRef } from 'ngx-bootstrap/modal';
-
-import { Item, List } from '../../models';
+import { Item, List, ServiceItem } from '../../models';
 
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
-  styleUrls: ['./item.component.css']
+  styleUrls: ['./item.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemComponent {
 
-  // public closeBtnName: string;
-  public listId: string;
-  public item: Item;
-  public updateDescriptionDialog: boolean = false;
-  public updateTitleDialog: boolean = false;
+  @Input() item: Item;
 
-  constructor(
-    private listService: ListService,
-    public bsModalRef: BsModalRef
-  ) {}
+  @Output() update: EventEmitter<Item> = new EventEmitter();
+  @Output() remove: EventEmitter<Item> = new EventEmitter();
+  @Output() move: EventEmitter<{ evt: DragEvent, item: Item }> = new EventEmitter();
 
-  public toggleUpdateDescriptionDialog(): void {
+  updateDescriptionDialog: boolean = false;
+  updateTitleDialog: boolean = false;
+
+  constructor(private store: Store<List[]>) {}
+
+  toggleUpdateDescriptionDialog(): void {
     this.updateDescriptionDialog = !this.updateDescriptionDialog;
   }
 
-  public toggleUpdateTitleDialog(): void {
+  toggleUpdateTitleDialog(): void {
     this.updateTitleDialog = !this.updateTitleDialog;
   }
 
-  public updateTitle(title: string): void {
+  updateTitle(title?: string): void {
     if (title) {
       const newItem: Item = { ...this.item, title };
-      this.updateItem(newItem);
+      this.update.emit(newItem);
       this.toggleUpdateTitleDialog();
     }
   }
 
-  public updateDescription(description: string): void {
+  updateDescription(description?: string): void {
     if (description) {
       const newItem: Item = { ...this.item, description };
-      this.updateItem(newItem);
+      this.update.emit(newItem);
       this.toggleUpdateDescriptionDialog();
     }
   }
 
-  public updateItem(item: Item): void {
-    this.item = item;
-    this.listService.updateItem(this.listId, item);
+  removeItem(): void {
+    this.remove.emit(this.item);
   }
 
-  public removeItem(id: string): void {
-    this.listService.removeItem(this.listId, id);
-    this.bsModalRef.hide();
+  onMove(evt: DragEvent): void {
+    this.move.emit({ evt, item: this.item });
   }
 }
