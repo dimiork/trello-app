@@ -10,47 +10,56 @@ export function reducer(
 
   switch (action.type) {
 
+    case ActionTypes.Load:
+      return state;
+
     case ActionTypes.LoadSuccess:
-      return action.payload.lists;
+      return action.payload;
 
     case ActionTypes.AddSuccess:
-      return [ ...state, action.payload.list ];
+      return [ ...state, action.payload ];
+
+    case ActionTypes.Add:
+      return state;
 
     case ActionTypes.UpdateSuccess:
       return state.map((list: List) => {
-        if (list.id === action.payload.list.id) {
+        if (list.id === action.payload.id) {
 
           return {
             ...list,
-            title: action.payload.list.title,
-            items: [...action.payload.list.items]
+            title: action.payload.title,
+            // items: [...action.payload]
           };
         }
 
         return list;
       });
 
+    case ActionTypes.Remove:
+      return state;
+
     case ActionTypes.RemoveSuccess:
-      return state.filter((list: List) => list.id !== action.payload.id);
+      return state.filter((list: List) => list.id !== action.payload);
 
-    case ActionTypes.AddItemSuccess:
-    const index: number = action.payload.insertionIndex;
+    // case ActionTypes.AddItemSuccess:
+    // const index: number = action.payload.insertionIndex;
 
-      return state.map((list: List) => list.id === action.payload.listId ?
-        {
-          ...list,
-          items: [ ...list.items.slice(0, index),
-                      action.payload.item,
-                   ...list.items.slice(index)
-                 ]
-        } : list);
+    //   return state.map((list: List) => list.id === action.payload ?
+    //     {
+    //       ...list,
+    //       items: [ ...list.items.slice(0, index),
+    //                   action.payload,
+    //                ...list.items.slice(index)
+    //              ]
+    //     } : list);
 
-    case ActionTypes.RemoveItemSuccess:
-      return state.map((list: List) => list.id === action.payload.listId ?
-        {
-          ...list,
-          items: list.items.filter((item: Item) => item.id !== action.payload.item.id)
-        } : list);
+    // case ActionTypes.RemoveItemSuccess:
+    //   return state.map((list: List) => list.id === action.payload ?
+    //     {
+    //       ...list,
+    //       items: list.items.filter((item: Item) => item.id !== action.payload)
+    //     } : list);
 
     default:
       return state;

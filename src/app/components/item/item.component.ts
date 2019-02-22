@@ -17,8 +17,9 @@ export class ItemComponent {
 
   @Input() item: Item;
 
-  @Output() update: EventEmitter<Item> = new EventEmitter();
-  @Output() remove: EventEmitter<Item> = new EventEmitter();
+  @Output() updateTitleEvent: EventEmitter<string> = new EventEmitter();
+  @Output() updateDescrEvent: EventEmitter<string> = new EventEmitter();
+
   @Output() move: EventEmitter<{ evt: DragEvent, item: Item }> = new EventEmitter();
 
   updateDescriptionDialog: boolean = false;
@@ -35,23 +36,25 @@ export class ItemComponent {
   }
 
   updateTitle(title?: string): void {
-    if (title) {
-      const newItem: Item = { ...this.item, title };
-      this.update.emit(newItem);
-      this.toggleUpdateTitleDialog();
-    }
+    // if (title) {
+    //   const newItem: Item = { ...this.item, title };
+    //   this.update.emit(newItem);
+    //   this.toggleUpdateTitleDialog();
+    // }
+    this.updateTitleEvent.emit(title);
   }
 
   updateDescription(description?: string): void {
-    if (description) {
-      const newItem: Item = { ...this.item, description };
-      this.update.emit(newItem);
-      this.toggleUpdateDescriptionDialog();
-    }
+    // if (description) {
+    //   const newItem: Item = { ...this.item, description };
+    //   this.update.emit(newItem);
+    //   this.toggleUpdateDescriptionDialog();
+    // }
+    this.updateDescrEvent.emit(description);
   }
 
   removeItem(): void {
-    this.remove.emit(this.item);
+    // this.remove.emit(this.item);
   }
 
   onMove(evt: DragEvent): void {

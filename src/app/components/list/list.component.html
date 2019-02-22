@@ -1,9 +1,9 @@
 <div class="list">
   <div class="list-header">
-    <input
+    <input #title
       class="list-header-name mod-list-name"
       [(ngModel)]="list.title"
-      (keyup.enter)="updateList();$event.target.blur();"
+      (keyup.enter)="updateTitle(title.value);$event.target.blur();"
       spellcheck="false"
       maxlength="512"
       style="overflow: hidden; overflow-wrap: break-word; height: 30px;"
@@ -13,14 +13,12 @@
       <div dropdown class="btn-group">
         <a
           dropdownToggle
-          id="basic-link"
           class="list-header-extras-menu"
           href="#"
           (click)="false"
         >···</a>
-        <ul
+        <ul 
           *dropdownMenu
-          id="dropdown-menu-dividers"
           class="dropdown-menu"
         >
           <li class="disabled">
@@ -41,7 +39,7 @@
             <a
               class="dropdown-item"
               href="#"
-              (click)="removeList($event)"
+              (click)="removeList()"
             >Remove list...</a>
           </li>
         </ul>
@@ -50,15 +48,15 @@
   </div>
 
   <div class="list-cards"
-       (drop)=onDrop($event)
+       (drop)="onDrop($event)"
        (dragover)="canDrop($event)"
   >
     <app-item *ngFor="let item of list.items; trackBy: trackByFn; let i = index;"
       [item]="item"
-      (update)="onUpdateItem($event)"
-      (remove)="onRemoveItem($event)"
       (move)="onMoveItem($event)"
       (drop)="getDropIndex($event, i)"
+      (update)="onUpdateItem($event)"
+      (removeItemEvent)="onRemoveItem($event)"
     ></app-item>
   </div>
   <div class="footer">

@@ -15,13 +15,15 @@ import { AppComponent } from './app.component';
 import { BoardComponent } from './components/board/board.component';
 import { ListComponent } from './components/list/list.component';
 import { ItemComponent } from './components/item/item.component';
+import { EditItemComponent } from './components/edit-item/edit-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BoardComponent,
     ListComponent,
-    ItemComponent
+    ItemComponent,
+    EditItemComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,11 +7,11 @@ import { List } from '../models/list';
 })
 export class LocalstorageService {
 
-  load(id: string): List[] {
+  _load(id: string): [] {
     return JSON.parse(window.localStorage.getItem(id)) || [];
   }
 
-  save(id: string, data: List[]): void {
+  _save(id: string, data: [] = []): void {
     if (data) {
       window.localStorage.setItem(id, JSON.stringify(data));
     }
@@ -20,4 +20,5 @@ export class LocalstorageService {
   clear(id: string): void {
     window.localStorage.removeItem(id);
   }
+
 }

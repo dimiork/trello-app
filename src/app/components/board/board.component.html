@@ -2,6 +2,9 @@
   <div class="list-wrapper" *ngFor="let list of lists$ | async; trackBy: _trackByFn;">
     <app-list
       [list] = "list"
+      (updateTitleEvent)="onUpdateListTitle($event)"
+      (remove)="onRemoveList($event)"
+      (addItemEvent)="onAddItem($event)"
     ></app-list>
   </div>
   <div class="list-wrapper" [class.is-idle]="!addListDialog">

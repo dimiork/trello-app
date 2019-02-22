@@ -15,6 +15,7 @@ import { ListService } from '../../services/list.service';
 export class BoardComponent implements OnInit {
 
   lists$: Observable<List[]> = this.store.pipe(select('lists'));
+
   addListDialog: boolean = false;
 
   constructor(
@@ -31,8 +32,16 @@ export class BoardComponent implements OnInit {
   }
 
   addList(title: string): void {
-    this.store.dispatch(new ListActions.Add({ title }));
+    this.store.dispatch(new ListActions.Add(title));
     this.toggleAddListDialog();
+  }
+
+  onUpdateListTitle(list: List): void {
+    this.store.dispatch(new ListActions.Update({ id: list.id, title: list.title }));
+  }
+
+  onRemoveList(id: string | number): void {
+    this.store.dispatch(new ListActions.Remove(id));
   }
 
   _trackByFn(index: number, item: Item): string | number {

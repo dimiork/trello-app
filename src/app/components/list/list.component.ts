@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import * as ListActions from '../../store/actions/list';
@@ -16,11 +16,19 @@ import { Item, List, ServiceItem } from '../../models';
 export class ListComponent {
 
   @Input() list: List;
-  addItemDialog: boolean = false;
-  updateTitleDialog: boolean = false;
-  _insertionIndex: number = -1;
 
-  constructor(private store: Store<List[]>) {}
+  @Output() updateTitleEvent: EventEmitter<List> = new EventEmitter();
+  @Output() removeEvent: EventEmitter<string | number> = new EventEmitter();
+
+  @Output() addItemEvent: EventEmitter<Item> = new EventEmitter();
+  // @Output() removeItemEvent: EventEmitter<string | number> = new EventEmitter();
+
+  // @Output() updateItemTitleEvent: EventEmitter<string> = new EventEmitter();
+  // @Output() updateItemDescriptionEvent: EventEmitter<string> = new EventEmitter();
+
+  private addItemDialog: boolean = false;
+  private updateTitleDialog: boolean = false;
+  private _insertionIndex: number = -1;
 
   get id(): string | number {
     return this.list.id;
@@ -30,55 +38,45 @@ export class ListComponent {
     return this.list.title;
   }
 
-  get items(): Item[] {
-    return this.list.items;
+  // get items(): Item[] {
+  //   return this.list.items;
+  // }
+
+  // get insertionIndex(): number {
+  //   return this._insertionIndex >= 0 ? this._insertionIndex : this.items.length;
+  // }
+
+  updateTitle(title: string): void {
+    this.updateTitleEvent.emit({ id: this.id, title });
   }
 
-  get insertionIndex(): number {
-    return this._insertionIndex >= 0 ? this._insertionIndex : this.items.length;
-  }
-
-  updateList(): void {
-    this.store.dispatch(new ListActions.Update({ list: this.list }));
-  }
-
-  removeList(): void {
-    this.store.dispatch(new ListActions.Remove({ id: this.id }));
-  }
-
-  toggleAddItemDialog(): void {
-    this.addItemDialog = !this.addItemDialog;
+  remove(): void {
+    this.removeEvent.emit(this.id);
   }
 
   addItem(title?: string, description?: string): void {
-    if (title) {
-      this.store.dispatch(new ListActions.AddItem({
-        listId: this.id,
-        item: { title, description },
-        insertionIndex: this.insertionIndex
-      }));
-    }
+    const item: Item = { title, description };
+    this.addItemEvent.emit(item);
   }
 
-  onUpdateItem(item: Item): void {
-    const list: List = {
-      ...this.list,
-      items: this.items.map((currentItem: Item) => currentItem.id === item.id ? item : currentItem )
-    };
-    this.store.dispatch(new ListActions.Update({ list }));
-  }
+  // onUpdateItemTitle(title: string): void {
+  //   this.updateItemTitleEvent.emit(title);
+  // }
+
+  // onUpdateItemDescr(description: string): void {
+  //   this.updateItemDescriptionEvent.emit(description);
+  // }
+
+  // onRemoveItem(id: string | number): void {
+  //   this.removeItemEvent.emit(id);
+  // }
 
   onMoveItem(data: { evt: DragEvent, item: Item}): void {
     data.evt.dataTransfer.setData('data', JSON.stringify({ listId: this.id, item: data.item }));
   }
 
-  onRemoveItem(item: Item): void {
-    const list: List = {
-      ...this.list,
-      items: this.items.filter((currentItem: Item) =>
-        currentItem.id !== item.id)
-    };
-    this.store.dispatch(new ListActions.Update({ list }));
+  toggleAddItemDialog(): void {
+    this.addItemDialog = !this.addItemDialog;
   }
 
   canDrop(evt: DragEvent): void {
@@ -93,7 +91,7 @@ export class ListComponent {
   onDrop(evt: DragEvent): void {
     evt.preventDefault();
     const data: ServiceItem = JSON.parse(evt.dataTransfer.getData('data'));
-    this.store.dispatch(new ListActions.RemoveItem({ listId: data.listId, item: data.item }));
+    // this.store.dispatch(new ListActions.RemoveItem({ listId: data.listId, item: data.item }));
     this.addItem(data.item.title, data.item.description);
   }
 
