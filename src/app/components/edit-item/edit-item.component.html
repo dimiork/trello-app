@@ -1,3 +1,84 @@
-<p>
-  edit-item works!
-</p>
+<div class="modal fade" bsModal #editItemModal="bs-modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="grid-container window">
+          <div class="item-header">
+            <div style="margin: 10px 40px;">
+              <h2
+                style="height:45px;padding:5px 12px"
+                (click)="toggleUpdateTitleDialog()"
+                *ngIf="!updateTitleDialog"
+              >
+                <!-- {{ item.title }} -->
+              </h2>
+              <input #itemTitle
+                style="overflow: hidden; overflow-wrap: break-word; height: 45px;font-size:2rem;width:100%"
+                (keyup.enter)="updateTitle(itemTitle.value)"
+                *ngIf="updateTitleDialog"
+                value="{{ item.title }}">
+            </div>
+          </div>
+          <div class="item-content">
+            <div class="item-module">
+              <div class="item-description">
+                <div class="window-module">
+                  <div class="window-module-title">
+                    <h4 class="u-inline-block">Description</h4>
+                  </div>
+                  <div class="u-gutter">
+                    <div class="editable" attr="desc">
+                      <div class="description-content">
+                        <p *ngIf="!updateDescriptionDialog">
+                          <a class="card-detail-fake-text-area"
+                            href="#"
+                            (click)="toggleUpdateDescriptionDialog()"
+                          >
+                            <!-- {{ item.description || "Add description…" }} -->
+                          </a>
+                        </p>
+                        <div class="card-detail-edit edit"
+                            *ngIf="updateDescriptionDialog"
+                        >
+                          <textarea #itemDescr
+                            class="field field-autosave card-back-description"
+                            placeholder="Add description…"
+                            style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 108px;"
+                          >
+                            <!-- {{ item.description }} -->
+                          </textarea>
+                          <div class="edit-controls">
+                            <input class="primary confirm mod-submit-edit"
+                              type="submit"
+                              value="Save"
+                              (click)="updateDescription(itemDescr.value)"
+                            >
+                            <a class="icon-lg icon-close dark-hover cancel"
+                              href="#"
+                              (click)="toggleUpdateDescriptionDialog()"
+                            >X</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item-menu">
+              <a
+                class="button-link"
+                href="#"
+                title="Remove"
+                (click)="removeItem()"
+              >
+                <span class="icon-sm icon-member"></span>
+                <span>Remove</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

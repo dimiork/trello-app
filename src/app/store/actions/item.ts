@@ -9,6 +9,7 @@ export enum ActionTypes {
   Update = '[ITEM] UPDATE',
   UpdateSuccess = '[ITEM] UPDATE_SUCCESS',
   Remove = '[ITEM] REMOVE',
+  RemoveAllByList = '[ITEM] REMOVE_ALL_BY_LIST',
   RemoveSuccess = '[ITEM] REMOVE_SUCCESS',
 }
 
@@ -24,7 +25,7 @@ export class LoadSuccess implements Action {
 
 export class Add implements Action {
   readonly type: ActionTypes.Add = ActionTypes.Add;
-  constructor(public payload: string) {}
+  constructor(public payload: Item) {}
 }
 
 export class AddSuccess implements Action {
@@ -47,6 +48,11 @@ export class Remove implements Action {
   constructor(public payload: string | number ) {}
 }
 
+export class RemoveAllByList implements Action {
+  readonly type: ActionTypes.RemoveAllByList = ActionTypes.RemoveAllByList;
+  constructor(public payload: string | number ) {}
+}
+
 export class RemoveSuccess implements Action {
   readonly type: ActionTypes.RemoveSuccess = ActionTypes.RemoveSuccess;
   constructor(public payload: string | number) {}
@@ -60,4 +66,5 @@ export type ActionsUnion
   | Update
   | UpdateSuccess
   | Remove
+  | RemoveAllByList
   | RemoveSuccess;

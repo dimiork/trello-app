@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Item, ServiceItem, List } from '../../models';
+import { Item, List } from '../../models';
 
 export enum ActionTypes {
   Load = '[LIST] LOAD',
@@ -61,4 +61,3 @@ export type ActionsUnion
   | UpdateSuccess
   | Remove
   | RemoveSuccess;
-

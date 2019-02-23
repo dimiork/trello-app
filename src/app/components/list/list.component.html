@@ -17,7 +17,7 @@
           href="#"
           (click)="false"
         >···</a>
-        <ul 
+        <ul
           *dropdownMenu
           class="dropdown-menu"
         >
@@ -39,7 +39,7 @@
             <a
               class="dropdown-item"
               href="#"
-              (click)="removeList()"
+              (click)="remove()"
             >Remove list...</a>
           </li>
         </ul>
@@ -51,7 +51,7 @@
        (drop)="onDrop($event)"
        (dragover)="canDrop($event)"
   >
-    <app-item *ngFor="let item of list.items; trackBy: trackByFn; let i = index;"
+    <app-item *ngFor="let item of items; trackBy: trackByFn; let i = index;"
       [item]="item"
       (move)="onMoveItem($event)"
       (drop)="getDropIndex($event, i)"
@@ -99,7 +99,3 @@
     </a>
   </div>
 </div>
-
-
-
-

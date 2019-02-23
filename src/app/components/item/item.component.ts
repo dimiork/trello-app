@@ -1,11 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
-import * as ListActions from '../../store/actions/list';
-
-import { ListService } from '../../services/list.service';
-
-import { Item, List, ServiceItem } from '../../models';
+import { Item, List } from '../../models';
 
 @Component({
   selector: 'app-item',
@@ -25,7 +20,13 @@ export class ItemComponent {
   updateDescriptionDialog: boolean = false;
   updateTitleDialog: boolean = false;
 
-  constructor(private store: Store<List[]>) {}
+  updateTitle(title?: string): void {
+    this.updateTitleEvent.emit(title);
+  }
+
+  updateDescription(description?: string): void {
+    this.updateDescrEvent.emit(description);
+  }
 
   toggleUpdateDescriptionDialog(): void {
     this.updateDescriptionDialog = !this.updateDescriptionDialog;
@@ -33,28 +34,6 @@ export class ItemComponent {
 
   toggleUpdateTitleDialog(): void {
     this.updateTitleDialog = !this.updateTitleDialog;
-  }
-
-  updateTitle(title?: string): void {
-    // if (title) {
-    //   const newItem: Item = { ...this.item, title };
-    //   this.update.emit(newItem);
-    //   this.toggleUpdateTitleDialog();
-    // }
-    this.updateTitleEvent.emit(title);
-  }
-
-  updateDescription(description?: string): void {
-    // if (description) {
-    //   const newItem: Item = { ...this.item, description };
-    //   this.update.emit(newItem);
-    //   this.toggleUpdateDescriptionDialog();
-    // }
-    this.updateDescrEvent.emit(description);
-  }
-
-  removeItem(): void {
-    // this.remove.emit(this.item);
   }
 
   onMove(evt: DragEvent): void {

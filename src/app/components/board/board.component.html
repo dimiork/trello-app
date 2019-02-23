@@ -1,9 +1,10 @@
 <div class="board">
-  <div class="list-wrapper" *ngFor="let list of lists$ | async; trackBy: _trackByFn;">
+  <div class="list-wrapper" *ngFor="let list of lists$ | async; trackBy: trackByFn;">
     <app-list
       [list] = "list"
+      [items]="items$ | async | getItemsForListId:list.id"
       (updateTitleEvent)="onUpdateListTitle($event)"
-      (remove)="onRemoveList($event)"
+      (removeEvent)="onRemoveList($event)"
       (addItemEvent)="onAddItem($event)"
     ></app-list>
   </div>

@@ -1,12 +1,12 @@
-import { ActionTypes, ActionsUnion } from '../actions/list';
+import { ActionTypes, ActionsUnion } from '../actions/item';
 import { List, Item } from '../../models';
 
-export const initialState: List[] = [];
+export const initialState: Item[] = [];
 
 export function reducer(
-  state: List[] = initialState,
+  state: Item[] = initialState,
   action: ActionsUnion
-): List[] {
+): Item[] {
 
   switch (action.type) {
 
@@ -26,42 +26,45 @@ export function reducer(
       return state;
 
     case ActionTypes.UpdateSuccess:
-      return state.map((list: List) => {
-        if (list.id === action.payload.id) {
+      return state.map((item: Item) => {
+        if (item.id === action.payload.id) {
 
           return {
-            ...list,
+            ...item,
             title: action.payload.title,
           };
         }
 
-        return list;
+        return item;
       });
 
     case ActionTypes.Remove:
       return state;
 
     case ActionTypes.RemoveSuccess:
-      return state.filter((list: List) => list.id !== action.payload);
+      return state.filter((item: Item) => item.id !== action.payload);
+
+    case ActionTypes.RemoveAllByList:
+      return state.filter((item: Item) => item.listId !== action.payload);
 
     // case ActionTypes.AddItemSuccess:
     // const index: number = action.payload.insertionIndex;
 
-    //   return state.map((list: List) => list.id === action.payload ?
+    //   return state.map((item: Item) => item.id === action.payload ?
     //     {
-    //       ...list,
-    //       items: [ ...list.items.slice(0, index),
+    //       ...item,
+    //       items: [ ...item.items.slice(0, index),
     //                   action.payload,
-    //                ...list.items.slice(index)
+    //                ...item.items.slice(index)
     //              ]
-    //     } : list);
+    //     } : item);
 
     // case ActionTypes.RemoveItemSuccess:
-    //   return state.map((list: List) => list.id === action.payload ?
+    //   return state.map((item: Item) => item.id === action.payload ?
     //     {
-    //       ...list,
-    //       items: list.items.filter((item: Item) => item.id !== action.payload)
-    //     } : list);
+    //       ...item,
+    //       items: item.items.filter((item: Item) => item.id !== action.payload)
+    //     } : item);
 
     default:
       return state;

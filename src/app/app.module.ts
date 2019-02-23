@@ -6,7 +6,8 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { ListEffects } from './store/effects/list';
-import * as fromRoot from './store/index';
+import { ItemEffects } from './store/effects/item';
+import * as fromRoot from './store';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -16,6 +17,7 @@ import { BoardComponent } from './components/board/board.component';
 import { ListComponent } from './components/list/list.component';
 import { ItemComponent } from './components/item/item.component';
 import { EditItemComponent } from './components/edit-item/edit-item.component';
+import { GetItemsForListIdPipe } from './pipes/get-items-for-list-id.pipe';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { EditItemComponent } from './components/edit-item/edit-item.component';
     ListComponent,
     ItemComponent,
     EditItemComponent,
+    GetItemsForListIdPipe,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,7 @@ import { EditItemComponent } from './components/edit-item/edit-item.component';
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
     StoreModule.forRoot(fromRoot.reducers),
-    EffectsModule.forRoot([ListEffects]),
+    EffectsModule.forRoot([ListEffects, ItemEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 10
     })
