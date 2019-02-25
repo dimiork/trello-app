@@ -47,59 +47,18 @@ export class ListEffects {
     )
   );
 
-  // @Effect()
-  // removeList$: Observable<Action> = this.actions$.pipe(
-  //   ofType(ListActions.ActionTypes.Remove),
-  //   map((action: ListActions.Remove) => action.payload),
-  //   switchMap((id: string | number) =>
-  //     this.dataService.remove(Entity.Lists, id).pipe(
-  //       map(() => new ListActions.RemoveSuccess(id)),
-  //       // catchError((error: Error) => of(new ListActions.ErrorHandle({ error })))
-  //     )
-  //   )
-  // );
-
   @Effect()
   removeList$: Observable<Action> = this.actions$.pipe(
     ofType(ListActions.ActionTypes.Remove),
     map((action: ListActions.Remove) => action.payload),
     switchMap((id: string | number) =>
       this.dataService.remove(Entity.List, id)
-
-      // .pipe(
-      //   map(() => new ListActions.RemoveSuccess(id)),
-      //   // catchError((error: Error) => of(new ListActions.ErrorHandle({ error })))
-      // )
     ),
     switchMap((id: string | number) => [
       new ListActions.RemoveSuccess(id),
       new ItemActions.RemoveAllByList(id)
     ])
   );
-
-  // @Effect()
-  // addItem$: Observable<Action> = this.actions$.pipe(
-  //   ofType(ListActions.ActionTypes.AddItem),
-  //   map((action: ListActions.AddItem) => action.payload),
-  //   switchMap(({ listId, item, insertionIndex }: ServiceItem) =>
-  //     this.dataService.insertItem(listId, item, insertionIndex).pipe(
-  //       map(() => new ListActions.AddItemSuccess({ listId, item, insertionIndex })),
-  //       catchError((error: Error) => of(new ListActions.ErrorHandle({ error })))
-  //     )
-  //   )
-  // );
-
-  // @Effect()
-  // removeItem$: Observable<Action> = this.actions$.pipe(
-  //   ofType(ListActions.ActionTypes.RemoveItem),
-  //   map((action: ListActions.RemoveItem) => action.payload),
-  //   switchMap(({ listId, item }: ServiceItem) =>
-  //     this.dataService.removeItem(listId, item).pipe(
-  //       map(() => new ListActions.RemoveItemSuccess({ listId, item })),
-  //       catchError((error: Error) => of(new ListActions.ErrorHandle({ error })))
-  //     )
-  //   )
-  // );
 
   constructor(
     private actions$: Actions,

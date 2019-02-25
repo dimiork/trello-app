@@ -21,44 +21,44 @@ export class DataService {
     return Math.random().toString(26).slice(2);
   }
 
-  private load(entity: Entity): any {
+  private load<T>(entity: Entity): T[] {
     return this.localstorage._load(entity);
   }
 
-  private save(entity: Entity, data: any): void {
+  private save<T>(entity: Entity, data: T[]): void {
     this.localstorage._save(entity, data);
   }
 
-  find(entity: Entity): Observable<List[] | Item[]> {
+  find<T>(entity: Entity): Observable<T[]> {
     return of(this.load(entity));
   }
 
-  findOne(entity: Entity, id: number): Observable<List> {
-    const lists$: Observable<List[]> = this.find(entity);
+  findOne<T extends { id: string | number }>(entity: Entity, id: string | number): Observable<T> {
+    const data$: Observable<T[]> = this.find(entity);
 
-    return lists$.pipe(filter((list: List) => list.id === id)[0]);
+    return data$.pipe(filter((elem: T) => elem.id === id)[0]);
   }
 
-  insert(entity: Entity, list: List): Observable<string | number> {
-    const lists: List[] = this.load(entity);
-    list.id = list.id || this.generateUniqueId();
-    this.save(entity, [ ...lists, list ]);
+  insert<T extends { id?: string | number; title?: string }>(entity: Entity, data: T): Observable<string | number> {
+    const storage: T[] = this.load(entity);
+    data.id = data.id || this.generateUniqueId();
+    this.save(entity, [ ...storage, data ]);
 
-    return of(list.id);
+    return of(data.id);
   }
 
-  update(entity: Entity, data: List): Observable<boolean> {
-    const storage: List[] = this.load(entity);
-    const updated: List[] = storage.map((el: List) => el.id === data.id ? data : el);
+  update<T extends { id?: string | number }>(entity: Entity, data: T): Observable<boolean> {
+    const storage: T[] = this.load(entity);
+    const updated: T[] = storage.map((el: T) => el.id === data.id ? data : el);
     this.save(entity, updated);
 
     return of(true);
 
   }
 
-  remove(entity: Entity, id: string | number): Observable<string | number> {
-    const prevStorage: List[] | Item[] = this.load(entity);
-    const updatedStorage: List[] | Item[] = prevStorage.filter((el: List | Item) => el.id !== id);
+  remove<T extends { id: string | number }>(entity: Entity, id: string | number): Observable<string | number> {
+    const prevStorage: T[] = this.load(entity);
+    const updatedStorage: T[] = prevStorage.filter((el: T) => el.id !== id);
     if (entity === Entity.List) {
       const prevItems: Item[] = this.load(Entity.Item);
       const updatedItems: Item[] = prevItems.filter((el: Item) => el.listId !== id);

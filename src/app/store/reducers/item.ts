@@ -47,25 +47,6 @@ export function reducer(
     case ActionTypes.RemoveAllByList:
       return state.filter((item: Item) => item.listId !== action.payload);
 
-    // case ActionTypes.AddItemSuccess:
-    // const index: number = action.payload.insertionIndex;
-
-    //   return state.map((item: Item) => item.id === action.payload ?
-    //     {
-    //       ...item,
-    //       items: [ ...item.items.slice(0, index),
-    //                   action.payload,
-    //                ...item.items.slice(index)
-    //              ]
-    //     } : item);
-
-    // case ActionTypes.RemoveItemSuccess:
-    //   return state.map((item: Item) => item.id === action.payload ?
-    //     {
-    //       ...item,
-    //       items: item.items.filter((item: Item) => item.id !== action.payload)
-    //     } : item);
-
     default:
       return state;
   }

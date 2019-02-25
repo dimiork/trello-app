@@ -4,5 +4,4 @@ export class List {
   id?: string | number;
   title: string;
   order?: number;
-  // items: Item[];
 }

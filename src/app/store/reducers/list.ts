@@ -1,5 +1,5 @@
 import { ActionTypes, ActionsUnion } from '../actions/list';
-import { List, Item } from '../../models';
+import { List } from '../../models';
 
 export const initialState: List[] = [];
 
@@ -43,25 +43,6 @@ export function reducer(
 
     case ActionTypes.RemoveSuccess:
       return state.filter((list: List) => list.id !== action.payload);
-
-    // case ActionTypes.AddItemSuccess:
-    // const index: number = action.payload.insertionIndex;
-
-    //   return state.map((list: List) => list.id === action.payload ?
-    //     {
-    //       ...list,
-    //       items: [ ...list.items.slice(0, index),
-    //                   action.payload,
-    //                ...list.items.slice(index)
-    //              ]
-    //     } : list);
-
-    // case ActionTypes.RemoveItemSuccess:
-    //   return state.map((list: List) => list.id === action.payload ?
-    //     {
-    //       ...list,
-    //       items: list.items.filter((item: Item) => item.id !== action.payload)
-    //     } : list);
 
     default:
       return state;

@@ -35,52 +35,28 @@ export class ItemEffects {
   );
 
   @Effect()
-  updateList$: Observable<Action> = this.actions$.pipe(
+  updateItem$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.Update),
     map((action: actions.Update) => action.payload),
-    switchMap((list: List) =>
-      this.dataService.update(Entity.List, list).pipe(
-        map(() => new actions.UpdateSuccess(list)),
+    switchMap((item: Item) =>
+      this.dataService.update(Entity.Item, item).pipe(
+        map(() => new actions.UpdateSuccess(item)),
         // catchError((error: Error) => of(new actions.ErrorHandle({ error })))
       )
     )
   );
 
   @Effect()
-  removeList$: Observable<Action> = this.actions$.pipe(
+  removeItem$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.Remove),
     map((action: actions.Remove) => action.payload),
     switchMap((id: string | number) =>
-      this.dataService.remove(Entity.List, id).pipe(
+      this.dataService.remove(Entity.Item, id).pipe(
         map(() => new actions.RemoveSuccess(id)),
         // catchError((error: Error) => of(new actions.ErrorHandle({ error })))
       )
     )
   );
-
-  // @Effect()
-  // addItem$: Observable<Action> = this.actions$.pipe(
-  //   ofType(actions.ActionTypes.AddItem),
-  //   map((action: actions.AddItem) => action.payload),
-  //   switchMap(({ listId, item, insertionIndex }: ServiceItem) =>
-  //     this.dataService.insertItem(listId, item, insertionIndex).pipe(
-  //       map(() => new actions.AddItemSuccess({ listId, item, insertionIndex })),
-  //       catchError((error: Error) => of(new actions.ErrorHandle({ error })))
-  //     )
-  //   )
-  // );
-
-  // @Effect()
-  // removeItem$: Observable<Action> = this.actions$.pipe(
-  //   ofType(actions.ActionTypes.RemoveItem),
-  //   map((action: actions.RemoveItem) => action.payload),
-  //   switchMap(({ listId, item }: ServiceItem) =>
-  //     this.dataService.removeItem(listId, item).pipe(
-  //       map(() => new actions.RemoveItemSuccess({ listId, item })),
-  //       catchError((error: Error) => of(new actions.ErrorHandle({ error })))
-  //     )
-  //   )
-  // );
 
   constructor(
     private actions$: Actions,

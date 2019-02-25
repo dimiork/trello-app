@@ -5,11 +5,11 @@ import { Injectable } from '@angular/core';
 })
 export class LocalstorageService {
 
-  _load(id: string): [] {
+  _load<T>(id: string): T[] {
     return JSON.parse(window.localStorage.getItem(id)) || [];
   }
 
-  _save(id: string, data: [] = []): void {
+  _save<T>(id: string, data: T[] = []): void {
     if (data) {
       window.localStorage.setItem(id, JSON.stringify(data));
     }
