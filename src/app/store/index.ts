@@ -1,14 +1,15 @@
 import { ActionReducerMap } from '@ngrx/store';
 
+import * as fromItem from './reducers/item';
 import * as fromList from './reducers/list';
-import { List } from '../models';
+import { Item, List } from '../models';
 
 export interface State {
   lists: List[];
-  // more state here
+  items: Item[];
 }
 
 export const reducers: ActionReducerMap<State> = {
-  lists: fromList.reducer
-  // more reducers here
+  lists: fromList.reducer,
+  items: fromItem.reducer
 };

@@ -1,11 +1,6 @@
-import { Component, Input, ElementRef, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
-import * as ListActions from '../../store/actions/list';
-import { ListService } from '../../services/list.service';
-
-import { ItemComponent } from '../item/item.component';
-import { Item, List, ServiceItem } from '../../models';
+import { Item, List } from '../../models';
 
 @Component({
   selector: 'app-list',
@@ -16,85 +11,53 @@ import { Item, List, ServiceItem } from '../../models';
 export class ListComponent {
 
   @Input() list: List;
-  addItemDialog: boolean = false;
-  updateTitleDialog: boolean = false;
-  _insertionIndex: number = -1;
+  @Input() items: Item[];
 
-  constructor(private store: Store<List[]>) {}
+  @Output() updateTitleEvent: EventEmitter<List> = new EventEmitter();
+  @Output() removeEvent: EventEmitter<string | number> = new EventEmitter();
+
+  @Output() addItemEvent: EventEmitter<Item> = new EventEmitter();
+  @Output() removeItemEvent: EventEmitter<string | number> = new EventEmitter();
+
+  // @Output() updateItemTitleEvent: EventEmitter<string> = new EventEmitter();
+  // @Output() updateItemDescriptionEvent: EventEmitter<string> = new EventEmitter();
+
+  private addItemDialog: boolean = false;
+  private updateTitleDialog: boolean = false;
+  private _insertionIndex: number = -1;
 
   get id(): string | number {
     return this.list.id;
   }
 
-  get title(): string {
-    return this.list.title;
+  updateTitle(title: string): void {
+    this.updateTitleEvent.emit({ id: this.id, title });
   }
 
-  get items(): Item[] {
-    return this.list.items;
-  }
-
-  get insertionIndex(): number {
-    return this._insertionIndex >= 0 ? this._insertionIndex : this.items.length;
-  }
-
-  updateList(): void {
-    this.store.dispatch(new ListActions.Update({ list: this.list }));
-  }
-
-  removeList(): void {
-    this.store.dispatch(new ListActions.Remove({ id: this.id }));
-  }
-
-  toggleAddItemDialog(): void {
-    this.addItemDialog = !this.addItemDialog;
+  remove(): void {
+    this.removeEvent.emit(this.id);
   }
 
   addItem(title?: string, description?: string): void {
-    if (title) {
-      this.store.dispatch(new ListActions.AddItem({
-        listId: this.id,
-        item: { title, description },
-        insertionIndex: this.insertionIndex
-      }));
-    }
+    const trimedTitle: string = title.trim();
+    const item: Item = { listId: this.id, title: trimedTitle, description };
+    this.addItemEvent.emit(item);
   }
 
-  onUpdateItem(item: Item): void {
-    const list: List = {
-      ...this.list,
-      items: this.items.map((currentItem: Item) => currentItem.id === item.id ? item : currentItem )
-    };
-    this.store.dispatch(new ListActions.Update({ list }));
-  }
+  // onUpdateItemTitle(title: string): void {
+  //   this.updateItemTitleEvent.emit(title);
+  // }
 
-  onMoveItem(data: { evt: DragEvent, item: Item}): void {
-    data.evt.dataTransfer.setData('data', JSON.stringify({ listId: this.id, item: data.item }));
-  }
+  // onUpdateItemDescr(description: string): void {
+  //   this.updateItemDescriptionEvent.emit(description);
+  // }
 
-  onRemoveItem(item: Item): void {
-    const list: List = {
-      ...this.list,
-      items: this.items.filter((currentItem: Item) =>
-        currentItem.id !== item.id)
-    };
-    this.store.dispatch(new ListActions.Update({ list }));
-  }
+  // onRemoveItem(id: string | number): void {
+  //   this.removeItemEvent.emit(id);
+  // }
 
-  canDrop(evt: DragEvent): void {
-    evt.preventDefault();
-  }
-
-  getDropIndex(evt: DragEvent, i: number): void {
-    evt.preventDefault();
-    this._insertionIndex = i;
-  }
-
-  onDrop(evt: DragEvent): void {
-    evt.preventDefault();
-    const data: ServiceItem = JSON.parse(evt.dataTransfer.getData('data'));
-    this.store.dispatch(new ListActions.RemoveItem({ listId: data.listId, item: data.item }));
-    this.addItem(data.item.title, data.item.description);
+  toggleAddItemDialog(): void {
+    this.addItemDialog = !this.addItemDialog;
   }
 
   trackByFn(index: number, item: Item): string | number {

@@ -4,8 +4,8 @@ import { take, map, tap } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import * as ListActions from '../../store/actions/list';
+import * as ItemActions from '../../store/actions/item';
 import { Item, List } from '../../models';
-import { ListService } from '../../services/list.service';
 
 @Component({
   selector: 'app-board',
@@ -15,27 +15,39 @@ import { ListService } from '../../services/list.service';
 export class BoardComponent implements OnInit {
 
   lists$: Observable<List[]> = this.store.pipe(select('lists'));
+  items$: Observable<Item[]> = this.store.pipe(select('items'));
+
   addListDialog: boolean = false;
 
-  constructor(
-    private store: Store<List[]>,
-    private listService: ListService,
-  ) {}
+  constructor(private store: Store<List[] | Item[]>) {}
 
   ngOnInit(): void {
     this.store.dispatch(new ListActions.Load());
+    this.store.dispatch(new ItemActions.Load());
+  }
+
+  addList(title: string): void {
+    this.store.dispatch(new ListActions.Add(title));
+    this.toggleAddListDialog();
+  }
+
+  onUpdateListTitle(list: List): void {
+    this.store.dispatch(new ListActions.Update(list));
+  }
+
+  onRemoveList(id: string | number): void {
+    this.store.dispatch(new ListActions.Remove(id));
+  }
+
+  onAddItem(item: Item): void {
+    this.store.dispatch(new ItemActions.Add(item));
   }
 
   toggleAddListDialog(): void {
     this.addListDialog = !this.addListDialog;
   }
 
-  addList(title: string): void {
-    this.store.dispatch(new ListActions.Add({ title }));
-    this.toggleAddListDialog();
-  }
-
-  _trackByFn(index: number, item: Item): string | number {
+  trackByFn(index: number, item: List): string | number {
     return item.id;
   }
 }

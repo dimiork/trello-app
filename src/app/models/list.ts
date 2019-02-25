@@ -1,7 +1,7 @@
-import { Item } from '../models/item';
+// import { Item } from '../models/item';
 
 export class List {
-  id: string | number;
+  id?: string | number;
   title: string;
-  items: Item[];
+  order?: number;
 }
