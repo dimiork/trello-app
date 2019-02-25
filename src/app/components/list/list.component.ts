@@ -60,7 +60,7 @@ export class ListComponent {
     this.addItemDialog = !this.addItemDialog;
   }
 
-  trackByFn(index: number, item: Item): string | number {
+  trackByFn(index: number, item: Item): string {
     return item.id;
   }
 }

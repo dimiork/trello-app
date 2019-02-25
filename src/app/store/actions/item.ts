@@ -42,7 +42,6 @@ export class Update implements Action {
 export class UpdateSuccess implements Action {
   readonly type: ActionTypes.UpdateSuccess = ActionTypes.UpdateSuccess;
   constructor(public payload: { id: string, changes: Item }) {}
-  // constructor(public payload: { item: Item }) {}
 }
 
 export class Remove implements Action {

@@ -1,8 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { ActionTypes, ActionsUnion } from '../actions/item';
-import { List, Item, Entity } from '../../models';
-
-// export const initialState: Item[] = [];
+import { Item } from '../../models';
 
 export interface State extends EntityState<Item> {
   selectedItemId: string | null;
