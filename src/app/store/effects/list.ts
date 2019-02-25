@@ -6,7 +6,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import * as ListActions from '../actions/list';
 import * as ItemActions from '../actions/item';
-import { List, Entity } from '../../models';
+import { Item, List, Entity } from '../../models';
 import { DataService } from '../../services/data.service';
 
 @Injectable()
@@ -29,7 +29,7 @@ export class ListEffects {
     map((action: ListActions.Add) => action.payload),
     switchMap((title: string) =>
       this.dataService.insert(Entity.List, { title: title }).pipe(
-        map((id: string | number) => new ListActions.AddSuccess({ id, title })),
+        map((id: string) => new ListActions.AddSuccess({ id, title })),
         // catchError((error: Error) => of(new ListActions.ErrorHandle({ error })))
       )
     )
@@ -54,9 +54,12 @@ export class ListEffects {
     switchMap((id: string | number) =>
       this.dataService.remove(Entity.List, id)
     ),
-    switchMap((id: string | number) => [
+    switchMap((id: string) => [
       new ListActions.RemoveSuccess(id),
-      new ItemActions.RemoveAllByList(id)
+      // new ItemActions.RemoveAllByListId({ listId: id })
+      new ItemActions.RemoveAllByListId({ listId: (item: Item): boolean => {
+        return item.listId === id;
+      } })
     ])
   );
 

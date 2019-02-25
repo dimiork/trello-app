@@ -5,6 +5,7 @@ import { Store, select } from '@ngrx/store';
 
 import * as ListActions from '../../store/actions/list';
 import * as ItemActions from '../../store/actions/item';
+import { selectAllItems } from '../../store/selectors/item';
 import { Item, List } from '../../models';
 
 @Component({
@@ -15,7 +16,8 @@ import { Item, List } from '../../models';
 export class BoardComponent implements OnInit {
 
   lists$: Observable<List[]> = this.store.pipe(select('lists'));
-  items$: Observable<Item[]> = this.store.pipe(select('items'));
+  // items$: Observable<Item[]> = this.store.pipe(select('items'));
+  items$: Observable<Item[]> = this.store.pipe(select(selectAllItems));
 
   addListDialog: boolean = false;
 
@@ -35,12 +37,12 @@ export class BoardComponent implements OnInit {
     this.store.dispatch(new ListActions.Update(list));
   }
 
-  onRemoveList(id: string | number): void {
-    this.store.dispatch(new ListActions.Remove(id));
+  onRemoveList(id: string): void {
+    this.store.dispatch(new ListActions.Remove(id ));
   }
 
   onAddItem(item: Item): void {
-    this.store.dispatch(new ItemActions.Add(item));
+    this.store.dispatch(new ItemActions.Add({ item }));
   }
 
   toggleAddListDialog(): void {

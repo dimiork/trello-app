@@ -44,7 +44,7 @@ export class UpdateSuccess implements Action {
 
 export class Remove implements Action {
   readonly type: ActionTypes.Remove = ActionTypes.Remove;
-  constructor(public payload: string | number ) {}
+  constructor(public payload: string ) {}
 }
 
 export class RemoveSuccess implements Action {

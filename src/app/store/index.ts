@@ -6,7 +6,8 @@ import { Item, List } from '../models';
 
 export interface State {
   lists: List[];
-  items: Item[];
+  // items: Item[];
+  items: fromItem.State;
 }
 
 export const reducers: ActionReducerMap<State> = {

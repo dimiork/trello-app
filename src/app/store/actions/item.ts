@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Predicate } from '@ngrx/entity';
 import { Item } from '../../models';
 
 export enum ActionTypes {
@@ -9,53 +10,54 @@ export enum ActionTypes {
   Update = '[ITEM] UPDATE',
   UpdateSuccess = '[ITEM] UPDATE_SUCCESS',
   Remove = '[ITEM] REMOVE',
-  RemoveAllByList = '[ITEM] REMOVE_ALL_BY_LIST',
+  RemoveAllByListId = '[ITEM] REMOVE_ALL_BY_LIST_ID',
   RemoveSuccess = '[ITEM] REMOVE_SUCCESS',
 }
 
 export class Load implements Action {
   readonly type: ActionTypes.Load = ActionTypes.Load;
-  constructor(public payload?: Item[] | null) {}
+  constructor(public payload?: { items: Item[] | null }) {}
 }
 
 export class LoadSuccess implements Action {
   readonly type: ActionTypes.LoadSuccess = ActionTypes.LoadSuccess;
-  constructor(public payload: Item[]) {}
+  constructor(public payload: { items: Item[] }) {}
 }
 
 export class Add implements Action {
   readonly type: ActionTypes.Add = ActionTypes.Add;
-  constructor(public payload: Item) {}
+  constructor(public payload: { item: Item }) {}
 }
 
 export class AddSuccess implements Action {
   readonly type: ActionTypes.AddSuccess = ActionTypes.AddSuccess;
-  constructor(public payload: Item) {}
+  constructor(public payload: { item: Item }) {}
 }
 
 export class Update implements Action {
   readonly type: ActionTypes.Update = ActionTypes.Update;
-  constructor(public payload: Item) {}
+  constructor(public payload: { item: Item }) {}
 }
 
 export class UpdateSuccess implements Action {
   readonly type: ActionTypes.UpdateSuccess = ActionTypes.UpdateSuccess;
-  constructor(public payload: Item) {}
+  constructor(public payload: { id: string, changes: Item }) {}
+  // constructor(public payload: { item: Item }) {}
 }
 
 export class Remove implements Action {
   readonly type: ActionTypes.Remove = ActionTypes.Remove;
-  constructor(public payload: string | number ) {}
+  constructor(public payload: { id: string } ) {}
 }
 
-export class RemoveAllByList implements Action {
-  readonly type: ActionTypes.RemoveAllByList = ActionTypes.RemoveAllByList;
-  constructor(public payload: string | number ) {}
+export class RemoveAllByListId implements Action {
+  readonly type: ActionTypes.RemoveAllByListId = ActionTypes.RemoveAllByListId;
+  constructor(public payload: { listId: Predicate<Item> } ) {}
 }
 
 export class RemoveSuccess implements Action {
   readonly type: ActionTypes.RemoveSuccess = ActionTypes.RemoveSuccess;
-  constructor(public payload: string | number) {}
+  constructor(public payload: { id: string }) {}
 }
 
 export type ActionsUnion
@@ -66,5 +68,5 @@ export type ActionsUnion
   | Update
   | UpdateSuccess
   | Remove
-  | RemoveAllByList
+  | RemoveAllByListId
   | RemoveSuccess;

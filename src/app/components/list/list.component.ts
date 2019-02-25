@@ -26,7 +26,7 @@ export class ListComponent {
   private updateTitleDialog: boolean = false;
   private _insertionIndex: number = -1;
 
-  get id(): string | number {
+  get id(): string {
     return this.list.id;
   }
 
