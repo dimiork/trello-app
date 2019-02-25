@@ -5,8 +5,8 @@ import * as fromList from './reducers/list';
 import { Item, List } from '../models';
 
 export interface State {
-  lists: List[];
-  items: Item[];
+  lists: fromList.State;
+  items: fromItem.State;
 }
 
 export const reducers: ActionReducerMap<State> = {

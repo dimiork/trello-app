@@ -26,7 +26,7 @@ export class ListComponent {
   private updateTitleDialog: boolean = false;
   private _insertionIndex: number = -1;
 
-  get id(): string | number {
+  get id(): string {
     return this.list.id;
   }
 
@@ -60,7 +60,7 @@ export class ListComponent {
     this.addItemDialog = !this.addItemDialog;
   }
 
-  trackByFn(index: number, item: Item): string | number {
+  trackByFn(index: number, item: Item): string {
     return item.id;
   }
 }

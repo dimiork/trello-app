@@ -1,7 +1,7 @@
 export class Item {
-  id?: string | number;
+  id?: string;
   title: string;
   description?: string;
   order?: number;
-  listId?: string | number;
+  listId?: string;
 }

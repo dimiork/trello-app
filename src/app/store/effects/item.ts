@@ -17,7 +17,7 @@ export class ItemEffects {
     switchMap(() =>
       this.dataService.find(Entity.Item)
         .pipe(
-          map((items: Item[]) => new actions.LoadSuccess(items)),
+          map((items: Item[]) => new actions.LoadSuccess({ items })),
           // catchError((error: Error) => of(new actions.ErrorHandle({ error })))
         ))
   );
@@ -25,10 +25,10 @@ export class ItemEffects {
   @Effect()
   addItem$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.Add),
-    map((action: actions.Add) => action.payload),
+    map((action: actions.Add) => action.payload.item),
     switchMap((item: Item) =>
       this.dataService.insert(Entity.Item, item).pipe(
-        map((id: string | number) => new actions.AddSuccess({ ...item, id })),
+        map((id: string) => new actions.AddSuccess({ item: { ...item, id } })),
         // catchError((error: Error) => of(new actions.ErrorHandle({ error })))
       )
     )
@@ -37,10 +37,10 @@ export class ItemEffects {
   @Effect()
   updateItem$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.Update),
-    map((action: actions.Update) => action.payload),
+    map((action: actions.Update) => action.payload.item),
     switchMap((item: Item) =>
       this.dataService.update(Entity.Item, item).pipe(
-        map(() => new actions.UpdateSuccess(item)),
+        map(() => new actions.UpdateSuccess({ id: item.id, changes: item })),
         // catchError((error: Error) => of(new actions.ErrorHandle({ error })))
       )
     )
@@ -49,10 +49,10 @@ export class ItemEffects {
   @Effect()
   removeItem$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.Remove),
-    map((action: actions.Remove) => action.payload),
-    switchMap((id: string | number) =>
+    map((action: actions.Remove) => action.payload.id),
+    switchMap((id: string) =>
       this.dataService.remove(Entity.Item, id).pipe(
-        map(() => new actions.RemoveSuccess(id)),
+        map(() => new actions.RemoveSuccess({ id })),
         // catchError((error: Error) => of(new actions.ErrorHandle({ error })))
       )
     )

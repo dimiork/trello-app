@@ -1,53 +1,72 @@
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { ActionTypes, ActionsUnion } from '../actions/item';
-import { List, Item } from '../../models';
+import { Item } from '../../models';
 
-export const initialState: Item[] = [];
+export interface State extends EntityState<Item> {
+  selectedItemId: string | null;
+  loading: boolean;
+  loaded: boolean;
+}
+
+const adapter: EntityAdapter<Item> = createEntityAdapter<Item>();
+
+export const initialState: State = adapter.getInitialState({
+  selectedItemId: null,
+  loading: false,
+  loaded: false,
+});
 
 export function reducer(
-  state: Item[] = initialState,
+  state: State = initialState,
   action: ActionsUnion
-): Item[] {
+): State {
 
   switch (action.type) {
 
     case ActionTypes.Load:
-      return state;
+      return {
+        ...state,
+        loading: true
+      };
 
     case ActionTypes.LoadSuccess:
-      return action.payload;
+      return adapter.addAll(action.payload.items, { ...state,
+        loading: false,
+        loaded: true
+      });
 
     case ActionTypes.Add:
       return state;
 
     case ActionTypes.AddSuccess:
-      return [ ...state, action.payload ];
+      return adapter.addOne(action.payload.item, state);
 
     case ActionTypes.Update:
       return state;
 
     case ActionTypes.UpdateSuccess:
-      return state.map((item: Item) => {
-        if (item.id === action.payload.id) {
-
-          return {
-            ...item,
-            title: action.payload.title,
-          };
-        }
-
-        return item;
-      });
+      return adapter.updateOne({
+        id: action.payload.id,
+        changes: action.payload.changes,
+      }, state);
 
     case ActionTypes.Remove:
       return state;
 
     case ActionTypes.RemoveSuccess:
-      return state.filter((item: Item) => item.id !== action.payload);
+      return adapter.removeOne(action.payload.id, state);
 
-    case ActionTypes.RemoveAllByList:
-      return state.filter((item: Item) => item.listId !== action.payload);
+    case ActionTypes.RemoveAllByListId:
+      return adapter.removeMany(action.payload.listId, state);
 
     default:
       return state;
   }
 }
+
+export const {
+  selectAll,
+  selectEntities,
+  selectIds,
+  selectTotal
+} = adapter.getSelectors();
