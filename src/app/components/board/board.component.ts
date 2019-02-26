@@ -11,7 +11,7 @@ import { Item, List } from '../../models';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.css']
+  styleUrls: ['./board.component.css'],
 })
 export class BoardComponent implements OnInit {
 
@@ -28,8 +28,7 @@ export class BoardComponent implements OnInit {
   }
 
   addList(title: string): void {
-    const trimedTitle: string = title.trim();
-    const list: List = { title: trimedTitle };
+    const list: List = { title: title.trim() };
     this.store.dispatch(new ListActions.Add({ list }));
     this.toggleAddListDialog();
   }
@@ -44,6 +43,10 @@ export class BoardComponent implements OnInit {
 
   onAddItem(item: Item): void {
     this.store.dispatch(new ItemActions.Add({ item }));
+  }
+
+  onOpenItem(item: Item): void {
+    this.store.dispatch(new ItemActions.OpenEdit({ item }));
   }
 
   toggleAddListDialog(): void {

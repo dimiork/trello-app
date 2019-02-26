@@ -1,3 +1,10 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 4fr;
+  grid-template-areas: "item-header" "item-content";
+}
+
 .item-header { grid-area: item-header; }
 
 .item-content {
@@ -42,6 +49,8 @@
   padding: 10px 10px;
   overflow: hidden;
   position: relative;
+  width: 60vw;
+  height: 80vh;
 }
 
 .window-module-title {
@@ -77,11 +86,6 @@
     width: 100%;
 }
 
-.description-content {
-  position: relative;
-  background-color: grey;
-}
-
 .card-back-description {
     min-height: 108px;
     background: #fff;
@@ -89,6 +93,8 @@
 }
 
 .edit-controls {
+    display: flex;
+    align-items: center;
     clear: both;
     margin-top: 8px;
 }
@@ -96,6 +102,10 @@
 input.mod-submit-edit {
     float: left;
     margin: 0 4px 0 0;
+}
+
+.edit-controls-close {
+  margin-left: 10px;
 }
 
 .card-detail-fake-text-area {

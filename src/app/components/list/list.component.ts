@@ -14,17 +14,12 @@ export class ListComponent {
   @Input() items: Item[];
 
   @Output() updateTitleEvent: EventEmitter<List> = new EventEmitter();
-  @Output() removeEvent: EventEmitter<string | number> = new EventEmitter();
+  @Output() removeEvent: EventEmitter<string> = new EventEmitter();
 
   @Output() addItemEvent: EventEmitter<Item> = new EventEmitter();
-  @Output() removeItemEvent: EventEmitter<string | number> = new EventEmitter();
-
-  // @Output() updateItemTitleEvent: EventEmitter<string> = new EventEmitter();
-  // @Output() updateItemDescriptionEvent: EventEmitter<string> = new EventEmitter();
+  @Output() openItemEvent: EventEmitter<Item> = new EventEmitter();
 
   private addItemDialog: boolean = false;
-  private updateTitleDialog: boolean = false;
-  private _insertionIndex: number = -1;
 
   get id(): string {
     return this.list.id;
@@ -44,17 +39,9 @@ export class ListComponent {
     this.addItemEvent.emit(item);
   }
 
-  // onUpdateItemTitle(title: string): void {
-  //   this.updateItemTitleEvent.emit(title);
-  // }
-
-  // onUpdateItemDescr(description: string): void {
-  //   this.updateItemDescriptionEvent.emit(description);
-  // }
-
-  // onRemoveItem(id: string | number): void {
-  //   this.removeItemEvent.emit(id);
-  // }
+  openEditItem(item: Item): void {
+    this.openItemEvent.emit(item);
+  }
 
   toggleAddItemDialog(): void {
     this.addItemDialog = !this.addItemDialog;

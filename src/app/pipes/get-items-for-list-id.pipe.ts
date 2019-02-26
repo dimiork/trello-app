@@ -7,7 +7,7 @@ import { Item } from '../models/';
 })
 export class GetItemsForListIdPipe implements PipeTransform {
 
-  transform(value: Item[], listId: string | number, args?: any): any {
+  transform(value: Item[], listId: string, args?: any): any {
     if (!value) {
       return value;
     }

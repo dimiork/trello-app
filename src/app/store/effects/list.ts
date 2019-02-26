@@ -6,6 +6,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import * as ListActions from '../actions/list';
 import * as ItemActions from '../actions/item';
+import * as ErrorActions from '../actions/error';
 import { Item, List, Entity } from '../../models';
 import { DataService } from '../../services/data.service';
 
@@ -19,7 +20,7 @@ export class ListEffects {
       this.dataService.find(Entity.List)
         .pipe(
           map((lists: List[]) => new ListActions.LoadSuccess({ lists })),
-          // catchError((error: Error) => of(new ListActions.ErrorHandle({ error })))
+          catchError((error: Error) => of(new ErrorActions.Error({ error })))
         ))
     );
 
@@ -30,7 +31,7 @@ export class ListEffects {
     switchMap((list: List) =>
       this.dataService.insert(Entity.List, list).pipe(
         map((id: string) => new ListActions.AddSuccess({ list: { ...list, id } })),
-        // catchError((error: Error) => of(new ListActions.ErrorHandle({ error })))
+        catchError((error: Error) => of(new ErrorActions.Error({ error })))
       )
     )
   );
@@ -42,7 +43,7 @@ export class ListEffects {
     switchMap((list: List) =>
       this.dataService.update(Entity.List, list).pipe(
         map(() => new ListActions.UpdateSuccess({ id: list.id, changes: list })),
-        // catchError((error: Error) => of(new ListActions.ErrorHandle({ error })))
+        catchError((error: Error) => of(new ErrorActions.Error({ error })))
       )
     )
   );
@@ -52,7 +53,9 @@ export class ListEffects {
     ofType(ListActions.ActionTypes.Remove),
     map((action: ListActions.Remove) => action.payload.id),
     switchMap((id: string) =>
-      this.dataService.remove(Entity.List, id)
+      this.dataService.remove(Entity.List, id).pipe(
+        catchError((error: Error) => of(new ErrorActions.Error({ error })))
+      )
     ),
     switchMap((id: string) => [
       new ListActions.RemoveSuccess({ id }),

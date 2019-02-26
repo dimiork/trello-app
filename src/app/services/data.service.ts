@@ -11,13 +11,11 @@ import { Item, List, Entity } from '../models';
 })
 export class DataService {
 
-  private storageId: string = 'yet-another-trello';
-
   constructor(
     private localstorage: LocalstorageService,
   ) {}
 
-  private generateUniqueId(): string | number {
+  private generateUniqueId(): string {
     return Math.random().toString(26).slice(2);
   }
 
@@ -53,7 +51,6 @@ export class DataService {
     this.save(entity, updated);
 
     return of(true);
-
   }
 
   remove<T extends { id: string | number }>(entity: Entity, id: string | number): Observable<string | number> {
