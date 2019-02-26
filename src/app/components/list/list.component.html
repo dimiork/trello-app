@@ -54,9 +54,10 @@
     <app-item *ngFor="let item of items; trackBy: trackByFn; let i = index;"
       [item]="item"
       (move)="onMoveItem($event)"
+      (click)="openEditItem(item)"
       (drop)="getDropIndex($event, i)"
       (update)="onUpdateItem($event)"
-      (removeItemEvent)="onRemoveItem($event)"
+      (openItemEvent)="onOpenItem($event)"
     ></app-item>
   </div>
   <div class="footer">

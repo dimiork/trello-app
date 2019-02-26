@@ -2,8 +2,6 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { ActionTypes, ActionsUnion } from '../actions/list';
 import { List } from '../../models';
 
-// export const initialState: List[] = [];
-
 export interface State extends EntityState<List> {
   loading: boolean;
   loaded: boolean;

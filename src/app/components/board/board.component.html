@@ -6,6 +6,7 @@
       (updateTitleEvent)="onUpdateListTitle($event)"
       (removeEvent)="onRemoveList($event)"
       (addItemEvent)="onAddItem($event)"
+      (openItemEvent)="onOpenItem($event)"
     ></app-list>
   </div>
   <div class="list-wrapper" [class.is-idle]="!addListDialog">

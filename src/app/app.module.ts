@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MaterialModule } from './material.module';
 
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -18,6 +19,7 @@ import { ListComponent } from './components/list/list.component';
 import { ItemComponent } from './components/item/item.component';
 import { EditItemComponent } from './components/edit-item/edit-item.component';
 import { GetItemsForListIdPipe } from './pipes/get-items-for-list-id.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -30,15 +32,18 @@ import { GetItemsForListIdPipe } from './pipes/get-items-for-list-id.pipe';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
+    MaterialModule,
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
     StoreModule.forRoot(fromRoot.reducers),
     EffectsModule.forRoot([ListEffects, ItemEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 10
-    })
+    }),
   ],
+  entryComponents: [EditItemComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
