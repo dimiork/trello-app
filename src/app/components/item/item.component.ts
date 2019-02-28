@@ -11,9 +11,4 @@ import { Item } from '../../models';
 export class ItemComponent {
 
   @Input() item: Item;
-  @Output() move: EventEmitter<{ evt: DragEvent, item: Item }> = new EventEmitter();
-
-  onMove(evt: DragEvent): void {
-    this.move.emit({ evt, item: this.item });
-  }
 }

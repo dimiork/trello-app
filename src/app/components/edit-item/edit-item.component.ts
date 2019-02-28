@@ -1,8 +1,9 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { Component, OnDestroy } from '@angular/core';
 
+import { Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import * as ItemActions from '../../store/actions/item';
+import { selectActiveItem } from '../../store/selectors/item';
 
 import { Item } from '../../models';
 
@@ -11,16 +12,21 @@ import { Item } from '../../models';
   templateUrl: './edit-item.component.html',
   styleUrls: ['./edit-item.component.css']
 })
-export class EditItemComponent {
+export class EditItemComponent implements OnDestroy {
 
   item: Item;
   updateDescriptionDialog: boolean = false;
   updateTitleDialog: boolean = false;
+  private subscription: Subscription;
 
-  constructor(
-    public store: Store<Item[]>,
-    @Inject(MAT_DIALOG_DATA) public data: Item) {
-    this.item = data;
+  constructor(private store: Store<Item>) {
+    this.subscription = this.store.pipe(select(selectActiveItem)).subscribe((selectedItem: Item) => {
+      this.item = selectedItem;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   toggleUpdateDescriptionDialog(): void {
@@ -34,19 +40,15 @@ export class EditItemComponent {
   updateTitle(title?: string): void {
     if (title) {
       this.item.title = title;
-      this.updateItem(this.item);
+      this.store.dispatch(new ItemActions.Update({ item: this.item }));
       this.toggleUpdateTitleDialog();
     }
   }
 
   updateDescription(description?: string): void {
     this.item.description = description;
-    this.updateItem(this.item);
+    this.store.dispatch(new ItemActions.Update({ item: this.item }));
     this.toggleUpdateDescriptionDialog();
-  }
-
-  updateItem(item: Item): void {
-    this.store.dispatch(new ItemActions.Update({ item }));
   }
 
   removeItem(id: string): void {

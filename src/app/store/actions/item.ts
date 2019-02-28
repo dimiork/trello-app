@@ -7,7 +7,7 @@ export enum ActionTypes {
   LoadSuccess = '[ITEM] LOADED_SUCCESS',
   Add = '[ITEM] ADD',
   AddSuccess = '[ITEM] ADD_SUCCESS',
-  OpenEdit = '[ITEM] OPEN_EDIT',
+  Select = '[ITEM] SELECT',
   Update = '[ITEM] UPDATE',
   UpdateSuccess = '[ITEM] UPDATE_SUCCESS',
   Remove = '[ITEM] REMOVE',
@@ -35,8 +35,8 @@ export class AddSuccess implements Action {
   constructor(public payload: { item: Item }) {}
 }
 
-export class OpenEdit implements Action {
-  readonly type: ActionTypes.OpenEdit = ActionTypes.OpenEdit;
+export class Select implements Action {
+  readonly type: ActionTypes.Select = ActionTypes.Select;
   constructor(public payload: { item: Item }) {}
 }
 
@@ -70,7 +70,7 @@ export type ActionsUnion
   | LoadSuccess
   | Add
   | AddSuccess
-  | OpenEdit
+  | Select
   | Update
   | UpdateSuccess
   | Remove

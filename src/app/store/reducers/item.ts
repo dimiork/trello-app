@@ -3,15 +3,26 @@ import { ActionTypes, ActionsUnion } from '../actions/item';
 import { Item } from '../../models';
 
 export interface State extends EntityState<Item> {
-  selectedItemId: string | null;
+  selectedItem: Item;
   loading: boolean;
   loaded: boolean;
 }
 
-const adapter: EntityAdapter<Item> = createEntityAdapter<Item>();
+export function selectItemId(item: Item): string {
+  return item.id;
+}
+
+export function orderByPositionIdx(a: Item, b: Item): number {
+  return a._position - b._position;
+}
+
+const adapter: EntityAdapter<Item> = createEntityAdapter<Item>({
+  selectId: selectItemId,
+  sortComparer: orderByPositionIdx,
+});
 
 export const initialState: State = adapter.getInitialState({
-  selectedItemId: null,
+  selectedItem: null,
   loading: false,
   loaded: false,
 });
@@ -40,6 +51,12 @@ export function reducer(
 
     case ActionTypes.AddSuccess:
       return adapter.addOne(action.payload.item, state);
+
+    case ActionTypes.Select:
+      return {
+        ...state,
+        selectedItem: action.payload.item
+      };
 
     case ActionTypes.Update:
       return state;
