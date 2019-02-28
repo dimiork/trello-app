@@ -14,12 +14,14 @@
   display: block;
   margin-bottom: 8px;
   max-width: 300px;
-  min-height: 20px;
+  min-height: 28px;
   position: relative;
   text-decoration: none;
   z-index: 0;
   color: #17394d;
 }
+
+
 
 .list-card-details {
   overflow: hidden;

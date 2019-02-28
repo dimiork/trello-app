@@ -47,17 +47,15 @@
     </div>
   </div>
 
-  <div class="list-cards"
-       (drop)="onDrop($event)"
-       (dragover)="canDrop($event)"
-  >
-    <app-item *ngFor="let item of items; trackBy: trackByFn; let i = index;"
+  <div cdkDropList class="list-cards"
+    (cdkDropListDropped)="onDrop($event)"
+    [cdkDropListData]="items"
+    >
+    <app-item class="item-box" *ngFor="let item of items; trackBy: trackByFn; let i = index;"
+      cdkDrag
+      [cdkDragData]="item"
       [item]="item"
-      (move)="onMoveItem($event)"
       (click)="openEditItem(item)"
-      (drop)="getDropIndex($event, i)"
-      (update)="onUpdateItem($event)"
-      (openItemEvent)="onOpenItem($event)"
     ></app-item>
   </div>
   <div class="footer">

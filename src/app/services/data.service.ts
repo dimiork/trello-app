@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of, combineLatest } from 'rxjs';
-import { filter, map, merge } from 'rxjs/operators';
+import { filter, map, merge, delay } from 'rxjs/operators';
 
 import { LocalstorageService } from '../services/localstorage.service';
 import { Item, List, Entity } from '../models';
@@ -42,6 +42,7 @@ export class DataService {
     data.id = data.id || this.generateUniqueId();
     this.save(entity, [ ...storage, data ]);
 
+    // return of(data.id).pipe(delay(5000));
     return of(data.id);
   }
 

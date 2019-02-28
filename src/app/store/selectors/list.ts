@@ -4,11 +4,11 @@ import {
     MemoizedSelector
   } from '@ngrx/store';
   import * as fromList from '../reducers/list';
-  // import { Item } from '../../models';
+  import { List } from '../../models';
 
-  export const selectListState /* : MemoizedSelector<Item, fromItem.State> */ = createFeatureSelector<fromList.State>('lists');
+  export const selectListState: MemoizedSelector<object, fromList.State> = createFeatureSelector<fromList.State>('lists');
 
-  export const selectAllLists /* : MemoizedSelector<Item, Item[]> */ = createSelector(
+  export const selectAllLists: MemoizedSelector<object, List[]> = createSelector(
     selectListState,
     fromList.selectAll
   );

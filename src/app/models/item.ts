@@ -2,6 +2,6 @@ export class Item {
   id?: string;
   title: string;
   description?: string;
-  order?: number;
+  _position?: number;
   listId?: string;
 }

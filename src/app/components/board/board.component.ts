@@ -8,6 +8,9 @@ import { selectAllItems } from '../../store/selectors/item';
 import { selectAllLists } from '../../store/selectors/list';
 import { Item, List } from '../../models';
 
+import { MatDialog } from '@angular/material';
+import { EditItemComponent } from '../../components/edit-item/edit-item.component';
+
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
@@ -20,7 +23,10 @@ export class BoardComponent implements OnInit {
 
   addListDialog: boolean = false;
 
-  constructor(private store: Store<List[] | Item[]>) {}
+  constructor(
+    private store: Store<List[] | Item[]>,
+    private modal: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(new ListActions.Load());
@@ -45,8 +51,16 @@ export class BoardComponent implements OnInit {
     this.store.dispatch(new ItemActions.Add({ item }));
   }
 
+  onUpdateItem(item: Item): void {
+    this.store.dispatch(new ItemActions.Update({ item: item }));
+  }
+
   onOpenItem(item: Item): void {
-    this.store.dispatch(new ItemActions.OpenEdit({ item }));
+    this.store.dispatch(new ItemActions.Select({ item }));
+    // TODO: should be placed inside ngrx/effect as a success result of select action?
+    this.modal.open(EditItemComponent, {
+      panelClass: 'edit-item-dialog-container',
+    });
   }
 
   toggleAddListDialog(): void {
