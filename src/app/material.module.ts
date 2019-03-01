@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { EditItemComponent } from './components/edit-item/edit-item.component';
-import { ItemComponent } from './components/item/item.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [],
@@ -11,11 +11,13 @@ import { ItemComponent } from './components/item/item.component';
     CommonModule,
     MatDialogModule,
     DragDropModule,
+    MatMenuModule,
   ],
-  entryComponents: [ItemComponent, EditItemComponent],
   exports: [
     MatDialogModule,
     DragDropModule,
+    MatMenuModule,
+    MatIconModule,
   ]
 })
 export class MaterialModule { }
