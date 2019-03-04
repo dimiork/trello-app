@@ -6,20 +6,45 @@ import { Credentials } from '../models';
   providedIn: 'root'
 })
 export class AuthService {
+  private _admin: Credentials = { username: 'admin', password: 'admin'};
   authSuccessUrl: string = 'tasks';
-  authenticated: boolean = true;
-  token: string = 'token-id-1234567890';
+  private _authenticated: boolean = false;
 
-  login(credentials: Credentials): Observable<string> {
-    const token: string = 'token_id';
-
-    return of(token);
+  get authenticated(): boolean {
+    return this._authenticated;
   }
-  setAuth(flag: boolean): void {
-    this.authenticated = flag;
+
+  set authenticated(state: boolean) {
+    this._authenticated = state;
+  }
+
+  public login(credentials: Credentials): Observable<any> {
+    if (credentials.username === this._admin.username &&
+      credentials.password === this._admin.password) {
+        this.authenticated = true;
+        this.setToken(`TOKEN_ID_${ Math.random() }`);
+
+        return of(true);
+      }
+
+      return of(Error);
+  }
+
+  private setToken(token: string): void {
+    window.localStorage.setItem('token', token);
   }
 
   getToken(): Observable<string> {
-    return of(this.token);
+    return of(localStorage.getItem('token'));
+  }
+
+  logOut(): void {
+    this.authenticated = false;
+    this.removeToken();
+  }
+
+  private removeToken(): void {
+
+    localStorage.removeItem('token');
   }
 }

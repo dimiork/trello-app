@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
   ) {}
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot): Observable<boolean> {
 
     return this.checkStoreAuthentication().pipe(
       mergeMap((storeAuth: boolean) => {
@@ -25,7 +25,8 @@ export class AuthGuard implements CanActivate {
           return of(true);
         }
 
-        return this.checkApiAuthentication();
+        return of(false);
+        // return this.checkApiAuthentication();
       }),
       map((storeOrApiAuth: boolean) => {
         if (!storeOrApiAuth) {
@@ -38,6 +39,7 @@ export class AuthGuard implements CanActivate {
       })
     );
   }
+
   checkStoreAuthentication(): Observable<boolean> {
     return this.store.select(fromStore.selectIsLoggedIn).pipe(take(1));
   }

@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     RouterModule.forRoot([
       { path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule' },
-      { path: '**', pathMatch: 'full', redirectTo: '/tasks' }
+      { path: '', pathMatch: 'full', redirectTo: '/home' }
     ]),
   ],
   exports: [

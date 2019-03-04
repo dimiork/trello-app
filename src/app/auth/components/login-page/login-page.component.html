@@ -1,3 +1,8 @@
 <p>
   login-page works!
+  <input #username>
+  <input #password>
+  <button mat-raised-button color="primary"
+    (click)="doLogin(username.value, password.value)"
+  >Log In</button>
 </p>

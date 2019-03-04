@@ -20,6 +20,5 @@ import { HomeComponent } from './components/home/home.component';
     EffectsModule.forFeature([AuthEffects])
   ],
   declarations: [LoginPageComponent, HomeComponent],
-  // entryComponents: [LogoutPromptComponent]
 })
 export class AuthModule {}

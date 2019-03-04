@@ -1,11 +1,15 @@
 <div class="surface">
-  <div class="header">HEADER</div>
+  <div class="header">
+    HEADER
+    <div *ngIf="isLoggedIn$">
+      <button mat-raised-button color="primary" (click)="logOut()">Log Out</button>
+    </div>
+  </div>
   <div class="content">
     <div class="board-wrapper">
       <div class="board-main-content">
         <div class="board-header u-clearfix js-board-header">BOARD HEADER</div>
         <div class="board-canvas">
-          <!-- <app-board></app-board> -->
           <router-outlet></router-outlet>
         </div>
       </div>

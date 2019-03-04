@@ -2,21 +2,21 @@ import { Action } from '@ngrx/store';
 import { Credentials } from '../models';
 
 export enum AuthActionTypes {
-  Login = '[AUTH] Login',
-  LoginSuccess = '[AUTH] Login Success',
-  LoginFailure = '[AUTH] Login Failure',
-  CheckLogin = '[AUTH] Check Login',
-  Logout = '[AUTH] Confirm Logout',
+  Login = '[AUTH] LOGIN',
+  LoginSuccess = '[AUTH] LOGIN_SUCCESS',
+  LoginFailure = '[AUTH] LOGIN_FAILURE',
+  CheckLogin = '[AUTH] CHECK_LOGIN',
+  Logout = '[AUTH] LOGOUT',
 }
 
 export class Login implements Action {
   readonly type: AuthActionTypes.Login = AuthActionTypes.Login;
-  constructor(public payload: { credentials: Credentials | null }) {}
+  constructor(public payload: Credentials) {}
 }
 
 export class LoginSuccess implements Action {
   readonly type: AuthActionTypes.LoginSuccess = AuthActionTypes.LoginSuccess;
-  constructor(public payload: { token: string }) {}
+  constructor(public payload: boolean) {}
 }
 
 export class LoginFailure implements Action {
