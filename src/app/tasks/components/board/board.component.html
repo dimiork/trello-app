@@ -12,7 +12,7 @@
   </div>
   <div class="list-wrapper" [class.is-idle]="!addListDialog">
     <form>
-      <a class="open-add-list" href="#" *ngIf="!addListDialog" (click)="toggleAddListDialog()">
+      <a class="open-add-list" *ngIf="!addListDialog" (click)="toggleAddListDialog()">
         <span class="placeholder">
           <span>+</span>
             Add list

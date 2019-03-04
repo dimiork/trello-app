@@ -10,7 +10,7 @@ import { Item } from '../../models';
 @Component({
   selector: 'app-edit-item',
   templateUrl: './edit-item.component.html',
-  styleUrls: ['./edit-item.component.css']
+  styleUrls: ['./edit-item.component.scss']
 })
 export class EditItemComponent implements OnDestroy {
 

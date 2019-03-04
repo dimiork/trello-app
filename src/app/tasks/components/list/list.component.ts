@@ -6,7 +6,7 @@ import { Item, List } from '../../models';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css'],
+  styleUrls: ['./list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent {
@@ -62,12 +62,15 @@ export class ListComponent {
     if (idx === 0) {
       return currItem ? currItem['_position'] / 2 : initialPosition;
     }
-    if (idx >= (len - 1) ) {
+    if (idx > (len - 1) ) {
       return latestItem['_position'] * 2;
     }
     if (isLocalSwap) {
       if (idx < prevIdx) {
         return ( currItem['_position'] + prevItem['_position'] ) / 2;
+      }
+      if (idx === (len - 1)) {
+        return currItem['_position'] * 2;
       }
 
       return ( currItem['_position'] + nextItem['_position'] ) / 2;
