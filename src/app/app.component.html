@@ -1,11 +1,17 @@
 <div class="surface">
-  <div class="header">HEADER</div>
+  <div class="header">
+    HEADER
+    <a [routerLink]="['/login']"> Login </a>
+    <a [routerLink]="['/user']"> User </a>
+    <a [routerLink]="['/tasks']"> Tasks </a>
+    <a [routerLink]="['/login']" (click)="logout()"> Logout </a>
+  </div>
   <div class="content">
     <div class="board-wrapper">
       <div class="board-main-content">
         <div class="board-header u-clearfix js-board-header">BOARD HEADER</div>
         <div class="board-canvas">
-          <app-board></app-board>
+          <router-outlet></router-outlet>
         </div>
       </div>
     </div>

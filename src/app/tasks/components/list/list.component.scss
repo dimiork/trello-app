@@ -1,0 +1,113 @@
+.list {
+  background-color: #dfe3e6;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  position: relative;
+  white-space: normal;
+  margin: 10px;
+}
+
+.list__module {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.list__module_inline {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.menu__button {
+  position: absolute;
+  height: 30px;
+  top: -20px;
+  right: -15px;
+}
+
+.menu-item {
+  cursor: pointer;
+}
+
+.title {
+  width: 80%;
+  div {
+    text-overflow:ellipsis;
+    min-height:20px;
+    max-width:100%;
+    min-width: 100%;
+    border:1px solid red;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    height: 30px;
+    outline: none;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    box-shadow: none;
+    margin: -4px 0;
+    height: 20px;
+    min-height: 20px;
+    padding: 4px 7px;
+    resize: none;
+    height: auto;
+    width: auto;
+
+    &:focus {
+      background: #fff;
+      border: none;
+      box-shadow: inset 0 0 0 2px #0079bf;
+  }
+  }
+}
+
+.cards-container {
+  flex: 1 1 auto;
+  margin-bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 60px;
+  max-height: 60vh;
+}
+
+.list-cards.cdk-drop-list-dragging .item-box:not(.cdk-drag-placeholder) {
+  transition: transform 100ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.card {
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  font-size: 14px;
+  padding: 5px 5px;
+  cursor: move;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(9,45,66,.25);
+  margin-bottom: 8px;
+  max-width: 300px;
+  min-height: 28px;
+  text-decoration: none;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 100ms cubic-bezier(0, 0, 0.2, 1);
+}

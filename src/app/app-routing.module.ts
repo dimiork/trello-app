@@ -1,0 +1,24 @@
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
+import { StartPageComponent } from './components/start-page/start-page.component';
+import { AuthGuard } from './auth/services/auth.guard';
+
+@NgModule({
+  imports: [
+    RouterModule.forRoot([
+      { path: '', component: StartPageComponent },
+      { path: 'tasks',
+        loadChildren: './tasks/tasks.module#TasksModule',
+        canActivate: [AuthGuard],
+      },
+      { path: 'user',
+        loadChildren: './auth/auth.module#AuthModule',
+      }
+    ]),
+  ],
+  exports: [
+    RouterModule
+  ]
+})
+export class AppRoutingModule {}

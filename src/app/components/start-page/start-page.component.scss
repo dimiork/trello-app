@@ -1,0 +1,12 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 5% 3fr 1fr;
+  grid-template-areas: "navbar" "hello" "landing";
+}
+
+.navbar { grid-area: navbar; }
+
+.hello { grid-area: hello; }
+
+.landing { grid-area: landing; }
