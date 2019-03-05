@@ -1,0 +1,82 @@
+<div class="list">
+  <div class="list__module list__module_inline">
+    <div class="title">
+      <div #title
+        contenteditable="true"
+        (keyup.enter)="updateTitle(title.textContent);$event.target.blur();"
+        spellcheck="false"
+        maxlength="512"
+        >{{ list.title }}
+      </div>
+    </div>
+    <div class="menu">
+      <button mat-button class="menu__button" [matMenuTriggerFor]="menu">···</button>
+      <mat-menu #menu="matMenu">
+        <mat-list>
+          <mat-list-item>List actions</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="menu-item" (click)="toggleAddItemDialog()">Add card...</mat-list-item>
+          <mat-list-item class="menu-item" (click)="remove()">Remove list</mat-list-item>
+        </mat-list>
+      </mat-menu>
+    </div>
+  </div>
+  <div class="list__module">
+    <div class="stats">{{ (items)?.length }} cards</div>
+  </div>
+  <div class="list__module">
+    <ul class="cards-container"
+    cdkDropList
+    (cdkDropListDropped)="onDrop($event)"
+    [cdkDropListData]="items"
+    >
+      <app-item class="card" *ngFor="let item of items; trackBy: trackByFn; let i = index;"
+        cdkDrag
+        [cdkDragData]="item"
+        [item]="item"
+        (click)="openEditItem(item)"
+      ></app-item>
+    </ul>
+  </div>
+  <div class="list__module">
+    <div class="card-composer list-cards" *ngIf="addItemDialog">
+      <div class="list-card">
+        <div class="list-card-details">
+          <div class="list-card-labels"></div>
+          <textarea
+            #newItemTitle
+            (keyup.enter)="addItem(newItemTitle.value); toggleAddItemDialog()"
+            class="list-card-composer-textarea"
+            placeholder="Enter item title"
+            autofocus
+          ></textarea>
+        </div>
+      </div>
+      <div class="cc-controls">
+        <div class="cc-controls-section">
+          <button mat-raised-button color="primary"
+            (click)="addItem(newItemTitle.value); toggleAddItemDialog()">
+            Add Item
+          </button>
+          <button
+            class="close"
+            (click)="toggleAddItemDialog()"
+          >
+            <span>&times;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="list__module">
+    <button mat-button
+      class="open-card-composer"
+      *ngIf="!addItemDialog">
+      <div (click)="toggleAddItemDialog()"
+        *ngIf="!(list.items)?.length"
+      >
+      + Add a card
+      </div>
+    </button>
+  </div>
+</div>

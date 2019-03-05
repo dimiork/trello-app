@@ -143,5 +143,13 @@
       }
     }
   },
-  "defaultProject": "trello-app"
+  "defaultProject": "trello-app",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }

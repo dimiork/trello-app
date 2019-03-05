@@ -1,0 +1,39 @@
+<div class="board" cdkDropListGroup>
+  <div class="list-wrapper" *ngFor="let list of lists$ | async; trackBy: trackByFn;">
+    <app-list
+      [list] = "list"
+      [items]="items$ | async | getItemsForListId:list.id"
+      (updateTitleEvent)="onUpdateListTitle($event)"
+      (removeEvent)="onRemoveList($event)"
+      (addItemEvent)="onAddItem($event)"
+      (updateItemEvent)="onUpdateItem($event)"
+      (openItemEvent)="onOpenItem($event)"
+    ></app-list>
+  </div>
+  <div class="list-wrapper" [class.is-idle]="!addListDialog">
+    <form>
+      <a class="open-add-list" *ngIf="!addListDialog" (click)="toggleAddListDialog()">
+        <span class="placeholder">
+          <span>+</span>
+            Add list
+        </span>
+      </a>
+      <div *ngIf="addListDialog">
+        <input #listName autofocus class="list-name-input"
+          placeholder="Enter list title"
+          maxlength="512"
+        >
+        <div class="list-add-controls">
+          <input class="btn-primary mod-list-add-button"
+            type="submit"
+            value="Add list"
+            (click)="addList(listName.value);"
+          >
+          <button class="close" (click)="toggleAddListDialog()">
+            <span>&times;</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

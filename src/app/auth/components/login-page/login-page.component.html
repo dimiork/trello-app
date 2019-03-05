@@ -1,0 +1,11 @@
+<p>
+  login-page works!
+  <input #username>
+  <input #password>
+  <button mat-raised-button color="primary"
+    (click)="signIn(username.value, password.value)"
+  >Log In</button>
+  <button mat-raised-button color="primary"
+    (click)="signUp(username.value, password.value)"
+  >Sign Up</button>
+</p>
