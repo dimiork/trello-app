@@ -20,7 +20,12 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
   : [];
 
 export const selectAuthState = createFeatureSelector<fromAuth.State>('auth');
+
 export const selectIsLoggedIn = createSelector(
   selectAuthState,
-  fromAuth.selectIsLoggedIn
+  fromAuth.selectIsLoggedIn,
+);
+export const selectIsLoading = createSelector(
+  selectAuthState,
+  fromAuth.selectIsLoading,
 );

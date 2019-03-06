@@ -10,7 +10,7 @@ import { ItemComponent } from './item/item.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
 
 import { PipesModule } from '../pipes/index';
-import { MaterialModule } from '../../material.module';
+import { MaterialModule } from '../../../material.module';
 
 export const COMPONENTS = [
   EditItemComponent,

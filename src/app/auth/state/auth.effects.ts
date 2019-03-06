@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { tap, switchMap, map, catchError } from 'rxjs/operators';
+import { tap, switchMap, exhaustMap, map, catchError } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import * as fromAuth from './auth.actions';
 import { AuthService } from '../services/auth.service';
@@ -16,14 +16,15 @@ export class AuthEffects {
   @Effect()
   checkLogin$: Observable<Action> = this.actions$.pipe(
     ofType<fromAuth.CheckAuth>(fromAuth.ActionTypes.CheckAuth),
-    switchMap(() =>
+    exhaustMap(() =>
       this.authService.checkAuth().pipe(
         map((response: ApiResponse | null) => {
+          console.log('[CHECK LOGIN ACTION"S EFFECT]: ', response);
           if (response === null) {
             return new fromAuth.LoginFailure({ error: 'There is no active token in the browser.' });
           }
           if (!!response && response.status === 'success') {
-            this.router.navigate(['/tasks']);
+            this.router.navigate(['/workspace']);
 
             return new fromAuth.LoginSuccess({ user: response.user });
           } else {
@@ -44,7 +45,7 @@ export class AuthEffects {
           map((result: any) => {
             if (result.status === 'success') {
               this.authService.storeToken(result.user.token);
-              this.router.navigate(['/user']);
+              this.router.navigate(['/workspace']);
 
               return new fromAuth.LoginSuccess(result.user);
             }
@@ -65,7 +66,7 @@ export class AuthEffects {
           map((result: any) => {
             if (result.status === 'success') {
               this.authService.storeToken(result.user.token);
-              this.router.navigate(['/tasks']);
+              this.router.navigate(['/workspace']);
 
               return new fromAuth.LoginSuccess(result.user);
             }
@@ -81,7 +82,7 @@ export class AuthEffects {
     ofType<fromAuth.Logout>(fromAuth.ActionTypes.Logout),
     tap(() => [
       this.authService.removeToken(),
-      this.router.navigate(['/login'])
+      this.router.navigate([''])
     ])
   );
 

@@ -8,10 +8,15 @@ import { AuthGuard } from './auth/services/auth.guard';
   imports: [
     RouterModule.forRoot([
       { path: '', component: StartPageComponent },
-      { path: 'tasks',
-        loadChildren: './tasks/tasks.module#TasksModule',
+      {
+        path: 'workspace',
+        loadChildren: './workspace/workspace.module#WorkspaceModule',
         canActivate: [AuthGuard],
       },
+      // { path: 'tasks',
+      //   loadChildren: './tasks/tasks.module#TasksModule',
+      //   canActivate: [AuthGuard],
+      // },
       { path: 'login',
         loadChildren: './auth/auth.module#AuthModule',
       }

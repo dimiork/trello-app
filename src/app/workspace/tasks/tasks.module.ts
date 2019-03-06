@@ -5,12 +5,12 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from './components';
-import { MaterialModule } from '../material.module';
+import { MaterialModule } from '../../material.module';
 
 import { reducers } from './state/reducers';
 import { ListEffects, ItemEffects } from './state/effects';
+import { AuthGuard } from '../../auth/services/auth.guard';
 import { BoardComponent } from './components/board/board.component';
-import { AuthGuard } from '../auth/services/auth.guard';
 
 @NgModule({
   imports: [

@@ -1,21 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LoginPageComponent } from './components/login-page/login-page.component';
-import { UserPageComponent } from './components/user-page/user-page.component';
-import { AuthGuard } from './services/auth.guard';
+import { RecoveryPageComponent } from './components/recovery-page/recovery-page.component';
 
 @NgModule({
   imports: [
     RouterModule.forChild([
       { path: '', component: LoginPageComponent },
       {
-        path: 'user',
-        component: UserPageComponent,
-        canActivate: [AuthGuard]
+        path: 'recovery',
+        component: RecoveryPageComponent,
       }
     ])
   ],
-  providers: [AuthGuard],
   exports: [RouterModule]
 })
 export class AuthRoutingModule {}

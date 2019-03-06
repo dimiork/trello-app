@@ -48,3 +48,4 @@ export function reducer(
 }
 // TODO: should be declared type definitions
 export const selectIsLoggedIn = (state: State) => state.isLoggedIn;
+export const selectIsLoading = (state: State) => state.loading;

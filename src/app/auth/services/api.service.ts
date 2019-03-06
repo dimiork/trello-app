@@ -19,13 +19,11 @@ export class ApiResponse {
   providedIn: 'root'
 })
 export class ApiService {
-  private api_delay: number = 1500;
+  private api_delay: number = 0;
   private storeId: string = '_api-users';
 
   signin(username: string, password: string): Observable<ApiResponse> {
     console.log(`[NETWORK] POST /auth/signin, params  ${ username }, ${ password }`);
-    // const users: User[] = this._findAll();
-    // const user: User = users.find((currentUser: User) => currentUser.username === username);
     const user: User = this._findOne('username', username);
     if (user && user.pwdHash === this._genPwdHash(password) ) {
       const token: string = this._genToken(username);
@@ -43,8 +41,6 @@ export class ApiService {
 
   signup(username: string, password: string): Observable<ApiResponse> {
     console.log(`[NETWORK] POST /auth/signup, params ${ username }, ${ password }`);
-    // const users: User[] = this._findAll();
-    // const user: User = users.find((currentUser: User) => currentUser.username === username);
     const user: User = this._findOne('username', username);
     if (!user) {
       const token: string = this._genToken(username);
@@ -55,7 +51,6 @@ export class ApiService {
         token
       };
       this._addOne(newUser);
-      // this._saveUsers([ ...users, newUser ]);
       const result: ApiResponse = new ApiResponse('success', 'User is created successful', newUser);
       console.log(result);
 
@@ -67,10 +62,8 @@ export class ApiService {
     return of(result).pipe(delay(this.api_delay));
   }
 
-  tokenIsValid(token: string): Observable<ApiResponse> {
+  validateToken(token: string): Observable<ApiResponse> {
     console.log(`[NETWORK] POST /auth/token-validate, params ${ token }`);
-    // const users: User[] = this._findAll();
-    // const user: User | null = users.find((user: User) => user.token === token);
     const user: User = this._findOne('token', token);
     if (!!user) {
       const result: ApiResponse = new ApiResponse('success', 'ok', user);
