@@ -1,9 +1,35 @@
-<div class="grid-container">
-    <div class="navbar">
-      <div class="">
-          <a class="global-header-section-logo mod-black" href="/home"> <img alt="Home" class="global-header-section-logo-image" src="https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/trello-header-logos/1c3a2d636e34d62a6cb27d83e5e6956b/trello-logo-black.svg"> </a>
-      </div>
+<div class="start">
+  <div class="navbar">
+    <div class="navbar__logo">
+      <img alt="Home" class="logo__image" src="https://d2k1ftgv7pobq7.cloudfront.net/meta/u/res/images/trello-header-logos/1c3a2d636e34d62a6cb27d83e5e6956b/trello-logo-black.svg">
     </div>
-    <div class="hello"></div>
-    <div class="landing"></div>
+    <div class="navbar__actions">
+      <button mat-raised-button class="button" [routerLink]="['login']">Log In</button>
+      <button mat-raised-button class="button" [routerLink]="['login']">Sign In</button>
+    </div>
   </div>
+  <div class="hello">
+    <ul class="hello__container">
+      <li>
+        <img src="https://d2k1ftgv7pobq7.cloudfront.net/meta/p/res/images/c13d1cd96a2cff30f0460a5e1860c5ea/header-logo-blue.svg" style="height: 80px;margin-bottom: 2em;">
+      </li>
+      <li>
+        <h1>
+          Trello - это бесплатный, гибкий и наглядный способ организовать что угодно с кем угодно.
+        </h1>
+      </li>
+      <li>
+        Бесконечные цепочки писем, таблицы с устаревшими сведениями, ворох стикеров и неудобные программы для управления проектами — все это в прошлом. Просто откройте доску Trello, чтобы мгновенно увидеть все сведения о проекте.
+      </li>
+      <li>
+        <button mat-raised-button class="button" [routerLink]="['login']">
+          Зарегистрироваться – Это бесплатно.
+        </button>
+      </li>
+      <li>
+        <a [routerLink]="['login']"> Войти... </a>
+      </li>
+    </ul>
+  </div>
+</div>
+

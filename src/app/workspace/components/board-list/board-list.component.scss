@@ -1,0 +1,36 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "app-menu board-list-container";
+}
+
+.app-menu { grid-area: app-menu; }
+
+.board-list-container { 
+  grid-area: board-list-container;
+  .board-list {
+    margin-bottom: 30px;
+    p {
+      margin-bottom: 15px;
+    }
+    ul {
+      width: 25%;
+
+      .board {
+        background-color: rgba(9,45,66,.25);
+        height: 100px;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 20px;
+
+        &__title {
+          width: 100%;
+          font-size: 16px;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+

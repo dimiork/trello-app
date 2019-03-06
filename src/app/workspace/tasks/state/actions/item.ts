@@ -13,6 +13,7 @@ export enum ActionTypes {
   Remove = '[ITEM] REMOVE',
   RemoveAllByListId = '[ITEM] REMOVE_ALL_BY_LIST_ID',
   RemoveSuccess = '[ITEM] REMOVE_SUCCESS',
+  Clear = '[ITEM] CLEAR',
 }
 
 export class Load implements Action {
@@ -65,6 +66,10 @@ export class RemoveSuccess implements Action {
   constructor(public payload: { id: string }) {}
 }
 
+export class Clear implements Action {
+  readonly type: ActionTypes.Clear = ActionTypes.Clear;
+}
+
 export type ActionsUnion
   = Load
   | LoadSuccess
@@ -75,4 +80,5 @@ export type ActionsUnion
   | UpdateSuccess
   | Remove
   | RemoveAllByListId
-  | RemoveSuccess;
+  | RemoveSuccess
+  | Clear;

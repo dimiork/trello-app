@@ -14,7 +14,7 @@ export class AuthService {
   checkAuth(): Observable<ApiResponse | null> {
     const token: string = this.getToken();
     if (!!token) {
-      return this.api.tokenIsValid(token);
+      return this.api.validateToken(token);
     }
 
     return of(null);

@@ -26,9 +26,9 @@
   </div>
   <div class="list__module">
     <ul class="cards-container"
-    cdkDropList
-    (cdkDropListDropped)="onDrop($event)"
-    [cdkDropListData]="items"
+        cdkDropList
+        (cdkDropListDropped)="onDrop($event)"
+        [cdkDropListData]="items"
     >
       <app-item class="card" *ngFor="let item of items; trackBy: trackByFn; let i = index;"
         cdkDrag

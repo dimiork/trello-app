@@ -20,7 +20,8 @@ export class AuthGuard implements CanActivate {
         if (!!isLoggedIn) {
           return of(true);
         }
-        this.router.navigate(['/login']);
+        // this.router.navigate(['/login']);
+
         return of(false);
       }),
     );
@@ -29,4 +30,5 @@ export class AuthGuard implements CanActivate {
   checkStoreAuthentication(): Observable<boolean> {
     return this.store.select(fromStore.selectIsLoggedIn).pipe(take(1));
   }
+
 }

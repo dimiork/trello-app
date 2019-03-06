@@ -1,0 +1,55 @@
+.surface {
+  background-color: rgb(0, 121, 191);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .toolbar {
+    &__contols {
+      padding: 100px;
+      button {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+/* .header {
+  flex: none;
+  background: rgba(0,0,0,.15);
+  height: 32px;
+  position: relative;
+  overflow: hidden;
+  padding: 4px;
+  z-index: 10;
+} */
+.content {
+  overflow-y: auto;
+  outline: none;
+  flex-grow: 1;
+  position: relative;
+}
+.board-wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.board-main-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-right: 0;
+  transition: margin .1s ease-in;
+}
+.board-header {
+  flex: none;
+  height: auto;
+  padding: 8px 4px 8px 8px;
+  position: relative;
+  transition: padding .1s ease-in;
+}
+.board-canvas {
+  position: relative;
+  flex-grow: 1;
+}

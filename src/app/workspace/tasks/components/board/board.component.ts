@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import * as ListActions from '../../state/actions/list';
@@ -14,7 +14,7 @@ import { EditItemComponent } from '../../components/edit-item/edit-item.componen
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnDestroy {
 
   lists$: Observable<List[]> = this.store.pipe(select(fromTasks.listsArray));
   items$: Observable<Item[]> = this.store.pipe(select(fromTasks.itemsArray));
@@ -29,6 +29,11 @@ export class BoardComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new ListActions.Load());
     this.store.dispatch(new ItemActions.Load());
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new ItemActions.Clear());
+    this.store.dispatch(new ListActions.Clear());
   }
 
   addList(title: string): void {

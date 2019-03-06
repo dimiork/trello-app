@@ -1,15 +1,28 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { List } from '../../models';
-import { ActionTypes, ActionsUnion } from '../actions/list';
+import { Item } from '../../models';
+import { ActionTypes, ActionsUnion } from '../actions/item';
 
-export interface State extends EntityState<List> {
+export interface State extends EntityState<Item> {
+  selectedItem: Item;
   loading: boolean;
   loaded: boolean;
 }
 
-export const adapter: EntityAdapter<List> = createEntityAdapter<List>();
+export function selectItemId(item: Item): string {
+  return item.id;
+}
+
+export function orderByPositionIdx(a: Item, b: Item): number {
+  return a._position - b._position;
+}
+
+export const adapter: EntityAdapter<Item> = createEntityAdapter<Item>({
+  selectId: selectItemId,
+  sortComparer: orderByPositionIdx,
+});
 
 export const initialState: State = adapter.getInitialState({
+  selectedItem: null,
   loading: false,
   loaded: false,
 });
@@ -28,7 +41,7 @@ export function reducer(
       };
 
     case ActionTypes.LoadSuccess:
-      return adapter.addAll(action.payload.lists, { ...state,
+      return adapter.addAll(action.payload.items, { ...state,
         loading: false,
         loaded: true
       });
@@ -37,7 +50,13 @@ export function reducer(
       return state;
 
     case ActionTypes.AddSuccess:
-      return adapter.addOne(action.payload.list, state);
+      return adapter.addOne(action.payload.item, state);
+
+    case ActionTypes.Select:
+      return {
+        ...state,
+        selectedItem: action.payload.item
+      };
 
     case ActionTypes.Update:
       return state;
@@ -53,6 +72,12 @@ export function reducer(
 
     case ActionTypes.RemoveSuccess:
       return adapter.removeOne(action.payload.id, state);
+
+    case ActionTypes.RemoveAllByListId:
+      return adapter.removeMany(action.payload.listId, state);
+
+    case ActionTypes.Clear:
+      return initialState;
 
     default:
       return state;

@@ -1,11 +1,25 @@
-<p>
-  login-page works!
-  <input #username>
-  <input #password>
-  <button mat-raised-button color="primary"
-    (click)="signIn(username.value, password.value)"
-  >Log In</button>
-  <button mat-raised-button color="primary"
-    (click)="signUp(username.value, password.value)"
-  >Sign Up</button>
-</p>
+<div class="login-container">
+  <div class="login-form">
+    <div class="module title">
+      <h1>Log In Trello</h1>
+    </div>
+    <div class="module username">
+      <label>Username</label>
+      <input placeholder="username" autofocus #username>
+    </div>
+    <div class="module password">
+      <label>Password</label>
+      <input placeholder="password" #password>
+    </div>
+    <div class="module controls">
+      <button mat-raised-button 
+        color="primary"
+        (click)="signIn(username.value, password.value)"
+      >Log In</button>
+      <button mat-raised-button
+        color="primary"
+        (click)="signUp(username.value, password.value)"
+      >Sign Up</button>
+    </div>
+  </div>
+</div>

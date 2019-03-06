@@ -10,6 +10,7 @@ export enum ActionTypes {
   UpdateSuccess = '[LIST] UPDATE_SUCCESS',
   Remove = '[LIST] REMOVE',
   RemoveSuccess = '[LIST] REMOVE_SUCCESS',
+  Clear = '[LIST] CLEAR',
 }
 
 export class Load implements Action {
@@ -52,6 +53,10 @@ export class RemoveSuccess implements Action {
   constructor(public payload: { id: string }) {}
 }
 
+export class Clear implements Action {
+  readonly type: ActionTypes.Clear = ActionTypes.Clear;
+}
+
 export type ActionsUnion
   = Load
   | LoadSuccess
@@ -60,4 +65,5 @@ export type ActionsUnion
   | Update
   | UpdateSuccess
   | Remove
-  | RemoveSuccess;
+  | RemoveSuccess
+  | Clear;

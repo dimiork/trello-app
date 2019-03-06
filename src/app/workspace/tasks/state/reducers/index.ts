@@ -7,7 +7,7 @@ import {
 
 import * as fromList from './list';
 import * as fromItem from './item';
-import * as fromRoot from '../../../state';
+import * as fromRoot from '../../../../state';
 import { Item } from '../../models';
 
 export interface TasksState {

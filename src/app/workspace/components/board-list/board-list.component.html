@@ -1,0 +1,36 @@
+<div class="grid-container">
+  <div class="app-menu">
+    <p>Board</p>
+    <p>Home</p>
+  </div>
+  <div class="board-list-container">
+    <div class="board-list">
+      <h3>
+        Recently Viewed
+      </h3> 
+      <ul>
+        <li>
+          <a [routerLink]="['board']">
+            <div class="board">
+              <div class="board__title">Board #1</div>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="board-list">
+      <h3>
+        Personal Boards
+      </h3> 
+      <ul>
+          <li>
+            <a [routerLink]="['board']">
+              <div class="board">
+                <div class="board__title">Board #1</div>
+              </div>
+            </a>
+          </li>
+        </ul>
+    </div>
+  </div>
+</div>

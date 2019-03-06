@@ -1,12 +1,55 @@
-.grid-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 5% 3fr 1fr;
-  grid-template-areas: "navbar" "hello" "landing";
+// div, img {
+//   border: 1px solid;
+// }
+
+.start {
+  .navbar {
+    background-color: #F8F9F9;
+    box-sizing: border-box;
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 60px;
+    max-height: 150px;
+    width: 100vw;
+    top: 0;
+    z-index: 100;
+
+    .navbar__logo {
+      height: 100%;
+      .logo__image {
+        height: 100%;
+      }
+    }
+
+    .navbar__actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      button {
+        margin: 0px 10px;
+      }
+    }
+  }
+  .hello {
+    margin-top: 3em;
+    padding: 3em 1em;
+    display: flex;
+    justify-content: center;
+    height: 90vh;
+
+    .hello__container {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      padding: 3em 1em;
+      align-items: center;
+      max-width: 650px;
+
+      li {
+        margin-bottom: 20px;
+      }
+    }
+  }
 }
-
-.navbar { grid-area: navbar; }
-
-.hello { grid-area: hello; }
-
-.landing { grid-area: landing; }

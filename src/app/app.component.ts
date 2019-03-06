@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import * as fromRoot from './state';
-import { CheckAuth, Logout } from './auth/state/auth.actions';
+import { CheckAuth } from './auth/state/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -12,18 +12,13 @@ import { CheckAuth, Logout } from './auth/state/auth.actions';
 export class AppComponent implements OnInit {
   title: string = 'trello-app';
   isLoggedIn$: Observable<boolean> = this.store$.pipe(select(fromRoot.selectIsLoggedIn));
+  isLoading$: Observable<boolean> = this.store$.pipe(select(fromRoot.selectIsLoading));
 
-  constructor(private store$: Store<fromRoot.State>) {}
-
-  logOut(): void {
-    this.store$.dispatch(new Logout());
-  }
+  constructor(
+    private store$: Store<fromRoot.State>,
+  ) {}
 
   ngOnInit(): void {
     this.store$.dispatch(new CheckAuth());
-  }
-
-  logout(): void {
-    this.store$.dispatch(new Logout());
   }
 }
