@@ -76,6 +76,9 @@ export function reducer(
     case ActionTypes.RemoveAllByListId:
       return adapter.removeMany(action.payload.listId, state);
 
+    case ActionTypes.Clear:
+      return initialState;
+
     default:
       return state;
   }

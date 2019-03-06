@@ -12,11 +12,12 @@ import { AuthGuard } from './auth/services/auth.guard';
         loadChildren: './tasks/tasks.module#TasksModule',
         canActivate: [AuthGuard],
       },
-      { path: 'user',
+      { path: 'login',
         loadChildren: './auth/auth.module#AuthModule',
       }
     ]),
   ],
+  providers: [AuthGuard],
   exports: [
     RouterModule
   ]

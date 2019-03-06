@@ -15,10 +15,6 @@ export class AppComponent implements OnInit {
 
   constructor(private store$: Store<fromRoot.State>) {}
 
-  logOut(): void {
-    this.store$.dispatch(new Logout());
-  }
-
   ngOnInit(): void {
     this.store$.dispatch(new CheckAuth());
   }

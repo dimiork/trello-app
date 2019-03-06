@@ -25,5 +25,6 @@ import { AuthGuard } from '../auth/services/auth.guard';
     StoreModule.forFeature('tasks', reducers),
     EffectsModule.forFeature([ListEffects, ItemEffects])
   ],
+  providers: [AuthGuard],
 })
 export class TasksModule {}

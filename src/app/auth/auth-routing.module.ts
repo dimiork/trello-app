@@ -7,7 +7,7 @@ import { AuthGuard } from './services/auth.guard';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'login', component: LoginPageComponent },
+      { path: '', component: LoginPageComponent },
       {
         path: 'user',
         component: UserPageComponent,
@@ -15,6 +15,7 @@ import { AuthGuard } from './services/auth.guard';
       }
     ])
   ],
+  providers: [AuthGuard],
   exports: [RouterModule]
 })
 export class AuthRoutingModule {}

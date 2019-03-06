@@ -15,7 +15,7 @@ export class AuthEffects {
 
   @Effect()
   checkLogin$: Observable<Action> = this.actions$.pipe(
-    ofType<fromAuth.CheckAuth>(fromAuth.AuthActionTypes.CheckAuth),
+    ofType<fromAuth.CheckAuth>(fromAuth.ActionTypes.CheckAuth),
     switchMap(() =>
       this.authService.checkAuth().pipe(
         map((response: ApiResponse | null) => {
@@ -36,7 +36,7 @@ export class AuthEffects {
 
   @Effect()
   login$: Observable<Action> = this.actions$.pipe(
-    ofType<fromAuth.Login>(fromAuth.AuthActionTypes.Login),
+    ofType<fromAuth.Login>(fromAuth.ActionTypes.Login),
     map((action: fromAuth.Login) => action.payload.credentials),
     switchMap(({ username, password }: Credentials) =>
       this.apiService.signin(username, password)
@@ -44,7 +44,7 @@ export class AuthEffects {
           map((result: any) => {
             if (result.status === 'success') {
               this.authService.storeToken(result.user.token);
-              this.router.navigate(['/tasks']);
+              this.router.navigate(['/user']);
 
               return new fromAuth.LoginSuccess(result.user);
             }
@@ -57,7 +57,7 @@ export class AuthEffects {
 
   @Effect()
   signup$: Observable<Action> = this.actions$.pipe(
-    ofType<fromAuth.Signup>(fromAuth.AuthActionTypes.Signup),
+    ofType<fromAuth.Signup>(fromAuth.ActionTypes.Signup),
     map((action: fromAuth.Signup) => action.payload.credentials),
     switchMap(({ username, password }: Credentials) =>
       this.apiService.signup(username, password)
@@ -78,7 +78,7 @@ export class AuthEffects {
 
   @Effect({ dispatch: false })
   logout$: Observable<Action> = this.actions$.pipe(
-    ofType<fromAuth.Logout>(fromAuth.AuthActionTypes.Logout),
+    ofType<fromAuth.Logout>(fromAuth.ActionTypes.Logout),
     tap(() => [
       this.authService.removeToken(),
       this.router.navigate(['/login'])

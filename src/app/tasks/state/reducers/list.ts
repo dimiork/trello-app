@@ -54,6 +54,9 @@ export function reducer(
     case ActionTypes.RemoveSuccess:
       return adapter.removeOne(action.payload.id, state);
 
+    case ActionTypes.Clear:
+      return initialState;
+
     default:
       return state;
   }
