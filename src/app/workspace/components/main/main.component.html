@@ -1,16 +1,10 @@
 <div class="surface">
-  <!-- <div class="header">
-    HEADER MAIN_COMPONENT
-    <a [routerLink]="['/workspace']"> [ WS:MAIN ] </a>
-    <a [routerLink]="['/workspace/board']"> [ WS:TASKS] </a>
-    <a (click)="logout()"> [ LOGOUT ] </a>
-  </div> -->
   <div class="navbar">
     <div class="navbar__board-controls">
         <button mat-stroked-button
         [routerLink]="['/workspace']"
-      >
-        <mat-icon>home</mat-icon>
+      >🦊
+        <!-- <mat-icon>🦊</mat-icon> -->
         Home
       </button>
       <button mat-stroked-button
@@ -22,24 +16,10 @@
       <button mat-raised-button class="button" [routerLink]="['']">Log Out</button>
     </div>
   </div>
-  <!-- <mat-toolbar class="toolbar">
-    <div class="toolbar__controls">
-        <button mat-stroked-button
-          [routerLink]="['/workspace']"
-        >
-          <mat-icon>home</mat-icon>
-          Home
-        </button>
-        <button mat-stroked-button
-          [routerLink]="['/workspace/board']">
-          Boards
-        </button>
-    </div>
-  </mat-toolbar> -->
   <div class="content">
     <div class="board-wrapper">
       <div class="board-main-content">
-        <div class="board-header u-clearfix js-board-header">BOARD HEADER</div>
+        <div class="board-header">BOARD HEADER</div>
         <div class="board-canvas">
           <router-outlet></router-outlet>
         </div>
@@ -47,9 +27,3 @@
     </div>
   </div>
 </div>
-
-<!-- <mat-toolbar>
-  <span>My Application</span>
-</mat-toolbar>
-<router-outlet></router-outlet>
- -->

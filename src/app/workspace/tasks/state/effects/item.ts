@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, catchError, take } from 'rxjs/operators';
+import { map, mergeMap, startWith, catchError, take, switchMap } from 'rxjs/operators';
 import { Action, Store, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { getNewItemPositionIndex } from '../reducers';
@@ -16,7 +16,7 @@ export class ItemEffects {
   @Effect()
   loadItems$: Observable<Action> = this.actions$.pipe(
     ofType(actions.ActionTypes.Load),
-    mergeMap(() =>
+    switchMap(() =>
       this.dataService.find(Entity.Item)
         .pipe(
           map((items: Item[]) => new actions.LoadSuccess({ items })),
