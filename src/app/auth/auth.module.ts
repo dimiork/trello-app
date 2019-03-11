@@ -6,7 +6,6 @@ import { AuthEffects } from './state/auth.effects';
 import { MatButtonModule, MatCardModule, MatDialogModule, MatInputModule } from '@angular/material';
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginPageComponent } from './components/login-page/login-page.component';
-import { RecoveryPageComponent } from './components/recovery-page/recovery-page.component';
 
 @NgModule({
   imports: [
@@ -19,6 +18,6 @@ import { RecoveryPageComponent } from './components/recovery-page/recovery-page.
     ReactiveFormsModule,
     EffectsModule.forFeature([AuthEffects])
   ],
-  declarations: [LoginPageComponent, RecoveryPageComponent],
+  declarations: [LoginPageComponent],
 })
 export class AuthModule {}
